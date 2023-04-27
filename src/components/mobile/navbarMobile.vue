@@ -8,7 +8,7 @@
                 <img src="../../assets/Transaction.png">
             </button>
 
-            <button>
+            <button id="buttonContainer">
                 <div id="addButton"> + </div>
             </button>
             <button>
@@ -22,13 +22,6 @@
 </template>
 
 <style scoped>
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-}
 
 #home {
     padding-left: 5%;
@@ -46,12 +39,19 @@
     justify-content: center;
     align-items: center;
 }
+
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #addButton {
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    font-size: 48px;
+    font-size: 3.5em;
     font-family: "Montserrat";
     color: #49AD5A;
     height: 70px;

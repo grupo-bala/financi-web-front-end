@@ -1,7 +1,7 @@
 <template>
     <nav>
         <div id="logo">
-            <img src="../assets/FinanciLogo.png">
+            <img src="../../assets/FinanciLogo.png">
             <button id="logoFinanci">Financi</button>
         </div>
         <div id="navbuttons">
@@ -17,17 +17,10 @@
 </template>
 
 <style scoped>
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-}
   
 nav {
   display: flex;
-  gap: 45%;
+  gap: 50%;
   background-color: #49AD5A;
   height: 10vh;
   width: 100vw;
@@ -37,7 +30,7 @@ button {
   background-color: #49AD5A;
   border:none;
   color: white;
-  font-size: 17px;
+  font-size: 1em;
   font-family: "Montserrat";
   font-weight: 600;
   cursor: pointer;
@@ -62,8 +55,8 @@ button {
 }
 
 img {
-  height: 30px;
-  padding-right: 10px;
+  height: 1.7em;
+  padding-right: 10%;
 }
 
 
