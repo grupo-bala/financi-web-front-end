@@ -12,5 +12,11 @@
   border-color: gray;
   background: transparent;
   box-shadow: none;
+  color:  rgb(255, 255, 255);
+}
+
+::placeholder{
+  font-size: 16px;
+  color: rgb(255, 255, 255);
 }
 </style>

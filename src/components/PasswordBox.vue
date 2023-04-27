@@ -1,6 +1,6 @@
 <template>
     <div class="password">
-        <input type="text" id="password_login" name="password" placeholder="  *****************">
+        <input type="password" id="password_login" name="password" placeholder="  *****************">
     </div>
 </template>
 
@@ -12,5 +12,11 @@
   border-color: gray;
   background: transparent;
   box-shadow: none;
+  color:  rgb(255, 255, 255);
+}
+
+::placeholder{
+  font-size: 16px;
+  color: rgb(255, 255, 255);
 }
 </style>
