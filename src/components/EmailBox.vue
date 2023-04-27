@@ -1,18 +1,23 @@
 <template>
     <div class="email">
-        <input type="text" id="email_login" name="email" placeholder="  insira o seu email">
+        <input type="text" id="email_login" name="email" placeholder="insira o seu email">
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.email {
+  width: 100%;
+  height: fit-content;
+}
+
 #email_login{
-  width: 328px;
-  height: 72px;
+  width: 100%;
+  border: 1px solid gray;
   border-radius: 5px;
-  border-color: gray;
   background: transparent;
-  box-shadow: none;
   color:  rgb(255, 255, 255);
+  outline: none;
+  padding: 20px;
 }
 
 ::placeholder{
