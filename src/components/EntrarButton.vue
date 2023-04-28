@@ -1,16 +1,27 @@
+<script setup lang="ts">
+defineProps({
+  text: String
+});
+
+</script>
+
 <template>
-    <div class="email">
-        <button>ENTRAR</button>
+    <div>
+        <button>{{text}}</button>
     </div>
 </template>
 
-<style scoped>
-button{
-  width: 200.35px;
-  height: 50px;
-  border-radius: 5px;
-  background-color: #49AD5A;
-  border-color: #49AD5A;
-}
+<style scoped lang="scss">
+
+@import "../colors.scss";
+  button{
+    width: 200.35px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: $financi-green;
+    border-color: $financi-green;
+    font-size: 22px;
+    cursor: pointer;
+  }
 
 </style>
