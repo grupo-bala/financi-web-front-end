@@ -26,7 +26,7 @@ const password = ref("");
 
         <footer>
             <EntrarButton text="ENTRAR"></EntrarButton>
-            <p style="color: white">Não possui uma conta? <a href = "Register.vue">Cadastre-se aqui.</a></p>
+            <p style="color: white">Não possui uma conta? <a href = "Register">Cadastre-se aqui.</a></p>
         </footer>
     </div>
 </template>
