@@ -1,20 +1,21 @@
 <script setup lang="ts">
-defineProps({
-  text: String
-});
+const {text, disabled} = defineProps<{
+  text: string,
+  disabled: boolean,
+}>();
 
 </script>
 
 <template>
     <div>
-        <button>{{text}}</button>
+        <button :disabled="disabled">{{ text }}</button>
     </div>
 </template>
 
 <style scoped lang="scss">
-@import "../colors.scss";
+@import "../variables.scss";
 
-  button{
+  button {
     width: 200.35px;
     height: 50px;
     border: 1px solid $financi-green;
@@ -26,5 +27,12 @@ defineProps({
     text-align: center;
     letter-spacing: 0.08em;
     cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
   }
+
+  
 </style>
