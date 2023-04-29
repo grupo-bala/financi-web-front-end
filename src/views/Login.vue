@@ -2,10 +2,11 @@
 
 import { ref } from 'vue';
 import Input from '../components/Input.vue';
-import EntrarButton from "../components/EntrarButton.vue";
+import Button from "../components/Button.vue";
 
 const eMail = ref("");
 const password = ref("");
+const a = ref(true);
 </script>
 
 <template>
@@ -16,8 +17,8 @@ const password = ref("");
         </header>
 
         <form>
-            <Input type="email" placeholder="Digite seu email" v-model="eMail"/>
-            <Input type="password" placeholder="Digite sua senha" v-model="password"/>
+            <Input label="Email" type="Email" placeholder="Digite seu email" v-model="eMail"/>
+            <Input label="Senha" type="Password" placeholder="Digite sua senha" v-model="password"/>
             <div class="keepLoged">
                 <input type="checkbox" id="login_check_box" name="login_check" checked>
                 <label for="login_check_box" style="color: white">Mantenha-me conectado</label>
@@ -25,7 +26,7 @@ const password = ref("");
         </form>
 
         <footer>
-            <EntrarButton text="ENTRAR"></EntrarButton>
+            <Button text="ENTRAR" :disabled="a"/>
             <p style="color: white">Não possui uma conta? <a href = "Register">Cadastre-se aqui.</a></p>
         </footer>
     </div>
@@ -33,7 +34,7 @@ const password = ref("");
 
 
 <style scoped lang="scss">
-@import "../colors.scss";
+@import "../variables.scss";
 
     header {
         display:flex;
@@ -81,7 +82,7 @@ const password = ref("");
         margin-right: 8px; 
     }
 
-    #login_check_box:checked:before {
+    #login_check_box:checked::before {
         border-radius: 100%;
         content: ''; 
         position: absolute;
