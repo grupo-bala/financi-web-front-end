@@ -31,7 +31,7 @@ const isEmailCorrect = ref(false);
 
         <footer class="main_content__container__footer">
             <Button text="ENTRAR" :disabled= "!isPasswordCorrect || !isEmailCorrect"/>
-            <p>Não possui uma conta? <a href = "Register">Cadastre-se aqui.</a></p>
+            <p>Não possui uma conta? <router-link to="/register">Cadastre-se aqui.</router-link></p>
         </footer>
     </div>
 </template>
