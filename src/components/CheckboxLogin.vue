@@ -7,7 +7,7 @@ const {text} = defineProps<{
 <template>
     <div class="container">
         <input class="container__checkbox" type="checkbox" id="login__check__box" name="login_check" checked>
-        <label class="container__label" for="login__check__box" style="color: white">{{text}}</label>
+        <label class="container__label" for="login__check__box">{{text}}</label>
     </div>
 </template>
 
@@ -15,7 +15,7 @@ const {text} = defineProps<{
 @import "../variables.scss";
 
     .container {
-        
+
         &__checkbox {
             width: 1.2em;
             height: 1.2em;
@@ -40,5 +40,10 @@ const {text} = defineProps<{
                 margin-left: 3px;
             }
         }
+
+        &__label {
+            color: $text-color-white;
+        }
+
     }
 </style>
