@@ -4,9 +4,10 @@ import { ref } from 'vue';
 import Input from '../components/Input.vue';
 import Button from "../components/Button.vue";
 
-const eMail = ref("");
+const email = ref("");
 const password = ref("");
-const a = ref(true);
+const isPasswordCorrect = ref(false);
+const isEmailCorrect = ref(false);
 </script>
 
 <template>
@@ -17,16 +18,19 @@ const a = ref(true);
         </header>
 
         <form>
-            <Input label="Email" type="Email" placeholder="Digite seu email" v-model="eMail"/>
-            <Input label="Senha" type="Password" placeholder="Digite sua senha" v-model="password"/>
+            <Input label="Email" type="Email" placeholder="Digite sua e-mail" v-model="email" @isCorrect="(correct) => isEmailCorrect = correct"/>
+            <Input label="Senha" type="Password" placeholder="Digite sua senha" v-model="password" @isCorrect="(correct) => isPasswordCorrect = correct"/>
             <div class="keepLoged">
-                <input type="checkbox" id="login_check_box" name="login_check" checked>
-                <label for="login_check_box" style="color: white">Mantenha-me conectado</label>
+                <input type="checkbox" id="login__check__box" name="login_check" checked>
+                <label for="login__check__box" style="color: white">Mantenha-me conectado</label>
+                <p class="main_content__container__inputs__error" v-if="email.length === 0">E-mail não preenchido</p>
+                <p class="main_content__container__inputs__error" v-else-if="!isEmailCorrect">E-mail no formato errado</p>
+                <p class="main_content__container__inputs__error" v-else-if="password.length === 0">Senha não preenchida</p>
             </div>    
         </form>
 
         <footer>
-            <Button text="ENTRAR" :disabled="a"/>
+            <Button text="ENTRAR" :disabled= "!isPasswordCorrect || !isEmailCorrect"/>
             <p style="color: white">Não possui uma conta? <a href = "Register">Cadastre-se aqui.</a></p>
         </footer>
     </div>
@@ -48,7 +52,7 @@ const a = ref(true);
         color:  $text-color-white;
     }
 
-    .Login{
+    .Login {
         display:flex;
         align-items: center;
         justify-content: center;
@@ -59,7 +63,15 @@ const a = ref(true);
         background-color: $bg-color;
     }
 
-    button{
+    .main_content__container__inputs__error {
+        margin-top: 20px;
+        color: $financi-red;
+        font-weight: 500;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    button {
         width: 50px;
         height: 50px;
     }
@@ -70,9 +82,9 @@ const a = ref(true);
         gap: 15px;
     }
 
-    #login_check_box {
-        width: 1.3em;
-        height: 1.3em;
+    #login__check__box {
+        width: 1.2em;
+        height: 1.2em;
         background-color: $bg-color;
         border-radius: 100%;
         vertical-align: middle;
@@ -82,17 +94,17 @@ const a = ref(true);
         margin-right: 8px; 
     }
 
-    #login_check_box:checked::before {
+    #login__check__box:checked::before {
         border-radius: 100%;
         content: ''; 
         position: absolute;
         vertical-align: middle;
         background: $financi-green; 
         appearance: none;
-        width: 0.8em; 
-        height: 0.8em;
+        width: 0.7em; 
+        height: 0.7em;
         margin-top: 2px;
-        margin-left: 2px;
+        margin-left: 2.5px;
     }
 
     footer {
@@ -107,5 +119,4 @@ const a = ref(true);
         color: $financi-green;
         text-decoration: none;
     }
-
 </style>
