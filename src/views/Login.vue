@@ -19,19 +19,15 @@ const isEmailCorrect = ref(false);
         </div>
 
         <form class="main_container__inputs">
-            <Input label="Email" type="Email" placeholder="Digite sua e-mail" v-model="email" @isCorrect="(correct) => isEmailCorrect = correct"/>
-            <Input label="Senha" type="Password" placeholder="Digite sua senha" v-model="password" @isCorrect="(correct) => isPasswordCorrect = correct"/>
+            <Input :numeric="false" :required="false" label="Email" type="Email" placeholder="Digite sua e-mail" v-model="email" @isCorrect="(correct) => isEmailCorrect = correct"/>
+            <Input :numeric="false" :required="false" label="Senha" type="Password" placeholder="Digite sua senha" v-model="password" @isCorrect="(correct) => isPasswordCorrect = correct"/>
             <div class="main_container__inputs__texts">
                 <CheckboxLogin text="Mantenha-me conectado"></CheckboxLogin>
-                <p class="main_container__inputs__texts__error" v-if="email.length === 0">E-mail não preenchido</p>
-                <p class="main_container__inputs__texts__error" v-else-if="!isEmailCorrect">E-mail no formato errado</p>
-                <p class="main_container__inputs__texts__error" v-else-if="password.length === 0">Senha não preenchida</p>
-                <p class="main_container__inputs__texts__error--placeholder" v-else>#</p>
             </div>    
         </form>
 
         <div class="main_container__enter">
-            <Button text="ENTRAR" :disabled= "!isPasswordCorrect || !isEmailCorrect"/>
+            <Button text="ENTRAR" :disabled= "password.length === 0 || email.length === 0"/>
             <p class="main_container__enter__text">Não possui uma conta? <router-link class="main_container__enter__link" to="/register">Cadastre-se aqui.</router-link></p>
         </div>
     </div>
