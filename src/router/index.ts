@@ -11,7 +11,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory("/financi-web-front-end/"),
+  history: createWebHistory(""),
   routes
 })
 
