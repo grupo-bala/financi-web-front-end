@@ -29,8 +29,6 @@ function inputMask(value: string): string {
     
     const result = `${integerPartFormatted},${decimalPart}`;
 
-    console.log(result);
-
     return result;
   }
 
