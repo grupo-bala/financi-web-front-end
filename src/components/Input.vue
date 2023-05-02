@@ -39,7 +39,7 @@ function inputMask(value: string): string {
 <template>
   <div class="container">
     <label :data-required="required" class="container__label" :to="type">{{ label }}</label>
-    <input class="container__input" :id="type" :value="modelValue" @input="[$emit('update:modelValue', inputMask($event.target.value)), $emit('isCorrect', regex[type].test($event.target.value))]" :type="type" :placeholder="placeholder" :inputmode="numeric ? 'numeric' : 'text'">
+    <input class="container__input" :id="type" :value="modelValue" @input="[$emit('update:modelValue', inputMask(($event.target as HTMLInputElement).value)), $emit('isCorrect', regex[type].test(($event.target as HTMLInputElement).value))]" :type="type" :placeholder="placeholder" :inputmode="numeric ? 'numeric' : 'text'">
   </div>
 </template>
 
