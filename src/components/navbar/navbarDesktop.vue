@@ -20,6 +20,7 @@
   
 nav {
   display: flex;
+
   background-color: #49AD5A;
   height: 10vh;
   max-width: 100vw;
@@ -33,7 +34,6 @@ button {
   font-weight: 600;
   cursor: pointer;
   font-size: 1.1em;
-
  }
 
  #textFinanci {
@@ -55,8 +55,5 @@ button {
   justify-content: end;
   padding-right: 1rem;
 }
-
-
-
 
 </style>

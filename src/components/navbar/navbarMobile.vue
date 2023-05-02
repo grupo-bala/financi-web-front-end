@@ -70,7 +70,6 @@ nav {
   width: 90vw;
   justify-content: space-between;
   border-radius: 10%;
-
 }
 
 button {
