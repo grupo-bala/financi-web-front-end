@@ -2,7 +2,7 @@
     <nav>
         <div id="logo">
             <img src="../../assets/FinanciLogo.png">
-            <button id="logoFinanci">Financi</button>
+            <button id="textFinanci">Financi</button>
         </div>
         <div id="navbuttons">
           <button>Início</button>
@@ -20,10 +20,9 @@
   
 nav {
   display: flex;
-  gap: 42em;
   background-color: #49AD5A;
   height: 10vh;
-  width: 100vw;
+  max-width: 100vw;
 }
 
 button {
@@ -33,12 +32,13 @@ button {
   font-family: "Montserrat";
   font-weight: 600;
   cursor: pointer;
-  font-size: 1.0em;
+  font-size: 1.1em;
 
  }
 
- #logoFinanci {
+ #textFinanci {
   font-weight: bold;
+  padding-left: 0.5em;
  }
 
 #logo {
@@ -50,12 +50,13 @@ button {
 
 #navbuttons {
   display: flex;
-  gap: 5%;
-}
-
-img {
+  gap: 1rem;
+  width: 90vw;
+  justify-content: end;
   padding-right: 1rem;
 }
+
+
 
 
 </style>
