@@ -20,10 +20,10 @@
   
 nav {
   display: flex;
-
   background-color: #49AD5A;
-  height: 10vh;
+  height: 7vh;
   max-width: 100vw;
+  padding: 0 1rem;
 }
 
 button {
@@ -44,16 +44,14 @@ button {
 #logo {
   cursor: pointer;
   display: flex;
-  padding-left: 1rem;
   align-items: center;
 }
 
 #navbuttons {
   display: flex;
   gap: 1rem;
-  width: 90vw;
+  width: 100%;
   justify-content: end;
-  padding-right: 1rem;
 }
 
 </style>
