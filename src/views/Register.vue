@@ -3,6 +3,7 @@
   import Button from '../components/Button.vue';
   import Input from '../components/Input.vue';
   import axios, { AxiosError } from 'axios';
+  import router from '../router';
 
   const isFirstStep = ref(true);
   const username = ref("");
@@ -26,6 +27,7 @@
         fixedIncome: Number(fixedIncome.value.split(',').join('.'))
       })
       
+      router.push({name:"Home"});
     } catch (error) {
       const axiosError = error as AxiosError;
       feedback.value = (axiosError.response?.data as Response).msg;
