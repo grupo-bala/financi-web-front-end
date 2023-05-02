@@ -20,7 +20,7 @@ const howManyPages = ref<number>(-1);
 const currentPage = ref(1);
 
 async function getNews() {
-	const response = await axios.get(`https://financi.fly.dev/get-all-news?page=${1}&size=10`);
+	const response = await axios.get(`https://financi.fly.dev/get-all-news-preview?page=${1}&size=10`);
 	
 	const json = await response.data;
 	
