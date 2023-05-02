@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import News from '../views/News.vue'
 
 const routes = [
   {path: '/', name: 'Home', component: Home},
   {path: '/login', name: 'Login', component: () => import('../views/Login.vue')},
   {path: '/register', name: 'Register', component: () => import('../views/Register.vue')},
+  {path: '/news', name: 'News', component: () => import('../views/News.vue'}
   /** 
    * para adicionar novas rotas para outras páginas, faça isso de forma dinâmica 
    * ex:
@@ -13,7 +15,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory("/financi-web-front-end/"),
+  history: createWebHistory(""),
   routes
 })
 
