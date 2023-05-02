@@ -134,7 +134,7 @@ console.log(getNews());
         align-items: start;
         justify-content: center;
         width: 100vw;
-        padding: 0 1rem;
+        padding: 0 2rem;
     }
 
     #desktop {
@@ -156,14 +156,13 @@ console.log(getNews());
         display: flex;
         border-radius: 0.3rem;
         padding: 0.4rem 0.4rem;
-        max-width: 800px;
+        max-width: 100%;
     }
 
     #newsImg {
         display: flex;
         align-items: center;
         justify-content: end;
-        padding-right: 10%;
         width: 100%;
     }
     .imgExample {
