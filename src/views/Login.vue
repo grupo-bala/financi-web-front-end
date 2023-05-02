@@ -35,7 +35,7 @@ async function login() {
         </div>
 
         <form class="main_container__inputs">
-            <Input :numeric="false" :required="false" label="Email" type="Email" placeholder="Digite seu nome de usuário" v-model="username" @isCorrect="(correct) => isUsernameCorrect = correct"/>
+            <Input :numeric="false" :required="false" label="Username" type="Text" placeholder="Digite seu nome de usuário" v-model="username" @isCorrect="(correct) => isUsernameCorrect = correct"/>
             <Input :numeric="false" :required="false" label="Senha" type="Password" placeholder="Digite sua senha" v-model="password" @isCorrect="(correct) => isPasswordCorrect = correct"/>
             <CheckboxLogin text="Mantenha-me conectado"></CheckboxLogin>
             <p class="main_container__inputs__error" v-if="feedback.length > 0">{{ feedback }}</p>
