@@ -54,10 +54,9 @@
     align-items: center;
     border-radius: 50%;
     font-size: 3.5em;
-    font-family: "Montserrat";
     color: #49AD5A;
-    height: 70px;
-    width: 70px;
+    height: 1.7em;
+    width: 1.7em;
     background-color: #383838;
 
 }
@@ -65,11 +64,12 @@
 nav {
   display: flex;
   background-color: #1E1E1E;
+  min-height: 50px;
+  max-width: 400px;
   height: 6vh;
   width: 90vw;
   justify-content: space-between;
   border-radius: 10%;
-
 }
 
 button {
