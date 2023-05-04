@@ -1,0 +1,106 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:vue/strongly-recommended",
+        "plugin:vue/vue3-recommended",
+        "eslint:recommended"
+    ],
+    "overrides": [
+    ],
+    "parser": "vue-eslint-parser",
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser"
+    },
+    "plugins": [
+        "vue",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-template-curly-in-string": "error",
+        "no-unreachable": "error",
+        "camelcase": [
+          "error",
+          {
+            "properties": "never"
+          }
+        ],
+        "curly": "error",
+        "dot-notation": "error",
+        "eqeqeq": "error",
+        "func-style": [
+          "error",
+          "declaration"
+        ],
+        "no-console": "error",
+        "no-magic-numbers": [
+          "error",
+          {
+            "ignoreArrayIndexes": true,
+            "ignoreClassFieldInitialValues": true
+          }
+        ],
+        "prefer-arrow-callback": "error",
+        "array-bracket-newline": [
+          "error",
+          {
+            "multiline": true 
+          }
+        ],
+        "arrow-parens": [
+          "error",
+          "always"
+        ],
+        "arrow-spacing": "error",
+        "brace-style": "error",
+        "comma-dangle": [
+          "error",
+          {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
+          }
+        ],
+        "comma-spacing": "error",
+        "indent": [
+          "error",
+          2
+        ],
+        "linebreak-style": [
+          "error",
+          "unix"
+        ],
+        "max-len": "error",
+        "no-extra-parens": "error",
+        "no-multi-spaces": "error",
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 1,
+            "maxEOF": 0
+          }
+        ],
+        "no-tabs": "error",
+        "no-trailing-spaces": "error",
+        "object-curly-spacing": ["error", "always"],
+        "quotes": [
+          "error",
+          "double"
+        ],
+        "semi": [
+          "error",
+          "always"
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_"
+          }
+        ]
+      }
+}
