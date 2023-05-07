@@ -1,29 +1,29 @@
 <template>
-    <nav>
-        <div id="logo">
-            <img src="../../assets/FinanciLogo.png">
-            <button id="textFinanci">Financi</button>
-        </div>
-        <div id="navbuttons">
-          <button>Início</button>
-          <button>Transações</button>
-          <button>Metas</button>
-          <button>Aulas</button>
-          <button>Relatórios</button> 
-          <button>Noticias</button>
-          <button>Perfil</button>
-        </div>
-    </nav>
+  <div id="container">
+    <div id="logo">
+      <img src="../../assets/FinanciLogo.png">
+      <button id="textFinanci">
+        Financi
+      </button>
+    </div>
+    <div id="navbuttons">
+      <button>Início</button>
+      <button>Transações</button>
+      <button>Metas</button>
+      <button>Aulas</button>
+      <button>Relatórios</button>
+      <button>Noticias</button>
+      <button>Perfil</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-  
-nav {
+#container {
   display: flex;
   background-color: #49AD5A;
-  height: 7vh;
-  max-width: 100vw;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+  justify-content: space-between;
 }
 
 button {
@@ -31,7 +31,7 @@ button {
   border:none;
   color: white;
   font-family: "Montserrat";
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   font-size: 1.1em;
  }
@@ -49,9 +49,9 @@ button {
 
 #navbuttons {
   display: flex;
-  gap: 1rem;
-  width: 100%;
+  gap: 1.5rem;
   justify-content: end;
+  align-items: center;
 }
 
 </style>

@@ -1,24 +1,26 @@
 <template>
-    <div id="container">
-        <nav>
-            <button id="home">
-                <img src="../../assets/Home.png">
-            </button>
-            <button>
-                <img src="../../assets/Transaction.png">
-            </button>
+  <div id="container">
+    <nav>
+      <button id="home">
+        <img src="../../assets/Home.png">
+      </button>
+      <button>
+        <img src="../../assets/Transaction.png">
+      </button>
 
-            <button id="buttonContainer">
-                <div id="addButton"> + </div>
-            </button>
-            <button>
-                <img src="../../assets/Courses.png">
-            </button>
-            <button id="charts">
-                <img src="../../assets/Charts.png">
-            </button>
-        </nav>
-    </div>
+      <button id="buttonContainer">
+        <div id="addButton">
+          +
+        </div>
+      </button>
+      <button>
+        <img src="../../assets/Courses.png">
+      </button>
+      <button id="charts">
+        <img src="../../assets/Charts.png">
+      </button>
+    </nav>
+  </div>
 </template>
 
 <style scoped>
@@ -27,8 +29,6 @@
     padding-left: 5%;
     border-radius: 10%;
 }
-
-
 
 #charts {
     padding-right: 5%;
@@ -77,6 +77,4 @@ button {
     color: white;
     border: none;
 }
-
-
 </style>
