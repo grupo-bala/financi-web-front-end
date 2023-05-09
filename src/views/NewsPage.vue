@@ -213,7 +213,6 @@ getNews();
 
     .container {
         display: flex;
-        background-color: #222622;
         justify-content: center;
         padding-bottom: 10em;
         min-height: 100vh;
