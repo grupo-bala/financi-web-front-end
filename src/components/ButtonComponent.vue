@@ -1,15 +1,20 @@
 <script setup lang="ts">
-const {text, disabled} = defineProps<{
+
+const props = defineProps<{
   text: string,
   disabled: boolean,
 }>();
 
 </script>
-
 <template>
-    <div class="container">
-        <button class="container__button" :disabled="disabled">{{ text }}</button>
-    </div>
+  <div class="container">
+    <button
+      class="container__button"
+      :disabled="disabled"
+    >
+      {{ props.text }}
+    </button>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -35,6 +40,5 @@ const {text, disabled} = defineProps<{
         opacity: 0.6;
       }
     }
-    
   }
 </style>

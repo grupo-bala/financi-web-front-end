@@ -1,26 +1,35 @@
 <script setup lang="ts">
-  import navbarMobile from '../components/navbar/navbarMobile.vue';
-  import navbarDesktop from '../components/navbar/navbarDesktop.vue';
-  import { useMediaQuery } from '@vueuse/core';
+import NavbarMobile from "../components/Navbar/NavbarMobile.vue";
+import NavbarDesktop from "../components/Navbar/NavbarDesktop.vue";
+import { useMediaQuery } from "@vueuse/core";
 
-  const isDesktop = useMediaQuery('(min-width: 1281px)');
+const isDesktop = useMediaQuery("(min-width: 1281px)");
 </script>
 
 <template>
   <div class="main_content">
-    <div class="main_content__desktop" v-if="isDesktop">
+    <div
+      v-if="isDesktop"
+      class="main_content__desktop"
+    >
       <nav class="main_content__desktop__nav">
-        <navbarDesktop/>
+        <NavbarDesktop />
       </nav>
-      <h1 class="main_content__title">Home</h1>
+      <h1 class="main_content__title">
+        Home
+      </h1>
     </div>
-    <div class="main_content__mobile" v-else>
-      <h1 class="main_content__title">Home</h1>
+    <div
+      v-else
+      class="main_content__mobile"
+    >
+      <h1 class="main_content__title">
+        Home
+      </h1>
       <nav class="main_content__mobile__nav">
-        <navbarMobile/>
+        <NavbarMobile />
       </nav>
-    </div> 
-    
+    </div>
   </div>
 </template>
 

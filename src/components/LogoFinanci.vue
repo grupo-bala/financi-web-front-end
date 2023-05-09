@@ -1,8 +1,11 @@
 <template>
-    <div>
-        <img src="../assets/FinanciLogo.png" alt="logo">
-        Financi
-    </div>    
+  <div>
+    <img
+      src="../assets/FinanciLogo.png"
+      alt="logo"
+    >
+    Financi
+  </div>
 </template>
 
 <style scoped>

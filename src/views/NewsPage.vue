@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useMediaQuery } from '@vueuse/core';
-import axios from 'axios';
-import navbarMobile from '../components/navbar/navbarMobile.vue';
-import navbarDesktop from '../components/navbar/navbarDesktop.vue';
-import logo from '../components/logo.vue';
+import { ref } from "vue";
+import { useMediaQuery } from "@vueuse/core";
+import axios from "axios";
+import navbarMobile from "../components/navbar/navbarMobile.vue";
+import navbarDesktop from "../components/navbar/navbarDesktop.vue";
+import logo from "../components/logoFinanci.vue";
 
-const isDesktop = useMediaQuery('(min-width: 1281px)');
+const isDesktop = useMediaQuery("(min-width: 1281px)");
 
 interface NewsPreview {
     title: string;
@@ -14,75 +14,109 @@ interface NewsPreview {
     imgURL: string;
 }
 
-const news = ref<NewsPreview[]>([]); // aqui tem que definir o tipo News
-const error = ref<string>("");
-const howManyPages = ref<number>(-1);
-const currentPage = ref(1);
+const news = ref<NewsPreview[]>([]);
+const howManyPages = ref<number>();
+const inicialPage :number = 1;
 
 async function getNews() {
-	const response = await axios.get(`https://financi.fly.dev/get-all-news-preview?page=${1}&size=10`);
-	
-	const json = await response.data;
-	
-	howManyPages.value = json.pages;
-	news.value = json.data;
+  const response =
+    await axios
+      .get(`https://financi.fly.dev/get-all-news-preview?page=
+      ${inicialPage}&size=10`);
+  const json = await response.data;
+  howManyPages.value = json.pages;
+  news.value = json.data;
 }
 
-console.log(getNews());
+getNews();
 
 </script>
 
-<template>  
-    <div class="container">
-        <div id="desktop" v-if = isDesktop>
-            <nav id="navbarDesktop">
-                <navbarDesktop/>
-            </nav>
-            <div id="content">
-                <header>
-                    <h3>Notícias</h3>
-                </header>
-                <div id="filter">
-                    <img src="../assets/Filter.png">
-                    <input type="text" placeholder="Filtrar">
-                </div>
-                <li v-for="{imgURL, publishDate, title } in news">
-                    <div class="newsDesktop">
-                        <img class="imgExample" :src="imgURL" alt="Imagem da notícia">
-                        <div class="newsInfo">
-                            <p class="title">{{ title }}</p> 
-                            <p class="date">{{ new Date(publishDate).toLocaleDateString("pt-BR") }}</p>
-                        </div>
-                    </div>
-                </li>
-            </div>
-            <footer>
-                <logo/>
-            </footer>
+<template>
+  <div class="container">
+    <div
+      v-if="isDesktop"
+      id="desktop"
+    >
+      <nav id="navbarDesktop">
+        <navbarDesktop />
+      </nav>
+      <div id="content">
+        <header>
+          <h3>Notícias</h3>
+        </header>
+        <div id="filter">
+          <img src="../assets/Filter.png">
+          <input
+            type="text"
+            placeholder="Filtrar"
+          >
         </div>
-        <div id="mobile" v-else>
-            <div id="subContainer">
-                <header>
-                    <h3>Notícias</h3>
-                    <div id="newsImg">
-                        <img src="../assets/News.png" alt="Notícia">
-                    </div>
-                </header>
-                <li v-for="{imgURL, publishDate, title } in news">
-                    <div class="newsMobile">
-                        <img class="imgExample" :src="imgURL" alt="Imagem da notícia">
-                        <div class="newsInfo">
-                            <p class="title">{{ title }}</p> 
-                            <p class="date">{{ new Date(publishDate).toLocaleDateString("pt-BR") }}</p>
-                        </div>
-                    </div>
-                </li>
+        <li
+          v-for="{imgURL, publishDate, title } in news"
+          :key="title"
+        >
+          <div class="newsDesktop">
+            <img
+              class="imgExample"
+              :src="imgURL"
+              alt="Imagem da notícia"
+            >
+            <div class="newsInfo">
+              <p class="title">
+                {{ title }}
+              </p>
+              <p class="date">
+                {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
+              </p>
             </div>
-            <nav class="navbarMobile"> 
-                <navbarMobile/>
-            </nav>            
-        </div>
+          </div>
+        </li>
+      </div>
+      <footer>
+        <logo />
+      </footer>
     </div>
+    <div
+      v-else
+      id="mobile"
+    >
+      <div id="subContainer">
+        <header>
+          <h3>Notícias</h3>
+          <div id="newsImg">
+            <img
+              src="../assets/News.png"
+              alt="Notícia"
+            >
+          </div>
+        </header>
+        <li
+          v-for="{imgURL, publishDate, title } in news"
+          :key="title"
+        >
+          <div class="newsMobile">
+            <img
+              class="imgExample"
+              :src="imgURL"
+              alt="Imagem da notícia"
+            >
+            <div class="newsInfo">
+              <p class="title">
+                {{ title }}
+              </p>
+              <p class="date">
+                {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
+              </p>
+            </div>
+          </div>
+        </li>
+      </div>
+      <nav class="navbarMobile">
+        <navbarMobile />
+      </nav>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -150,7 +184,7 @@ console.log(getNews());
         align-items: center;
         width: 100vw;
     }
-    
+
     #filter {
         background-color: #2B2E2B;
         display: flex;
@@ -179,12 +213,11 @@ console.log(getNews());
 
     .container {
         display: flex;
-        background-color: #222622;
         justify-content: center;
         padding-bottom: 10em;
         min-height: 100vh;
     }
-    
+
     .trending {
         display: flex;
         justify-content: center;
@@ -195,7 +228,7 @@ console.log(getNews());
         font-weight: 600;
         padding: 0.4rem 0.8rem;
     }
-    
+
     .title {
         font-size: medium;
         font-weight: 500;
@@ -204,19 +237,19 @@ console.log(getNews());
         white-space: nowrap;
         overflow: hidden;
     }
-    
+
     .author {
         padding-bottom: 1rem;
         font-size: medium;
         font-weight: 400;
         opacity: 0.5;
     }
-    
+
     .date {
         text-align: left;
         width: 100%;
     }
-    
+
     input {
         background-color: #2B2E2B;
         border-style: none;
@@ -230,7 +263,7 @@ console.log(getNews());
         padding: 2rem 0rem;
         font-size: 1.5em;
     }
-     
+
     li {
         list-style: none;
         color: white;
@@ -241,5 +274,5 @@ console.log(getNews());
         display: flex;
         width: 100%;
     }
-    
+
 </style>

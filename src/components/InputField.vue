@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { numeric, modelValue } = defineProps<{
+const props = defineProps<{
   type: "Email" | "Password" | "Text",
   label: string,
   placeholder: string,
@@ -8,7 +8,10 @@ const { numeric, modelValue } = defineProps<{
   numeric: boolean,
 }>();
 
-defineEmits(["update:modelValue", "isCorrect"]);
+defineEmits<{
+  (e: "update:modelValue", value: string): void,
+  (e: "is-correct", value: boolean): boolean
+}>();
 const regex = {
   Email: /^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/,
   Password: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).+$/,
@@ -16,17 +19,23 @@ const regex = {
 };
 
 function inputMask(value: string): string {
-  if (numeric) {
+  if (props.numeric) {
+    const minLength = 2;
     value = value.replace(/\D/g, "");
-  
-    if (value.length <= 2) {
+
+    if (value.length <= minLength) {
       return value;
     }
 
-    const integerPart = value.slice(0, -2);
-    const decimalPart = value.slice(-2);
-    const integerPartFormatted = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    
+    const start = 0;
+    const end = 0;
+
+    const integerPart = value.slice(start, end);
+    const integerPartFormatted = integerPart
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    const decimalPart = value.slice(end);
+
     const result = `${integerPartFormatted},${decimalPart}`;
 
     return result;
@@ -38,8 +47,31 @@ function inputMask(value: string): string {
 
 <template>
   <div class="container">
-    <label :data-required="required" class="container__label" :to="type">{{ label }}</label>
-    <input class="container__input" :id="type" :value="modelValue" @input="[$emit('update:modelValue', inputMask(($event.target as HTMLInputElement).value)), $emit('isCorrect', regex[type].test(($event.target as HTMLInputElement).value))]" :type="type" :placeholder="placeholder" :inputmode="numeric ? 'numeric' : 'text'">
+    <label
+      :data-required="required"
+      class="container__label"
+      :for="type"
+    >
+      {{ label }}
+    </label>
+    <input
+      :id="type"
+      class="container__input"
+      :value="modelValue"
+      :type="type"
+      :placeholder="placeholder"
+      :inputmode="numeric ? 'numeric' : 'text'"
+      @input="[
+        $emit(
+          'update:modelValue',
+          inputMask(($event.target as HTMLInputElement).value)
+        ),
+        $emit(
+          'is-correct',
+          regex[type].test(($event.target as HTMLInputElement).value)
+        )
+      ]"
+    >
   </div>
 </template>
 
@@ -59,7 +91,7 @@ function inputMask(value: string): string {
         margin-left: 2px;
       }
     }
-    
+
     &__input {
       margin-top: 10px;
       background: transparent;
