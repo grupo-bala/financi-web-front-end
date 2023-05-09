@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/HomePage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/login", name: "Login",
-    component: () => import("../views/Login.vue") },
+    component: () => import("../views/LoginPage.vue") },
   { path: "/register", name: "Register",
-    component: () => import("../views/Register.vue") },
+    component: () => import("../views/RegisterPage.vue") },
   { path: "/news", name: "News",
-    component: () => import("../views/newsPage.vue") },
+    component: () => import("../views/NewsPage.vue") },
   /**
    para adicionar novas rotas para outras páginas, faça isso de forma dinâmica
    ex:

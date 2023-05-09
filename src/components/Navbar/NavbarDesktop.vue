@@ -34,12 +34,12 @@ button {
   font-weight: 500;
   cursor: pointer;
   font-size: 1.1em;
- }
+}
 
- #textFinanci {
+#textFinanci {
   font-weight: bold;
   padding-left: 0.5em;
- }
+}
 
 #logo {
   cursor: pointer;

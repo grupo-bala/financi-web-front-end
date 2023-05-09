@@ -24,41 +24,39 @@
 </template>
 
 <style scoped>
-
 #home {
-    padding-left: 5%;
-    border-radius: 10%;
+  padding-left: 5%;
+  border-radius: 10%;
 }
 
 #charts {
-    padding-right: 5%;
-    border-radius: 10%;
+  padding-right: 5%;
+  border-radius: 10%;
 
 }
 
 #container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #buttonContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #addButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    font-size: 3.5em;
-    color: #49AD5A;
-    height: 1.7em;
-    width: 1.7em;
-    background-color: #383838;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 3.5em;
+  color: #49AD5A;
+  height: 1.7em;
+  width: 1.7em;
+  background-color: #383838;
 }
 
 nav {
