@@ -1,78 +1,114 @@
-<template>
-  <div id="container">
-    <nav>
-      <button id="home">
-        <img src="../../assets/Home.png">
-      </button>
-      <button>
-        <img src="../../assets/Transaction.png">
-      </button>
 
-      <button id="buttonContainer">
-        <div id="addButton">
+<template>
+  <div class="container">
+    <div class="container_navButtons">
+      <router-link
+        to="/"
+        class="container_navButtons_home"
+      >
+        <v-icon
+          name="fa-home"
+          fill="white"
+          scale="1.2"
+        />
+      </router-link>
+      <router-link
+        to="/"
+        class="container_navButtons_transaction"
+      >
+        <v-icon
+          name="fa-exchange-alt"
+          fill="white"
+          scale="1.2"
+        />
+      </router-link>
+
+      <button>
+        <div class="container_navButtons_addButton">
           +
         </div>
       </button>
-      <button>
-        <img src="../../assets/Courses.png">
-      </button>
-      <button id="charts">
-        <img src="../../assets/Charts.png">
-      </button>
-    </nav>
+      <router-link
+        to="/"
+        class="container_navButtons_courses"
+      >
+        <v-icon
+          name="fa-play-circle"
+          fill="white"
+          scale="1.2"
+        />
+      </router-link>
+      <router-link
+        to="/"
+        class="container_navButtons_chart"
+      >
+        <v-icon
+          name="fa-chart-bar"
+          fill="white"
+          scale="1.2"
+        />
+      </router-link>
+    </div>
   </div>
 </template>
 
-<style scoped>
-#home {
-  padding-left: 5%;
-  border-radius: 10%;
-}
+<style scoped lang="scss">
 
-#charts {
-  padding-right: 5%;
-  border-radius: 10%;
-
-}
-
-#container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#buttonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#addButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: 3.5em;
-  color: #49AD5A;
-  height: 1.7em;
-  width: 1.7em;
-  background-color: #383838;
-}
-
-nav {
-  display: flex;
+@import "../../variables.scss";
+.container {
+  width: 20rem;
+  border-radius: $border-radius;
   background-color: #1E1E1E;
-  min-height: 50px;
-  max-width: 400px;
-  height: 6vh;
-  width: 90vw;
-  justify-content: space-between;
-  border-radius: 10%;
+  box-shadow: $box-shadow;
+  display: flex;
+
+  &_navButtons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.7rem 0;
+    &_home {
+      padding-left: 7%;
+      background-color: #1E1E1E;
+
+    }
+
+    &_chart {
+      padding-right: 7%;
+      background-color: #1E1E1E;
+
+    }
+
+    &_courses {
+      padding-left: 7%;
+      background-color: #1E1E1E;
+    }
+
+    &_transaction {
+      padding-right: 7%;
+      background-color: #1E1E1E;
+    }
+
+    &_addButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: -10px;
+      left: 129px;
+      border-radius: 50%;
+      font-size: 3.5em;
+      color: $financi-green;
+      height: 1.5em;
+      width: 1.5em;
+      background-color: #383838;
+      box-shadow: $box-shadow;
+    }
+  }
 }
 
 button {
-    background-color: #1E1E1E;
-    color: white;
     border: none;
 }
+
 </style>
