@@ -1,10 +1,13 @@
 <template>
   <div class="container">
     <div class="container__logo">
-      <img src="../../assets/FinanciLogo.png">
-      <button class="container__button">
+      <router-link
+        class="container__logo__button"
+        to="/"
+      >
+        <img src="../../assets/FinanciLogo.png">
         Financi
-      </button>
+      </router-link>
     </div>
     <div class="container__navbuttons">
       <router-link
@@ -65,19 +68,20 @@
   padding-left: 1.5rem;
   height: 4rem;
 
-  &__button {
-    background-color: $financi-green;
-    border:none;
-    color: $text-color-white;
-    font-weight: 500;
-    padding-left: 0.7rem;
-    border-bottom: 0;
-    font-weight: 700;
-  }
   &__logo {
-    cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+      &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: $text-color-white;
+        gap: 10%;
+        font-weight: 700;
+    }
   }
 
   .container {
@@ -101,14 +105,6 @@
         }
       }
     }
-  }
-
-  button {
-      border: none;
-      color: $text-color-white;
-      background-color: $financi-green;
-      cursor: pointer;
-      font-size: 1.1em;
   }
 }
 
