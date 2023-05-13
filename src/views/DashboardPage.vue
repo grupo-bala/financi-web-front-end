@@ -5,7 +5,8 @@ import { ref, onMounted } from "vue";
 const username = ref("");
 const greeting = ref("");
 const feedback = ref("");
-const amount = ref<number>();
+const amount = ref("");
+const visibility = ref(false);
 const envUrl = import.meta.env.VITE_API_URL;
 
 type ErrorResponse = {msg: string};
@@ -42,6 +43,16 @@ function getGreetingAndsSetInterval() {
   setInterval(setGreeting, interval);
 }
 
+function formatToMoney(value: string): string {
+  const newValue = Number(value);
+  const options = {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  };
+
+  return newValue.toLocaleString("pt-BR", options);
+}
+
 async function getUserInfos() {
   try {
     const response = await axios.get<SuccessResponse>(
@@ -49,7 +60,7 @@ async function getUserInfos() {
     );
     feedback.value = "";
     username.value = response.data.username;
-    amount.value = response.data.balance;
+    amount.value = response.data.balance.toString();
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as ErrorResponse;
@@ -91,49 +102,65 @@ onMounted(() => {
         scale="1.5"
       />
     </div>
-    <div class="main_container__balance_info">
-      <div class="main_container__balance_info__top_content">
-        <div class="main_container__balance_info__top_content__amount">
+    <div class="main_container__balance">
+      <div class="main_container__balance__top_content">
+        <div class="main_container__balance__top_content__amount">
           <p
-            class="main_container__balance_info__top_content__amount__title"
+            class="main_container__balance__top_content__amount__title"
           >
             Saldo geral
           </p>
           <p
-            class="main_container__balance_info__top_content__amount__value"
+            v-if="visibility"
+            class="main_container__balance__top_content__amount__value"
           >
-            {{ "R$" + amount }}
+            {{ "R$ " + formatToMoney(amount) }}
+          </p>
+          <p
+            v-else
+            class="main_container__balance__top_content__amount__value--hide"
+          >
+            R$ ----
           </p>
         </div>
         <v-icon
+          v-if="visibility"
           name="md-visibility-round"
           scale="1.5"
           fill="gray"
+          @click="visibility = !visibility"
+        />
+        <v-icon
+          v-else
+          name="md-visibilityoff-round"
+          scale="1.5"
+          fill="gray"
+          @click="visibility = !visibility"
         />
       </div>
-      <div class="main_container__balance_info__bottom_content">
-        <div class="main_container__balance_info__bottom_content__incomes">
+      <div class="main_container__balance__bottom_content">
+        <div class="main_container__balance__bottom_content__incomes">
           <p
-            class="main_container__balance_info__bottom_content__incomes__title"
+            class="main_container__balance__bottom_content__incomes__title"
           >
             Entradas
           </p>
           <p
-            class="main_container__balance_info__bottom_content__incomes__value"
+            class="main_container__balance__bottom_content__incomes__value"
           >
-            R$ 5000,00
+            {{ formatToMoney(amount) }}
           </p>
         </div>
-        <div class="main_container__balance_info__bottom_content__outs">
+        <div class="main_container__balance__bottom_content__outs">
           <p
-            class="main_container__balance_info__bottom_content__outs__title"
+            class="main_container__balance__bottom_content__outs__title"
           >
             Saídas
           </p>
           <p
-            class="main_container__balance_info__bottom_content__outs__value"
+            class="main_container__balance__bottom_content__outs__value"
           >
-            R$ 500,00
+            {{ formatToMoney(amount) }}
           </p>
         </div>
       </div>
@@ -203,21 +230,21 @@ onMounted(() => {
     }
   }
 
-  &__balance_info {
+  &__balance {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: $card-bg-color;
     border-radius: 5px;
     box-shadow: $box-shadow;
-    padding: 27px 20px;
+    padding: 30px;
 
     &__top_content {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 95%;
+      width: 100%;
       padding-bottom: 20px;
 
       &__amount {
@@ -234,6 +261,11 @@ onMounted(() => {
         &__value {
           font-size: 1.5rem;
           font-weight: 600;
+
+          &--hide {
+            font-size: 1.5rem;
+            font-weight: 600;
+          }
         }
       }
     }
@@ -244,7 +276,7 @@ onMounted(() => {
       justify-content: space-between;
       border-top: 1px solid rgba(128, 128, 128, 0.63);
       padding-top: 20px;
-      width: 95%;
+      width: 100%;
 
       &__incomes {
         display: flex;
@@ -298,16 +330,16 @@ onMounted(() => {
     }
   }
 
-  &__last_transactions {
-  }
+  // &__last_transactions {
+  // }
 
-  &__goals {
-  }
+  // &__goals {
+  // }
 
-  &__news {
-  }
+  // &__news {
+  // }
 
-  &__last_lessons {
-  }
+  // &__last_lessons {
+  // }
 }
 </style>
