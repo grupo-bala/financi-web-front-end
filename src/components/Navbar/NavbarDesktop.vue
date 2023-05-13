@@ -7,27 +7,48 @@
       </button>
     </div>
     <div class="container__navbuttons">
-      <button>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Início
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Transações
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Metas
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Aulas
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Relatórios
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/news"
+      >
         Noticias
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Perfil
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -51,9 +72,7 @@
     font-weight: 500;
     padding-left: 0.7rem;
     border-bottom: 0;
-    &:hover {
-      border: none;
-      }
+    font-weight: 700;
   }
   &__logo {
     cursor: pointer;
@@ -69,6 +88,18 @@
       justify-content: end;
       align-items: center;
       padding-right: 1.5rem;
+
+      &_navbutton {
+        text-decoration: none;
+        color: $text-color-white;
+        background-color: $financi-green;
+        cursor: pointer;
+        font-size: 1.1em;
+        border-bottom: 1px solid transparent;
+        &:hover {
+          border-bottom-color: $text-color-white;
+        }
+      }
     }
   }
 
@@ -78,10 +109,6 @@
       background-color: $financi-green;
       cursor: pointer;
       font-size: 1.1em;
-      border-bottom: 1px solid transparent;
-      &:hover {
-        border-bottom-color: $text-color-white;
-      }
   }
 }
 
