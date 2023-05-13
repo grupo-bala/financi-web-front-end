@@ -105,6 +105,37 @@ onMounted(() => {
             {{ "R$" + amount }}
           </p>
         </div>
+        <v-icon
+          name="md-visibility-round"
+          scale="1.5"
+          fill="gray"
+        />
+      </div>
+      <div class="main_container__balance_info__bottom_content">
+        <div class="main_container__balance_info__bottom_content__incomes">
+          <p
+            class="main_container__balance_info__bottom_content__incomes__title"
+          >
+            Entradas
+          </p>
+          <p
+            class="main_container__balance_info__bottom_content__incomes__value"
+          >
+            R$ 5000,00
+          </p>
+        </div>
+        <div class="main_container__balance_info__bottom_content__outs">
+          <p
+            class="main_container__balance_info__bottom_content__outs__title"
+          >
+            Saídas
+          </p>
+          <p
+            class="main_container__balance_info__bottom_content__outs__value"
+          >
+            R$ 500,00
+          </p>
+        </div>
       </div>
     </div>
     <div class="main_container__last_transactions">
@@ -127,7 +158,8 @@ onMounted(() => {
 
 .main_container {
   display: grid;
-  grid-template-rows: auto;
+  grid-template-rows: repeat(5, min-content);
+  gap: 40px;
   padding: 30px;
   min-height: 100svh;
   background-color: $bg-color;
@@ -172,11 +204,28 @@ onMounted(() => {
   }
 
   &__balance_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: $card-bg-color;
+    border-radius: 5px;
+    box-shadow: $box-shadow;
+    padding: 27px 20px;
 
     &__top_content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 95%;
+      padding-bottom: 20px;
 
       &__amount {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        border-left: 3px solid $financi-green;
+        padding-left: 10px;
 
         &__title {
           color: $text-color-gray;
@@ -184,6 +233,65 @@ onMounted(() => {
 
         &__value {
           font-size: 1.5rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    &__bottom_content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-top: 1px solid rgba(128, 128, 128, 0.63);
+      padding-top: 20px;
+      width: 95%;
+
+      &__incomes {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
+        gap: 10px;
+        padding: 10px;
+        background-color: $child-card-bg-color;
+        box-shadow: $box-shadow;
+        border-radius: 5px;
+
+        &__title {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $text-color-gray;
+        }
+
+        &__value {
+          font-size: 1.1rem;
+          color: $financi-green;
+          font-weight: 700;
+        }
+      }
+
+      &__outs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
+        gap: 10px;
+        padding: 15px;
+        background-color: $child-card-bg-color;
+        box-shadow: $box-shadow;
+        border-radius: 5px;
+
+        &__title {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $text-color-gray;
+        }
+
+        &__value {
+          font-size: 1.1rem;
+          color: $financi-red;
           font-weight: 700;
         }
       }
