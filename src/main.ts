@@ -8,6 +8,7 @@ import {
   FaChartBar,
   FaPlayCircle,
   FaExchangeAlt,
+  IoFilter,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -16,6 +17,6 @@ export default {
   },
 };
 
-addIcons(FaHome, FaChartBar, FaPlayCircle, FaExchangeAlt);
+addIcons(FaHome, FaChartBar, FaPlayCircle, FaExchangeAlt, IoFilter);
 
 createApp(App).component("v-icon", OhVueIcon).use(router).mount("#app");
