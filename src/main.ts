@@ -11,6 +11,8 @@ import {
   FaExchangeAlt,
   IoFilter,
   IoSettingsSharp,
+  MdVisibilityRound,
+  MdVisibilityoffRound,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -25,7 +27,9 @@ addIcons(
   FaPlayCircle,
   FaExchangeAlt,
   IoFilter,
-  IoSettingsSharp);
+  IoSettingsSharp,
+  MdVisibilityRound,
+  MdVisibilityoffRound);
 
 axios.defaults.withCredentials = true;
 
