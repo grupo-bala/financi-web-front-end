@@ -1,33 +1,57 @@
 <template>
   <div class="container">
     <div class="container__logo">
-      <img src="../../assets/FinanciLogo.png">
-      <button class="container__button">
+      <router-link
+        class="container__logo__button"
+        to="/"
+      >
+        <img src="../../assets/FinanciLogo.png">
         Financi
-      </button>
+      </router-link>
     </div>
     <div class="container__navbuttons">
-      <button>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Início
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Transações
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Metas
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Aulas
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Relatórios
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/news"
+      >
         Noticias
-      </button>
-      <button>
+      </router-link>
+      <router-link
+        class="container__navbuttons_navbutton"
+        to="/"
+      >
         Perfil
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -44,21 +68,20 @@
   padding-left: 1.5rem;
   height: 4rem;
 
-  &__button {
-    background-color: $financi-green;
-    border:none;
-    color: $text-color-white;
-    font-weight: 500;
-    padding-left: 0.7rem;
-    border-bottom: 0;
-    &:hover {
-      border: none;
-      }
-  }
   &__logo {
-    cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+      &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: $text-color-white;
+        gap: 10%;
+        font-weight: 700;
+    }
   }
 
   .container {
@@ -69,19 +92,19 @@
       justify-content: end;
       align-items: center;
       padding-right: 1.5rem;
-    }
-  }
 
-  button {
-      border: none;
-      color: $text-color-white;
-      background-color: $financi-green;
-      cursor: pointer;
-      font-size: 1.1em;
-      border-bottom: 1px solid transparent;
-      &:hover {
-        border-bottom-color: $text-color-white;
+      &_navbutton {
+        text-decoration: none;
+        color: $text-color-white;
+        background-color: $financi-green;
+        cursor: pointer;
+        font-size: 1.1em;
+        border-bottom: 1px solid transparent;
+        &:hover {
+          border-bottom-color: $text-color-white;
+        }
       }
+    }
   }
 }
 

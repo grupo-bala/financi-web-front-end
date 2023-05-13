@@ -103,11 +103,10 @@ async function login() {
     .main_container {
         display:flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
         flex-direction: column;
         margin: 0;
         min-height: 100svh;
-        gap: 100px;
         background-color: $bg-color;
 
         &__logo {
@@ -115,6 +114,7 @@ async function login() {
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            margin: 0;
 
             &__title {
                 font-size: 48px;
