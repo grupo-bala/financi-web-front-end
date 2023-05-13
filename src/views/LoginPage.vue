@@ -16,11 +16,14 @@ type Response = {msg: string};
 
 async function login() {
   try {
-    axios.get(
-      `${envUrl}login?username=${username.value}&password=${password.value}`,
+    await axios.post(
+      `${envUrl}/login`, {
+        username: username.value,
+        password: password.value,
+      },
     );
     feedback.value = "";
-    router.push({ name:"Home" });
+    router.push({ name:"Dashboard" });
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as Response;
