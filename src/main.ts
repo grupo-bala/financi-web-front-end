@@ -1,14 +1,15 @@
 import { createApp } from "vue";
 import "./style.scss";
 import App from "./App.vue";
-import axios from "axios";
 import router from "./router";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
+import axios from "axios";
 import {
   FaHome,
   FaChartBar,
   FaPlayCircle,
   FaExchangeAlt,
+  IoFilter,
   IoSettingsSharp,
 } from "oh-vue-icons/icons";
 
@@ -18,7 +19,13 @@ export default {
   },
 };
 
-addIcons(FaHome, FaChartBar, FaPlayCircle, FaExchangeAlt, IoSettingsSharp);
+addIcons(
+  FaHome,
+  FaChartBar,
+  FaPlayCircle,
+  FaExchangeAlt,
+  IoFilter,
+  IoSettingsSharp);
 
 axios.defaults.withCredentials = true;
 
