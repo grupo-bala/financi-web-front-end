@@ -69,7 +69,7 @@ onMounted(() => {
     <div class="main_container__greetings">
       <div class="main_container__greetings__user_info">
         <img
-          src="../../Foto.jpg"
+          src="https://picsum.photos/500"
           alt="user"
           class="main_container__greetings__user_info__img"
         >
