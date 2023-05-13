@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useMediaQuery } from "@vueuse/core";
 import axios from "axios";
-import navbarMobile from "../components/navbar/navbarMobile.vue";
-import navbarDesktop from "../components/navbar/navbarDesktop.vue";
-import logo from "../components/logoFinanci.vue";
-
-const isDesktop = useMediaQuery("(min-width: 1281px)");
+import Navbar from "../components/Navbar/ChosenNavbar.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 interface NewsPreview {
     title: string;
@@ -16,13 +12,13 @@ interface NewsPreview {
 
 const news = ref<NewsPreview[]>([]);
 const howManyPages = ref<number>();
-const inicialPage :number = 1;
+const initialPage :number = 1;
 
 async function getNews() {
   const response =
     await axios
       .get(`https://financi.fly.dev/get-all-news-preview?page=
-      ${inicialPage}&size=10`);
+      ${initialPage}&size=10`);
   const json = await response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
@@ -34,245 +30,109 @@ getNews();
 
 <template>
   <div class="container">
-    <div
-      v-if="isDesktop"
-      id="desktop"
-    >
-      <nav id="navbarDesktop">
-        <navbarDesktop />
-      </nav>
-      <div id="content">
-        <header>
-          <h3>Notícias</h3>
+    <header>
+      <Navbar />
+    </header>
+    <main class="container__main">
+      <section class="container__main__news">
+        <header class="container__main__news__title">
+          Notícias
         </header>
-        <div id="filter">
-          <img src="../assets/Filter.png">
+        <div class="container__main__news__filter">
+          <v-icon
+            name="io-filter"
+            fill="#4ECB71"
+          />
           <input
-            type="text"
+            type="search"
             placeholder="Filtrar"
           >
         </div>
-        <li
-          v-for="{imgURL, publishDate, title } in news"
-          :key="title"
-        >
-          <div class="newsDesktop">
-            <img
-              class="imgExample"
-              :src="imgURL"
-              alt="Imagem da notícia"
-            >
-            <div class="newsInfo">
-              <p class="title">
-                {{ title }}
-              </p>
-              <p class="date">
-                {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
-              </p>
-            </div>
-          </div>
-        </li>
-      </div>
-      <footer>
-        <logo />
-      </footer>
-    </div>
-    <div
-      v-else
-      id="mobile"
-    >
-      <div id="subContainer">
-        <header>
-          <h3>Notícias</h3>
-          <div id="newsImg">
-            <img
-              src="../assets/News.png"
-              alt="Notícia"
-            >
-          </div>
-        </header>
-        <li
-          v-for="{imgURL, publishDate, title } in news"
-          :key="title"
-        >
-          <div class="newsMobile">
-            <img
-              class="imgExample"
-              :src="imgURL"
-              alt="Imagem da notícia"
-            >
-            <div class="newsInfo">
-              <p class="title">
-                {{ title }}
-              </p>
-              <p class="date">
-                {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
-              </p>
-            </div>
-          </div>
-        </li>
-      </div>
-      <nav class="navbarMobile">
-        <navbarMobile />
-      </nav>
-    </div>
+      </section>
+    </main>
+    <aside />
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import "../variables.scss";
 
-    #content {
+.container {
+  background-color: $bg-color;
+  height: 100vh;
+
+  @media (max-width: 600px) {
+    &__main {
+        padding-top: 2rem;
         display: flex;
-        flex-direction: column;
-        width: 55vw;
-        background-color: #1E211E;
-        padding: 0rem 3rem;
-        gap: 1rem;
-        border-radius: 0.5rem;
-        min-height: 90vh;
-    }
+        justify-content: start;
 
-    .newsInfo {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        overflow-x: hidden;
-        padding-right: 1rem;
-    }
-
-    .newsMobile {
-        display: flex;
-        background-color: #1E211E;
-        min-height: 5em;
-        width: 100%;
-        border-radius: 0.5em;
-    }
-
-    .newsDesktop {
-        display: flex;
-        background-color: #2B2E2B;
-        min-height: 5em;
-        width: 100%;
-        border-radius: 0.5em;
-    }
-
-    #navbarDesktop {
-        width: 100vw;
-        padding-bottom: 2rem;
-    }
-
-    #subContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-        align-items: start;
-        justify-content: center;
-        width: 100vw;
-        padding: 0 2rem;
-    }
-
-    #desktop {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100vh;
-    }
-
-    #mobile {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100vw;
-    }
-
-    #filter {
-        background-color: #2B2E2B;
-        display: flex;
-        border-radius: 0.3rem;
-        padding: 0.4rem 0.4rem;
-        max-width: 100%;
-    }
-
-    #newsImg {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        width: 100%;
-    }
-    .imgExample {
-        border-radius: 1.5rem;
-        padding: 1rem;
-        width: 5em;
-        height: auto;
-        aspect-ratio: auto 1/1;
-    }
-    .navbarMobile {
-        position: fixed;
-        bottom: 2em;
-    }
-
-    .container {
+      &__news {
+        background-color: $bg-color;
         display: flex;
         justify-content: center;
-        padding-bottom: 10em;
-        min-height: 100vh;
+        flex-direction: column;
+        color: $text-color-white;
+        font-weight: bold;
+        border-radius: $border-radius;
+        font-size: 1.3rem;
+        &__filter {
+          display: flex;
+          align-items: center;
+          background-color: $filter-bg-color;
+          border-radius: $border-radius;
+          padding-left: 1rem;
+          box-shadow: $box-shadow;
+        }
+      }
     }
 
-    .trending {
+    }
+    @media (min-width: 601px) {
+    &__main {
+      padding: 3rem;
+      &__news {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      background-color: $section-color;
+      color: $text-color-white;
+      font-weight: bold;
+      border-radius: $border-radius;
+      &__title {
+        padding-top: 1rem;
+      }
+
+      &__filter {
         display: flex;
-        justify-content: center;
         align-items: center;
-        color: white;
-        border-radius: 0.5em;
-        background-color: #3D403D;
-        font-weight: 600;
-        padding: 0.4rem 0.8rem;
-    }
+        background-color: $filter-bg-color;
+        border-radius: $border-radius;
+        padding-left: 1rem;
+        box-shadow: $box-shadow;
+      }
+      }
 
-    .title {
-        font-size: medium;
-        font-weight: 500;
-        padding-top: 1.5em;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
     }
+  }
+}
 
-    .author {
-        padding-bottom: 1rem;
-        font-size: medium;
-        font-weight: 400;
-        opacity: 0.5;
-    }
+input {
+  background-color: $filter-bg-color;
+  padding-left: 0.5rem;
+  border-style: none;
+  height: 34px;
+  flex-grow: 1;
+}
 
-    .date {
-        text-align: left;
-        width: 100%;
-    }
-
-    input {
-        background-color: #2B2E2B;
-        border-style: none;
-        color: white;
-        font-weight: 600;
-        width: 60vw;
-    }
-
-    h3 {
-        color: white;
-        padding: 2rem 0rem;
-        font-size: 1.5em;
-    }
-
-    li {
-        list-style: none;
-        color: white;
-        width: 100%;
-    }
-
-    header {
-        display: flex;
-        width: 100%;
-    }
+::placeholder {
+    color: $filter-text-color;
+    opacity: 1;
+    font-weight: 600;
+}
 
 </style>
