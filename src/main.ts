@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import "./style.scss";
 import App from "./App.vue";
+import axios from "axios";
 import router from "./router";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import {
@@ -8,6 +9,7 @@ import {
   FaChartBar,
   FaPlayCircle,
   FaExchangeAlt,
+  IoSettingsSharp,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -16,6 +18,8 @@ export default {
   },
 };
 
-addIcons(FaHome, FaChartBar, FaPlayCircle, FaExchangeAlt);
+addIcons(FaHome, FaChartBar, FaPlayCircle, FaExchangeAlt, IoSettingsSharp);
+
+axios.defaults.withCredentials = true;
 
 createApp(App).component("v-icon", OhVueIcon).use(router).mount("#app");

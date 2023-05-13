@@ -16,11 +16,14 @@ type Response = {msg: string};
 
 async function login() {
   try {
-    axios.get(
-      `${envUrl}login?username=${username.value}&password=${password.value}`,
+    await axios.post(
+      `${envUrl}/login`, {
+        username: username.value,
+        password: password.value,
+      },
     );
     feedback.value = "";
-    router.push({ name:"Home" });
+    router.push({ name:"Dashboard" });
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as Response;
@@ -100,11 +103,10 @@ async function login() {
     .main_container {
         display:flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
         flex-direction: column;
         margin: 0;
         min-height: 100svh;
-        gap: 100px;
         background-color: $bg-color;
 
         &__logo {
@@ -112,6 +114,7 @@ async function login() {
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            margin: 0;
 
             &__title {
                 font-size: 48px;
