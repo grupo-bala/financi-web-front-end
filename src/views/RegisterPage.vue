@@ -19,7 +19,7 @@ type Response = {msg: string};
 
 async function postRegisterUser() {
   try {
-    axios.post(`${envUrl}/register`, {
+    await axios.post(`${envUrl}/register`, {
       name: name.value,
       email: email.value,
       password: password.value,
@@ -60,7 +60,7 @@ async function postRegisterUser() {
           required
           label="Email"
           type="Email"
-          placeholder="Digite sua e-mail"
+          placeholder="Digite seu e-mail"
           @is-correct="(correct: boolean) => isEmailCorrect = correct"
         />
         <Input
@@ -182,14 +182,16 @@ async function postRegisterUser() {
     flex-direction: column;
     min-height: 100svh;
     background-color: $bg-color;
+    padding: 50px;
 
     &__container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       max-width: 460px;
-      padding: 50px;
+      max-height: 500px;
+      gap: 2rem;
 
       &__title {
         color: $text-color-white;
@@ -200,8 +202,7 @@ async function postRegisterUser() {
       &__inputs {
         display: flex;
         flex-direction: column;
-        gap: 25px;
-        margin: 2rem 0 3rem 0;
+        gap: 1rem;
 
         &__error {
           color: $financi-red;
