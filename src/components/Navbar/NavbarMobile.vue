@@ -61,6 +61,10 @@
   background-color: #1E1E1E;
   box-shadow: $box-shadow;
   display: flex;
+  position: fixed;
+  bottom: 7px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   &_navButtons {
     display: flex;
