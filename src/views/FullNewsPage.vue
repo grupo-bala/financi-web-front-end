@@ -57,11 +57,11 @@ onMounted(async () => {
 <template>
   <main class="news">
     <div
-      class="new__content"
+      class="news__content"
     >
       <h1
         v-if="!isLoading"
-        class="new__content__title"
+        class="news__content__title"
       >
         {{ news.title }}
       </h1>
@@ -73,7 +73,7 @@ onMounted(async () => {
       />
       <h2
         v-if="!isLoading"
-        class="new__content__summary"
+        class="news__content__summary"
       >
         {{ news.summary }}
       </h2>
@@ -85,7 +85,7 @@ onMounted(async () => {
       />
       <p
         v-if="!isLoading"
-        class="new__content__author_date"
+        class="news__content__author_date"
       >
         Escrito por {{ news.author }} |
         {{ new Date(news.publishDate).toLocaleDateString("pt-BR") }}
@@ -96,9 +96,9 @@ onMounted(async () => {
         height="20px"
         class="skeletor"
       />
-      <hr class="new__content__line_break">
+      <hr class="news__content__line_break">
       <img
-        class="new__content__img"
+        class="news__content__img"
         :style="{ display: isImageLoading ? 'none' : 'block' }"
         :src="news.imgURL"
         alt="Imagem de capa da notícia"
@@ -112,7 +112,7 @@ onMounted(async () => {
       />
       <div
         v-if="!isLoading"
-        class="new__content__paragraphs"
+        class="news__content__paragraphs"
       >
         <p
           v-for="paragraph of news.content.split('\n')"
