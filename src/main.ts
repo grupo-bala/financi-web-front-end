@@ -33,4 +33,7 @@ addIcons(
 
 axios.defaults.withCredentials = true;
 
-createApp(App).component("v-icon", OhVueIcon).use(router).mount("#app");
+createApp(App)
+  .component("v-icon", OhVueIcon)
+  .use(router)
+  .mount("#app");
