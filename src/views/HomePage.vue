@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import NavbarMobile from "../components/Navbar/NavbarMobile.vue";
-import NavbarDesktop from "../components/Navbar/NavbarDesktop.vue";
 import { useMediaQuery } from "@vueuse/core";
 
 const isDesktop = useMediaQuery("(min-width: 1281px)");
@@ -12,9 +10,6 @@ const isDesktop = useMediaQuery("(min-width: 1281px)");
       v-if="isDesktop"
       class="main_content__desktop"
     >
-      <nav class="main_content__desktop__nav">
-        <NavbarDesktop />
-      </nav>
       <h1 class="main_content__title">
         Home
       </h1>
@@ -26,9 +21,6 @@ const isDesktop = useMediaQuery("(min-width: 1281px)");
       <h1 class="main_content__title">
         Home
       </h1>
-      <nav class="main_content__mobile__nav">
-        <NavbarMobile />
-      </nav>
     </div>
   </div>
 </template>
