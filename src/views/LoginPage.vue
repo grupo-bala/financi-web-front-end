@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useStorage } from "@vueuse/core";
 import axios, { AxiosError } from "axios";
 import Input from "../components/InputField.vue";
 import Button from "../components/ButtonComponent.vue";
@@ -12,6 +13,8 @@ const feedback = ref("");
 const isPasswordCorrect = ref(false);
 const isUsernameCorrect = ref(false);
 const envUrl = import.meta.env.VITE_API_URL!;
+const isLogged = useStorage("isLogged", false);
+
 type Response = {msg: string};
 
 async function login() {
@@ -22,6 +25,8 @@ async function login() {
         password: password.value,
       },
     );
+
+    isLogged.value = true;
     feedback.value = "";
     router.push({ name:"Dashboard" });
   } catch (error) {
