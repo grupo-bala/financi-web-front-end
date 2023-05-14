@@ -15,6 +15,8 @@ const routes = [
     component: () => import("../views/FullNewsPage.vue") },
   { path: "/ops", name: "NotFound",
     component: () => import("../views/NotFound.vue") },
+  { path: "/transactions", name: "Transactions",
+    component: () => import("../views/TransactionsPage.vue") },
   /**
    para adicionar novas rotas para outras páginas, faça isso de forma dinâmica
    ex:
