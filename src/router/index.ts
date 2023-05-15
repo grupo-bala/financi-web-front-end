@@ -22,9 +22,28 @@ const routes = [
   */
 ];
 
+const noAuthRoutes = [
+  "Login",
+  "Register",
+  "News",
+  "FullNews",
+  "NotFound",
+  "Home",
+];
+
 const router = createRouter({
   history: createWebHistory(""),
   routes,
+});
+
+router.beforeEach((to) => {
+  const isLogged = localStorage.getItem("isLogged");
+  if (
+    !noAuthRoutes.includes(to.name?.toString() ?? "") &&
+    isLogged !== "true"
+  ) {
+    router.push("Login");
+  }
 });
 
 export default router;
