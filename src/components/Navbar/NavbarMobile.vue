@@ -65,6 +65,7 @@
   bottom: 7px;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 10;
 
   &_navButtons {
     display: flex;
