@@ -106,7 +106,7 @@ function inputMask(value: string): string {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and ((min-width: 768px) and (min-height: 850px)) {
   .container {
     &__label {
       font-size: 1.1rem;

@@ -134,7 +134,11 @@ onMounted(() => {
 .form_container {
   display: flex;
   flex-direction: column;
-  gap: 2.3rem;
+  gap: 2rem;
+
+  &:last-child {
+    gap: 1rem;
+  }
 
   &__objective_and_date {
     display: flex;
@@ -151,12 +155,12 @@ onMounted(() => {
     color: $financi-red;
     font-weight: 500;
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 0.9rem;
     font-size: 0.9rem;
 
     &--placeholder {
       visibility: hidden;
-      margin-bottom: 10px;
+      margin-bottom: 0.9rem;
     }
   }
 
@@ -166,7 +170,7 @@ onMounted(() => {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and ((min-width: 768px) and (min-height: 850px)){
   .form_container {
     &__inputs_error {
       font-size: 1rem;

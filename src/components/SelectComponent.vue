@@ -125,7 +125,7 @@ const currentArrow = computed(() =>
   }
 }
 
-@media screen and (min-width:768px) {
+@media screen and ((min-width:768px) and (min-height: 850px)) {
   .select_container {
     &__label {
       font-size: 1.1rem;

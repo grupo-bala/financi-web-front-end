@@ -8,10 +8,10 @@ const isOpen = ref(true);
 <template>
   <div
     v-if="isOpen"
-    class="container"
+    class="box"
     @click.self="isOpen = !isOpen"
   >
-    <div class="container__card">
+    <div class="box__card">
       <h1>Titulo</h1>
       <FormPopup
         type="Goal"
@@ -23,7 +23,7 @@ const isOpen = ref(true);
 <style scoped lang="scss">
 @import "../variables.scss";
 
-.container {
+.box {
   display: flex;
   position: fixed;
   width: 100vw;
@@ -50,7 +50,7 @@ const isOpen = ref(true);
 }
 
 @media screen and (min-width: 768px) {
-  .container {
+  .box {
     align-items: center;
 
     &__card {

@@ -54,7 +54,7 @@ const getColor = computed(() => {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and ((min-width: 768px) and (min-height: 850px))   {
   .container {
     &__button {
       font-size: 1rem;

@@ -134,7 +134,9 @@ getNews();
                   :src="imgURL"
                   width="4rem"
                   height="4rem"
-                  img-class="container__main__aside__section__list__button__image"
+                  img-class="
+                    container__main__aside__section__list__button__image
+                  "
                 />
                 <div
                   class="container__main__aside__section__list__button__info"
