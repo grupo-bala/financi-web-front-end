@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
+import PopupComponent from "../components/PopupComponent.vue";
 
 const username = ref("");
 const greeting = ref("");
@@ -76,7 +77,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="main_container">
+  <section class="main_container">
     <div class="main_container__greetings">
       <div class="main_container__greetings__user_info">
         <img
@@ -177,7 +178,14 @@ onMounted(() => {
     <div class="main_container__lats_lessons">
       <h1>aulas</h1>
     </div>
-  </div>
+    <PopupComponent>
+      <h1>aaa</h1>
+      <p>aaa</p>
+      <p>aaa</p>
+      <p>aaa</p>
+      <p>aaa</p>
+    </PopupComponent>
+  </section>
 </template>
 
 <style scoped lang="scss">
@@ -186,9 +194,11 @@ onMounted(() => {
 .main_container {
   display: grid;
   grid-template-rows: repeat(5, min-content);
+  height: min-content;
+  width: 100% ;
+  max-width: 1280px;
   gap: 40px;
   padding: 30px;
-  min-height: 100svh;
   background-color: $bg-color;
   color: $text-color-white;
 
