@@ -13,6 +13,7 @@ interface NewsPreview {
   id: number;
 }
 
+const baseURL = import.meta.env.VITE_API_URL;
 const news = ref<NewsPreview[]>([]);
 const allNews = ref<NewsPreview[]>([]);
 const recommended = ref<NewsPreview[]>([]);
@@ -31,7 +32,7 @@ async function getNews() {
   isLoadingAll.value = true;
   const response =
     await axios
-      .get(`http://localhost:8080/get-all-news-preview?page=${currentPage.value}
+      .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}
       &size=10`);
   const json = response.data;
   howManyPages.value = json.pages;
@@ -42,7 +43,7 @@ async function getNews() {
 
 async function getRecommend() {
   const response =
-    await axios.get("http://localhost:8080/get-recommended-news-preview");
+    await axios.get(`${baseURL}/get-recommended-news-preview`);
   const json = response.data;
   recommended.value = json.data;
   isLoadingRecommended.value = false;
@@ -102,7 +103,7 @@ getNews();
           :is-loading="isLoadingAll"
           loading-width="100%"
           loading-height="112px"
-          :style="{ padding: '0.5rem 0' }"
+          :style="{ margin: '1rem 0' }"
         />
         <button
           class="container__main__news__more"
