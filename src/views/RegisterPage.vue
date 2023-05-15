@@ -110,6 +110,7 @@ async function postRegisterUser() {
         </p>
       </form>
       <Button
+        color="green"
         text="AVANÇAR"
         :disabled="name.length === 0 || !isPasswordCorrect || !isEmailCorrect"
         @click="isFirstStep = !isFirstStep"
@@ -164,6 +165,7 @@ async function postRegisterUser() {
           </p>
         </form>
         <Button
+          color="green"
           text="CADASTRAR"
           :disabled="username.length === 0"
           @click="postRegisterUser"

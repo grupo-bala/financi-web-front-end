@@ -13,6 +13,8 @@ import {
   IoSettingsSharp,
   MdVisibilityRound,
   MdVisibilityoffRound,
+  OiTriangleDown,
+  OiTriangleUp,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -29,7 +31,10 @@ addIcons(
   IoFilter,
   IoSettingsSharp,
   MdVisibilityRound,
-  MdVisibilityoffRound);
+  MdVisibilityoffRound,
+  OiTriangleDown,
+  OiTriangleUp,
+);
 
 axios.defaults.withCredentials = true;
 
