@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  type: "Email" | "Password" | "Text",
+  type: "Email" | "Password" | "Text" | "Date",
   label: string,
   placeholder: string,
   modelValue: string,
@@ -16,6 +16,7 @@ const regex = {
   Email: /^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/,
   Password: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).+$/,
   Text: /.?/,
+  Date: /.?/,
 };
 
 function inputMask(value: string): string {
@@ -76,32 +77,45 @@ function inputMask(value: string): string {
 </template>
 
 <style scoped lang="scss">
-  @import "../variables.scss";
+@import "../variables.scss";
 
+.container {
+
+  &__label {
+    color: $text-color-white;
+    font-size: 0.9em;
+    font-weight: 500;
+
+    &[data-required="true"]::after {
+      content: '*';
+      color: $financi-red;
+      margin-left: 2px;
+    }
+  }
+
+  &__input {
+    margin-top: 10px;
+    background: transparent;
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: $border-radius;
+    outline: none;
+    color:  $text-color-white;
+    font-size: 0.8em;
+  }
+}
+
+@media screen and (min-width: 768px) {
   .container {
-
     &__label {
-      color: $text-color-white;
-      font-size: 1.1em;
-      font-weight: 500;
-
-      &[data-required="true"]::after {
-        content: '*';
-        color: $financi-red;
-        margin-left: 2px;
-      }
+      font-size: 1.1rem;
     }
 
     &__input {
-      margin-top: 10px;
-      background: transparent;
-      width: 100%;
-      padding: 20px;
-      border: 1px solid gray;
-      border-radius: $border-radius;
-      outline: none;
-      color:  $text-color-white;
-      font-size: 1em;
+      padding: 1.5rem;
+      font-size: 1rem;
     }
   }
+}
 </style>
