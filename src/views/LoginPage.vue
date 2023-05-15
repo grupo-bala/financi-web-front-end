@@ -79,6 +79,7 @@ async function login() {
     </form>
     <div class="main_container__enter">
       <Button
+        color="green"
         text="ENTRAR"
         :disabled="password.length === 0 || username.length === 0"
         @click="login"
