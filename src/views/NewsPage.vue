@@ -3,43 +3,49 @@ import { ref } from "vue";
 import axios from "axios";
 import Logo from "../components/LogoFinanci.vue";
 import router from "../router/index";
+import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
+import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
 
 interface NewsPreview {
-    title: string;
-    publishDate: string;
-    imgURL: string;
-    id: number;
+  title: string;
+  publishDate: string;
+  imgURL: string;
+  id: number;
 }
 
 const news = ref<NewsPreview[]>([]);
 const allNews = ref<NewsPreview[]>([]);
 const recommended = ref<NewsPreview[]>([]);
 const howManyPages = ref<number>();
-const page :number = 1;
+const page = 1;
 const currentPage = ref(page);
+const isLoadingAll = ref(true);
+const isLoadingRecommended = ref(true);
 
 function seeMore() {
   currentPage.value++;
   getNews();
-
 }
 
 async function getNews() {
+  isLoadingAll.value = true;
   const response =
     await axios
       .get(`http://localhost:8080/get-all-news-preview?page=${currentPage.value}
-      &size=500`);
-  const json = await response.data;
+      &size=10`);
+  const json = response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
   allNews.value.push(...news.value);
+  isLoadingAll.value = false;
 }
 
 async function getRecommend() {
   const response =
     await axios.get("http://localhost:8080/get-recommended-news-preview");
-  const json = await response.data;
+  const json = response.data;
   recommended.value = json.data;
+  isLoadingRecommended.value = false;
 }
 
 getRecommend();
@@ -65,7 +71,7 @@ getNews();
             style="color: white"
           >
         </div>
-        <div v-if="news.length !== 0">
+        <div>
           <li
             v-for="{id, imgURL, publishDate, title } in allNews"
             :key="title"
@@ -75,11 +81,12 @@ getNews();
               class="container__main__news__list__button"
               @click="router.push(`/news/${id}`)"
             >
-              <img
+              <SuspenseImage
                 :src="imgURL"
-                alt="Imagem da notícia"
-                class="container__main__news__list__button__image"
-              >
+                width="5rem"
+                height="5rem"
+                img-class="container__main__news__list__button__image"
+              />
               <div class="container__main__news__list__button__info">
                 <p class="container__main__news__list__button__info__title">
                   {{ title }}
@@ -90,27 +97,31 @@ getNews();
               </div>
             </button>
           </li>
-          <button
-            class="container__main__news__more"
-            :disabled="howManyPages === currentPage"
-            @click="seeMore"
-          >
-            <h4>VER MAIS</h4>
-          </button>
         </div>
-        <div
-          v-else
-          class="container__main__news__empty"
+        <SuspenseBox
+          :is-loading="isLoadingAll"
+          loading-width="100%"
+          loading-height="112px"
+          :style="{ padding: '0.5rem 0' }"
+        />
+        <button
+          class="container__main__news__more"
+          :disabled="howManyPages === currentPage"
+          @click="seeMore"
         >
-          <h5> Ainda não há notícias...</h5>
-        </div>
+          <h4>VER MAIS</h4>
+        </button>
       </section>
-      <div>
-        <aside class="container__main__aside">
-          <h5>Recomendados</h5>
+      <aside class="container__main__aside">
+        <h5>Recomendados</h5>
+        <SuspenseBox
+          :is-loading="isLoadingRecommended"
+          loading-height="80px"
+          loading-width="100%"
+        >
           <section class="container__main__aside__section">
             <li
-              v-for="{id, imgURL, title } in recommended"
+              v-for="{ id, imgURL, title } in recommended"
               :key="title"
               class="container__main__aside__section__list"
             >
@@ -118,11 +129,12 @@ getNews();
                 class="container__main__aside__section__list__button"
                 @click="router.push(`/news/${id}`)"
               >
-                <img
+                <SuspenseImage
                   :src="imgURL"
-                  alt="Imagem da notícia"
-                  class="container__main__aside__section__list__button__image"
-                >
+                  width="4rem"
+                  height="4rem"
+                  img-class="container__main__aside__section__list__button__image"
+                />
                 <div
                   class="container__main__aside__section__list__button__info"
                 >
@@ -133,8 +145,8 @@ getNews();
               </button>
             </li>
           </section>
-        </aside>
-      </div>
+        </SuspenseBox>
+      </aside>
     </main>
     <footer>
       <Logo />
@@ -144,19 +156,18 @@ getNews();
 
 <style scoped lang="scss">
 @import "../variables.scss";
-
 .container {
   background-color: $bg-color;
   height: auto;
   min-height: 100vh;
 
     &__main {
-        padding: 2rem;
+        padding: 2rem 2rem 0 2rem;
         display: flex;
-        justify-content: start;
+        justify-content: center;
         align-items: start;
         height: auto;
-        overflow: hidden;
+        position: relative;
 
         &__news {
         background-color: $bg-color;
@@ -200,8 +211,10 @@ getNews();
             box-shadow: $filter-box-shadow;
             background-color: $section-color;
             color: $text-color-white;
-            &__image {
+
+            :deep &__image {
               width: 5rem;
+              height: 5rem;
               padding: 0.7rem;
               border-radius: 20px;
               object-fit: contain;
@@ -241,11 +254,11 @@ getNews();
 
 @media (max-width: 900px)  {
   aside {
-  display: none;
+    display: none;
   }
 }
 
-  @media (min-width: 901px) {
+  @media (min-width: 900px) {
   &__main {
     padding: 3rem;
     &__news {
@@ -261,10 +274,11 @@ getNews();
             &__info__title {
               padding-left: 1rem
             }
-            &__image {
+            :deep &__image {
               padding: 0;
               border-radius: 10px;
               max-height: 5rem;
+              max-width: 5rem;
             }
           }
         }
@@ -279,9 +293,15 @@ getNews();
         padding: 2rem 1.5rem 1.5rem 1.5rem;
         border-radius: $border-radius;
         list-style: none;
-        width: 80%;
+        position: sticky;
+        top: 2rem;
+        flex-grow: 1;
+
+        h5 {
+          margin-bottom: 1rem;
+        }
+
         &__section {
-          padding-top: 1rem;
           display: flex;
           flex-direction: column;
           &__list{
@@ -290,10 +310,11 @@ getNews();
               display: flex;
               background-color: transparent;
               color: $text-color-white;
-              &__image {
-                width: 5rem;
-                padding: 0.7rem;
-                border-radius: 20px;
+              :deep &__image {
+                width: 4rem;
+                height: 4rem;
+                margin: 0.5rem;
+                border-radius: $border-radius;
                 object-fit: contain;
               }
               &__info{
