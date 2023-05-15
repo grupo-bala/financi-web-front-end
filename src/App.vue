@@ -5,12 +5,19 @@ import NavBar from "./components/Navbar/ChosenNavbar.vue";
 </script>
 
 <template>
-  <div>
+  <div class="app_container">
     <NavBar />
     <router-view />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import "./variables.scss";
 
+@media (max-width: 800px) {
+  .app_container {
+    padding-bottom: 100px;
+    background-color: $bg-color;
+  }
+}
 </style>
