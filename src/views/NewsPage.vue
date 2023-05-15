@@ -1,39 +1,54 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axios from "axios";
-import Navbar from "../components/Navbar/ChosenNavbar.vue";
 import Logo from "../components/LogoFinanci.vue";
+import router from "../router/index";
 
 interface NewsPreview {
     title: string;
     publishDate: string;
     imgURL: string;
+    id: number;
 }
 
 const news = ref<NewsPreview[]>([]);
+const allNews = ref<NewsPreview[]>([]);
+const recommended = ref<NewsPreview[]>([]);
 const howManyPages = ref<number>();
 const page :number = 1;
-//const currentPage = ref(page);
+const currentPage = ref(page);
+
+function seeMore() {
+  currentPage.value++;
+  getNews();
+
+}
 
 async function getNews() {
   const response =
     await axios
-      .get(`http://localhost:8080/get-all-news-preview?page=${page}&size=5`);
+      .get(`http://localhost:8080/get-all-news-preview?page=${currentPage.value}
+      &size=500`);
   const json = await response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
-
+  allNews.value.push(...news.value);
 }
 
+async function getRecommend() {
+  const response =
+    await axios.get("http://localhost:8080/get-recommended-news-preview");
+  const json = await response.data;
+  recommended.value = json.data;
+}
+
+getRecommend();
 getNews();
 
 </script>
 
 <template>
   <div class="container">
-    <header>
-      <Navbar />
-    </header>
     <main class="container__main">
       <section class="container__main__news">
         <header class="container__main__news__title">
@@ -46,17 +61,20 @@ getNews();
           />
           <input
             type="search"
-            placeholder="Filtrar"
+            placeholder="Pesquisar"
             style="color: white"
           >
         </div>
         <div v-if="news.length !== 0">
           <li
-            v-for="{imgURL, publishDate, title } in news"
+            v-for="{id, imgURL, publishDate, title } in allNews"
             :key="title"
             class="container__main__news__list"
           >
-            <button class="container__main__news__list__button">
+            <button
+              class="container__main__news__list__button"
+              @click="router.push(`/news/${id}`)"
+            >
               <img
                 :src="imgURL"
                 alt="Imagem da notícia"
@@ -72,7 +90,11 @@ getNews();
               </div>
             </button>
           </li>
-          <button class="container__main__news__more">
+          <button
+            class="container__main__news__more"
+            :disabled="howManyPages === currentPage"
+            @click="seeMore"
+          >
             <h4>VER MAIS</h4>
           </button>
         </div>
@@ -83,22 +105,26 @@ getNews();
           <h5> Ainda não há notícias...</h5>
         </div>
       </section>
-      <div class="container__main__fixed">
-        <aside class="container__main__fixed__aside">
+      <div>
+        <aside class="container__main__aside">
           <h5>Recomendados</h5>
-          <section class="container__main__fixed__aside__section">
+          <section class="container__main__aside__section">
             <li
-              v-for="{imgURL, title } in news"
+              v-for="{id, imgURL, title } in recommended"
               :key="title"
+              class="container__main__aside__section__list"
             >
-              <button class="container__main__fixed__aside__section__button">
+              <button
+                class="container__main__aside__section__list__button"
+                @click="router.push(`/news/${id}`)"
+              >
                 <img
                   :src="imgURL"
                   alt="Imagem da notícia"
-                  class="container__main__fixed__aside__section__button__image"
+                  class="container__main__aside__section__list__button__image"
                 >
                 <div
-                  class="container__main__fixed__aside__section__button__info"
+                  class="container__main__aside__section__list__button__info"
                 >
                   <p>
                     {{ title }}
@@ -158,7 +184,6 @@ getNews();
           height: 2rem;
           border-radius: $border-radius;
           text-align: center;
-          flex-grow: 1;
           background-color: $financi-green;
           color: $text-color-white;
           margin-top: 1rem;
@@ -215,7 +240,7 @@ getNews();
   }
 
 @media (max-width: 900px)  {
-  footer, aside {
+  aside {
   display: none;
   }
 }
@@ -244,25 +269,26 @@ getNews();
           }
         }
       }
-      &__fixed {
-        &__aside {
-          position: fixed;
+      &__aside {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $section-color;
+        margin-left: 2rem;
+        color: $text-color-white;
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        border-radius: $border-radius;
+        list-style: none;
+        width: 80%;
+        &__section {
+          padding-top: 1rem;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          background-color: $section-color;
-          margin-left: 2rem;
-          color: $text-color-white;
-          padding: 2rem 1.5rem 1.5rem 1.5rem;
-          border-radius: $border-radius;
-          list-style: none;
-          max-width: 30%;
-          &__section {
-            padding-top: 1rem;
+          &__list{
+            border-top: $border-color;
             &__button {
               display: flex;
               background-color: transparent;
-              border-top: $border-color;
               color: $text-color-white;
               &__image {
                 width: 5rem;
@@ -277,6 +303,7 @@ getNews();
                 -webkit-line-clamp: 2;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                text-align: left;
               }
             }
           }
@@ -303,6 +330,9 @@ input {
 button {
   border: none;
   cursor: pointer;
+}
+:disabled {
+  visibility: hidden;
 }
 
 </style>
