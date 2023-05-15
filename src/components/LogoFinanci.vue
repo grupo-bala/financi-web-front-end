@@ -20,4 +20,9 @@
     padding: 1rem 0rem;
     margin-top: 1rem;
   }
+  @media (max-width: 900px)  {
+    div {
+      display: none;
+    }
+  }
 </style>
