@@ -3,8 +3,8 @@ import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import LogoFinanci from "../components/LogoFinanci.vue";
-import { Skeletor } from "vue-skeletor";
-import "vue-skeletor/dist/vue-skeletor.css";
+import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
+import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
 
 interface News {
   author: string;
@@ -26,7 +26,6 @@ const router = useRouter();
 const newsId = route.params.id;
 
 const isLoading = ref(true);
-const isImageLoading = ref(true);
 let news = reactive<News>({
   author: "",
   title: "",
@@ -59,74 +58,60 @@ onMounted(async () => {
     <div
       class="news__content"
     >
-      <h1
-        v-if="!isLoading"
-        class="news__content__title"
-      >
-        {{ news.title }}
-      </h1>
-      <Skeletor
-        v-else
-        width="100%"
-        height="100px"
-        class="skeletor"
-      />
-      <h2
-        v-if="!isLoading"
-        class="news__content__summary"
-      >
-        {{ news.summary }}
-      </h2>
-      <Skeletor
-        v-else
-        width="100%"
-        height="50px"
-        class="skeletor"
-      />
-      <p
-        v-if="!isLoading"
-        class="news__content__author_date"
-      >
-        Escrito por {{ news.author }} |
-        {{ new Date(news.publishDate).toLocaleDateString("pt-BR") }}
-      </p>
-      <Skeletor
-        v-else
-        width="30%"
-        height="20px"
-        class="skeletor"
-      />
-      <hr class="news__content__line_break">
-      <img
-        class="news__content__img"
-        :style="{ display: isImageLoading ? 'none' : 'block' }"
-        :src="news.imgURL"
-        alt="Imagem de capa da notícia"
-        @load="isImageLoading = false"
-      >
-      <Skeletor
-        v-if="isImageLoading"
-        width="100%"
-        height="600px"
-        class="skeletor"
-      />
-      <div
-        v-if="!isLoading"
-        class="news__content__paragraphs"
-      >
-        <p
-          v-for="paragraph of news.content.split('\n')"
-          :key="paragraph"
+      <div class="news__content__header">
+        <SuspenseBox
+          :is-loading="isLoading"
+          loading-width="100%"
+          loading-height="100px"
         >
-          {{ paragraph }}
-        </p>
+          <h1 class="news__content__header__title">
+            {{ news.title }}
+          </h1>
+        </SuspenseBox>
+        <SuspenseBox
+          :is-loading="isLoading"
+          loading-width="100%"
+          loading-height="50px"
+        >
+          <h2 class="news__content__header__summary">
+            {{ news.summary }}
+          </h2>
+        </SuspenseBox>
+        <SuspenseBox
+          :is-loading="isLoading"
+          loading-width="30%"
+          loading-height="20px"
+        >
+          <p class="news__content__header__author_date">
+            Escrito por {{ news.author }} |
+            {{ new Date(news.publishDate).toLocaleDateString("pt-BR") }}
+          </p>
+        </SuspenseBox>
+        <hr class="news__content__header__line_break">
       </div>
-      <Skeletor
-        v-else
-        width="100%"
-        height="100px"
-        class="skeletor"
-      />
+      <div class="news__content__inner">
+        <SuspenseImage
+          :src="news.imgURL"
+          img-class="news__content__inner__img"
+        />
+        <SuspenseBox
+          :is-loading="isLoading"
+          loading-width="100%"
+          loading-height="100px"
+        >
+          <div
+            v-if="!isLoading"
+            class="news__content__inner__paragraphs"
+          >
+            <p
+              v-for="paragraph of news.content.split('\n')"
+              :key="paragraph"
+            >
+              {{ paragraph }}
+            </p>
+          </div>
+        </SuspenseBox>
+      </div>
     </div>
     <LogoFinanci />
   </main>
@@ -148,41 +133,58 @@ onMounted(async () => {
   &__content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
-    max-width: 70ch;
     width: 100%;
 
-    &__summary {
-      font-size: 1rem;
-      font-weight: normal;
-      opacity: .8;
-      text-align: justify;
-    }
-
-    &__author_date {
-      font-weight: bold;
-      opacity: .6;
-    }
-
-    &__line_break {
-      margin-bottom: 20px;
-    }
-
-    &__img {
-      max-width: 100%;
-    }
-
-    &__paragraphs {
+    &__header {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-      font-size: 1rem;
-      text-align: justify;
+      gap: 1rem;
+      width: 80ch;
+      max-width: 100%;
+
+      &__title {
+        font-size: 2.5rem;
+      }
+
+      &__summary {
+        font-size: 1rem;
+        font-weight: normal;
+        opacity: .8;
+        text-align: justify;
+      }
+
+      &__author_date {
+        font-weight: bold;
+        opacity: .6;
+      }
+
+      &__line_break {
+        margin: 1rem 0;
+      }
+    }
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      max-width: 70ch;
+
+      :deep &__img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        margin-bottom: 1rem;
+      }
+
+      &__paragraphs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        font-size: 1rem;
+        text-align: justify;
+      }
     }
   }
-}
-
-.skeletor {
-  border-radius: 5px;
 }
 </style>
