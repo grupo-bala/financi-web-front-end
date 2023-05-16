@@ -4,9 +4,9 @@ import { ref, onMounted } from "vue";
 import PopupComponent from "../components/PopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
+import Greeting from "../components/GreetingCompenet.vue";
 
 const username = ref("");
-const greeting = ref("");
 const feedback = ref("");
 const amount = ref("");
 const visibility = ref(false);
@@ -21,31 +21,6 @@ type SuccessResponse = {
   fixedIncome: number,
   balance: number,
   email: string,
-}
-
-function setGreeting() {
-  const hours = {
-    hour: new Date().getHours(),
-    day: 0,
-    afternoon: 12,
-    night: 18,
-  };
-
-  if (hours.hour >= hours.day && hours.hour < hours.afternoon) {
-    greeting.value = "Bom dia!";
-  } else if (hours.hour >= hours.afternoon && hours.hour < hours.night) {
-    greeting.value = "Boa tarde!";
-  } else {
-    greeting.value = "Boa noite!";
-  }
-}
-
-function getGreetingAndsSetInterval() {
-  const interval = 900000;
-
-  setGreeting();
-
-  setInterval(setGreeting, interval);
 }
 
 function formatToMoney(value: string): string {
@@ -74,7 +49,6 @@ async function getUserInfos() {
 }
 
 onMounted(() => {
-  getGreetingAndsSetInterval();
   getUserInfos();
 });
 
@@ -83,35 +57,7 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="container__content">
-      <div class="container__content__greetings">
-        <div class="container__content__greetings__user_info">
-          <img
-            src="https://picsum.photos/500"
-            alt="user"
-            class="container__content__greetings__user_info__img"
-          >
-          <div class="container__content__greetings__user_info__content">
-            <p
-              class="
-                container__content__greetings__user_info__content__username
-              "
-            >
-              {{ username }}
-            </p>
-            <p
-              class="
-                container__content__greetings__user_info__content__greeting
-              "
-            >
-              {{ greeting }}
-            </p>
-          </div>
-        </div>
-        <v-icon
-          name="io-settings-sharp"
-          scale="1.5"
-        />
-      </div>
+      <Greeting :username="username" />
       <div class="container__content__balance">
         <div class="container__content__balance__top_content">
           <div class="container__content__balance__top_content__amount">
@@ -249,44 +195,6 @@ onMounted(() => {
     padding: 30px;
     background-color: $bg-color;
     color: $text-color-white;
-
-    &__greetings {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-
-      &__user_info {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        align-items: center;
-
-        &__img {
-          width: 65px;
-          height: 65px;
-          border: 3px solid $financi-green;
-          border-radius: 50%;
-        }
-
-        &__content {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-          font-size: 1.3em;
-
-          &__username {
-            font-weight: 600;
-          }
-
-          &__greeting {
-            font-weight: 400;
-            color: $text-color-gray;
-          }
-        }
-      }
-    }
 
     &__balance {
       display: flex;
