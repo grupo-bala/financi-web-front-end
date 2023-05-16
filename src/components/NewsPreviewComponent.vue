@@ -45,8 +45,6 @@ getNews();
       >
         <SuspenseImage
           :src="imgURL"
-          width="5rem"
-          height="5rem"
           img-class="list__button__image"
         />
         <div class="list__button__info">
@@ -62,7 +60,7 @@ getNews();
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import "../variables.scss";
 
 .list {
