@@ -3,13 +3,31 @@ import { ref } from "vue";
 import FormPopup from "./FormPopup.vue";
 
 const isOpen = ref(true);
+
+function disableScroll() {
+  const scrollY = window.scrollY;
+  document.body.classList.add("disable_scroll");
+  document.body.style.top = `-${scrollY}px`;
+}
+
+function enableScroll() {
+  const scrollY = document.body.style.top;
+  document.body.classList.remove("disable_scroll");
+  document.body.style.top = "";
+
+  const xPos = 0;
+  const toNegative = -1;
+  window.scrollTo(xPos, Number(scrollY || "0") * toNegative);
+}
+
+disableScroll();
 </script>
 
 <template>
   <div
     v-if="isOpen"
     class="box"
-    @click.self="isOpen = !isOpen"
+    @click.self="[enableScroll(), isOpen = !isOpen]"
   >
     <div class="box__card">
       <h1>Titulo</h1>
@@ -22,6 +40,12 @@ const isOpen = ref(true);
 
 <style scoped lang="scss">
 @import "../variables.scss";
+
+:global(body.disable_scroll) {
+  height: 100vh;
+  overflow-y: hidden;
+  position: fixed;
+}
 
 .box {
   display: flex;
