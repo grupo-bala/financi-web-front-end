@@ -41,7 +41,7 @@ getAllTransaction();
 </script>
 
 <template>
-  <div class="main_container" style="color: white">
+  <div class="main_container">
     <div class="main_container__transactions_box">
       <div class="main_container__transactions_box__title_filter">
         <h1 class="main_container__transactions_box__title_filter__text">
@@ -100,6 +100,7 @@ getAllTransaction();
 
     .main_container {
         display: flex;
+        color: $text-color-white;
         align-items: center;
         justify-content: space-evenly;
         flex-direction: column;
