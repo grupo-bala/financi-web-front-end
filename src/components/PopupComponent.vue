@@ -15,7 +15,6 @@ const divSizeInPx = computed(() => `${divSize.value}px`);
 const actualType = ref<Tab>(props.type ?? "Income");
 const isOpen = ref(true);
 
-
 const inElement = ref<ElementRef>(null);
 const outElement = ref<ElementRef>(null);
 const goalElement = ref<ElementRef>(null);
