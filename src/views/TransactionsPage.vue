@@ -5,11 +5,12 @@ import Transaction from "../components/TransactionComponent.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Filter from "../components/FilterButton.vue";
 import TextBox from "../components/TextBox.vue";
-import axios, { AxiosError } from "axios";
+//import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const envUrl = import.meta.env.VITE_API_URL!;
-const feedback = ref("");
-type Response = {msg: string};
+const page = 1;
+const currentPage = ref(page);
 
 interface TransactionsPreview {
     titleTransaction: string;
@@ -23,16 +24,16 @@ const howManyPages = ref<number>();
 
 async function getAllTransaction() {
   const response = await axios.get(
-    `${envUrl}/get-all-transactions-preview?page=1&size=4`);
-  feedback.value = "";
+    `${envUrl}/get-all-transactions-preview?page=${currentPage.value}
+      &size=10`);
   const json = await response.data;
   howManyPages.value = json.pages;
   transactions.value = json.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    const response = axiosError.response?.data as Response;
-    feedback.value = response.msg;
-  }
+}
+
+function seeMore() {
+  currentPage.value++;
+  getAllTransaction();
 }
 
 getAllTransaction();
@@ -56,11 +57,13 @@ getAllTransaction();
           text="Recentes"
         />
         <li
-          v-for="{valueAmount,
-                  titleTransaction,
-                  publishDate,
-                  imgCategory} in transactions"
-          :key="titleTransaction"
+          v-for="{
+            valueAmount,
+            titleTransaction,
+            publishDate,
+            imgCategory} in transactions"
+          :key="valueAmount"
+          class="main_container__transactions_box__display__transactions-list"
         >
           <Transaction
             :title="titleTransaction"
@@ -75,70 +78,17 @@ getAllTransaction();
           category="Payments"
           :value="2000.00"
         />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
         <TextBox
           class="main_container__transactions_box__display__textBox"
           text="Outros dias"
         />
+        <button
+          class="main_container__transactions_box__display__seeMore-button"
+          :disabled="howManyPages === currentPage"
+          @click="seeMore"
+        >
+          See More
+        </button>
       </div>
     </div>
     <Logo />
@@ -154,38 +104,39 @@ getAllTransaction();
         justify-content: space-evenly;
         flex-direction: column;
         margin: 0;
-        min-height: 100svh;
+        min-height: 100vh;
         background-color: $bg-color; //realColor
         //background-color: pink; //help
 
         &__transactions_box {
             height: auto;
             border-radius: 15px;
+            justify-content: space-evenly;
             //background-color: green; //help
             display: flex; //novo
             flex-direction: column;
 
             @media (min-width: 320px) {
-            //  background-color: $bg-color; //realColor
+            background-color: $bg-color; //realColor
               width: 412px;
             }
             @media (min-width: 600px) {
-            //  background-color: $card-bg-color; //realColor
+            background-color: $card-bg-color; //realColor
               width: 688px;
             }
             @media (min-width: 1444px) {
-            //  background-color: $card-bg-color; //realColor
+            background-color: $card-bg-color; //realColor
               width: 1500px;
             }
 
             &__display {
               display: flex;
-              flex-direction: column;
               gap: 15px;
+              flex-direction: column;
               align-items: left;
               height: auto; //new height
               //background-color: blue; //help
-              margin-bottom: 27px;
+              margin-bottom: 20px;
 
               &__textBox {
                 margin-top: 83px;
@@ -194,6 +145,37 @@ getAllTransaction();
                 @media (min-width: 320px) {
                   margin-top: 27px;
                 }
+              }
+
+              &__seeMore-button {
+                border-color: $financi-green;
+                background-color: $financi-green;
+                color: $financi-green;
+                color: $text-color-white;
+                border-radius: 5px;
+                cursor:pointer;
+
+                &:disabled {
+                  cursor: not-allowed;
+                  opacity: 0.6;
+                }
+
+                @media (min-width: 320px) {
+                  width: 362px;
+                  height: 41px;
+                }
+                @media (min-width: 600px) {
+                  width: 618px;
+                  height: 31px;
+                }
+                @media (min-width: 1444px) {
+                  width: 1425px;
+                  height: 31px;
+                }
+              }
+
+              &__transactions-list {
+                list-style: none;
               }
 
               @media (min-width: 320px) {
