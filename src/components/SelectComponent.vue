@@ -4,9 +4,15 @@ import { ref, computed } from "vue";
 defineEmits<{
   (e: "update:selected", value: string): void,
 }>();
-defineProps<{ items: string[]; selected: string }>();
+const props = defineProps<{ items: string[]; selected: string }>();
 
 const opened = ref(false);
+const style = computed(() => {
+  const opacityFull = 1;
+  const placeholderOpacity = 0.6;
+
+  return `opacity: ${props.selected ? opacityFull : placeholderOpacity}`;
+});
 
 const currentArrow = computed(() =>
   opened.value ? "oi-triangle-down" : "oi-triangle-up",
@@ -28,10 +34,11 @@ const currentArrow = computed(() =>
       <button
         class="select_container__content__button"
         :data-opened="opened"
+        :style="style"
         @blur="opened = false"
         @click="opened = !opened"
       >
-        {{ selected }}
+        {{ selected || "Selecione uma categoria" }}
         <v-icon :name="currentArrow" />
       </button>
       <div
