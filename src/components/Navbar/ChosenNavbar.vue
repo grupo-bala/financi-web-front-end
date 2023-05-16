@@ -4,19 +4,20 @@ import NavbarDesktop from "./NavbarDesktop.vue";
 import NavbarMobile from "./NavbarMobile.vue";
 import NotLoggedNavBar from "./NotLoggedNavBar.vue";
 import { useStorage } from "@vueuse/core";
-import { useRoute } from "vue-router";
 import router from "../../router";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const isDesktop = ref(useMediaQuery("(min-width: 800px)"));
-const route = useRoute();
 const skipRoutes = ["Login", "Register"];
 const isLogged = useStorage("isLogged", false);
 const isWindowLoaded = ref(false);
 const isInSkipRoutes = ref(true);
+const currentRoute = router.currentRoute;
 
-router.isReady().then(() => {
-  isInSkipRoutes.value = skipRoutes.includes(route.name!.toString());
+watch(currentRoute, () => {
+  isInSkipRoutes.value = skipRoutes.includes(
+    currentRoute.value.name!.toString(),
+  );
 
   if (isInSkipRoutes.value) {
     window.addEventListener("load", () => {

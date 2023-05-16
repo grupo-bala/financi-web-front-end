@@ -15,6 +15,7 @@ const divSizeInPx = computed(() => `${divSize.value}px`);
 const actualType = ref<Tab>(props.type ?? "Income");
 const isOpen = ref(true);
 
+
 const inElement = ref<ElementRef>(null);
 const outElement = ref<ElementRef>(null);
 const goalElement = ref<ElementRef>(null);
@@ -51,13 +52,31 @@ watch(actualType, () => {
 onMounted(() => {
   calcDivWidth();
 });
+
+function disableScroll() {
+  const scrollY = window.scrollY;
+  document.body.classList.add("disable_scroll");
+  document.body.style.top = `-${scrollY}px`;
+}
+
+function enableScroll() {
+  const scrollY = document.body.style.top;
+  document.body.classList.remove("disable_scroll");
+  document.body.style.top = "";
+
+  const xPos = 0;
+  const toNegative = -1;
+  window.scrollTo(xPos, Number(scrollY || "0") * toNegative);
+}
+
+disableScroll();
 </script>
 
 <template>
   <div
     v-if="isOpen"
     class="box"
-    @click.self="[isOpen = !isOpen, $emit('close')]"
+    @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
   >
     <div class="box__card">
       <div class="box__card__titles">
@@ -142,6 +161,12 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "../variables.scss";
+
+:global(body.disable_scroll) {
+  height: 100vh;
+  overflow-y: hidden;
+  position: fixed;
+}
 
 .box {
   display: flex;
