@@ -21,6 +21,7 @@ import {
   MdPaymentsRound,
   MdFoodbankRound,
   FaGifts,
+  MdError,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -46,6 +47,7 @@ addIcons(
   MdPaymentsRound,
   MdFoodbankRound,
   FaGifts,
+  MdError,
 );
 
 axios.defaults.withCredentials = true;
