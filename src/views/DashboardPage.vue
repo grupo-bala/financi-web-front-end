@@ -2,6 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
 import PopupComponent from "../components/PopupComponent.vue";
+import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 
 const username = ref("");
@@ -10,6 +11,8 @@ const feedback = ref("");
 const amount = ref("");
 const visibility = ref(false);
 const envUrl = import.meta.env.VITE_API_URL;
+const popupIsOpen = ref(false);
+const currentOperation = ref<"Income" | "Out" | "Goal">();
 
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
@@ -177,6 +180,34 @@ onMounted(() => {
             </p>
           </div>
         </div>
+        <div class="container__content__balance__quick_actions_container">
+          <h2
+            class="container__content__balance__quick_actions_container__title"
+          >
+            Acesso rápido
+          </h2>
+          <div
+            class="container__content__balance__quick_actions_container__button"
+          >
+            <DashboarButton
+              type="Out"
+              @click="[popupIsOpen = true, currentOperation = 'Out']"
+            />
+            <DashboarButton
+              type="Income"
+              @click="[popupIsOpen = true, currentOperation = 'Income']"
+            />
+            <DashboarButton
+              type="Goal"
+              @click="[popupIsOpen = true, currentOperation = 'Goal']"
+            />
+          </div>
+          <PopupComponent
+            v-if="popupIsOpen"
+            :type="currentOperation"
+            @close="popupIsOpen = false"
+          />
+        </div>
       </div>
       <div class="container__content__last_transactions">
         <h1>ultimas transações</h1>
@@ -190,7 +221,6 @@ onMounted(() => {
       <div class="container__content__lats_lessons">
         <h1>aulas</h1>
       </div>
-      <PopupComponent />
     </div>
     <footer>
       <Logo />
@@ -356,19 +386,57 @@ onMounted(() => {
           }
         }
       }
+
+      &__quick_actions_container {
+        display: none;
+      }
     }
+  }
+}
 
-    // &__last_transactions {
-    // }
+@media screen and (min-width: 800px) {
+  .container {
+    &__content {
+      &__balance {
+        display: grid;
+        grid-template-columns: 0.9fr auto;
+        grid-template-rows: 1fr 1fr;
+        gap: 0 20px;
+        transition: all 1s;
 
-    // &__goals {
-    // }
+        &__top_content {
+          grid-column: 1 / 2;
+          grid-row: 1 / 2;
+        }
 
-    // &__news {
-    // }
+        &__bottom_content {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
 
-    // &__last_lessons {
-    // }
+        &__quick_actions_container {
+          display: grid;
+          height: 100%;
+          grid-template-rows: auto 1fr;
+          grid-column: 2 / 3;
+          grid-row: 1 / 3;
+          border: 0 solid $financi-green;
+          border-width: 0 0 0 5px;
+          padding-left: 20px;
+
+          &__title {
+            font-size: 20px;
+            margin-bottom: 20px;
+          }
+
+          &__button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+      }
+    }
   }
 }
 </style>

@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import PopupComponent from "../PopupComponent.vue";
+
+const popupIsOpen = ref(false);
+</script>
 
 <template>
   <div class="container">
@@ -23,7 +29,15 @@
         />
       </router-link>
 
-      <button>
+      <button
+        @click="popupIsOpen = true"
+      >
+        <Teleport to="body">
+          <PopupComponent
+            v-if="popupIsOpen"
+            @close="popupIsOpen = false"
+          />
+        </Teleport>
         <div class="container_navButtons_addButton">
           +
         </div>
