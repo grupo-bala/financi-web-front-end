@@ -13,7 +13,7 @@ const routes = [
     component: () => import("../views/DashboardPage.vue") },
   { path: "/news/:id", name: "FullNews",
     component: () => import("../views/FullNewsPage.vue") },
-  { path: "/ops", name: "NotFound",
+  { path: "/ops", name: "Ops",
     component: () => import("../views/NotFound.vue") },
   { path: "/transactions", name: "Transactions",
     component: () => import("../views/TransactionsPage.vue") },
