@@ -10,6 +10,7 @@ const username = ref("");
 const feedback = ref("");
 const amount = ref("");
 const visibility = ref(false);
+/* Criar instancia do axios em outro arquivo */
 const envUrl = import.meta.env.VITE_API_URL;
 const popupIsOpen = ref(false);
 const currentOperation = ref<"Income" | "Out" | "Goal">();
