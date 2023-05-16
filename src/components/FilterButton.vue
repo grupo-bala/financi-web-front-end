@@ -31,9 +31,12 @@
         width: 362px;
         height: 41px;
       }
-
       @media (min-width: 600px) {
         width: 618px;
+        height: 31px;
+      }
+      @media (min-width: 1444px) {
+        width: 1425px;
         height: 31px;
       }
     }
