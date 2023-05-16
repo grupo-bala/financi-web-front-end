@@ -15,6 +15,12 @@ import {
   MdVisibilityoffRound,
   OiTriangleDown,
   OiTriangleUp,
+  FaBriefcaseMedical,
+  MdSchoolRound,
+  MdErroroutlineRound,
+  MdPaymentsRound,
+  MdFoodbankRound,
+  FaGifts,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -34,6 +40,12 @@ addIcons(
   MdVisibilityoffRound,
   OiTriangleDown,
   OiTriangleUp,
+  FaBriefcaseMedical,
+  MdSchoolRound,
+  MdErroroutlineRound,
+  MdPaymentsRound,
+  MdFoodbankRound,
+  FaGifts,
 );
 
 axios.defaults.withCredentials = true;
