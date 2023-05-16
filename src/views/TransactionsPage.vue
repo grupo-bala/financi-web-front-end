@@ -103,30 +103,28 @@ getAllTransaction();
         color: $text-color-white;
         align-items: center;
         justify-content: space-evenly;
+        background-color: $bg-color;
         flex-direction: column;
         margin: 0;
         min-height: 100vh;
-        background-color: $bg-color; //realColor
-        //background-color: pink; //help
 
         &__transactions_box {
             height: auto;
             border-radius: 15px;
             justify-content: space-evenly;
-            //background-color: green; //help
-            display: flex; //novo
+            display: flex;
             flex-direction: column;
 
             @media (min-width: 320px) {
-            background-color: $bg-color; //realColor
+              background-color: $bg-color; //realColor
               width: 412px;
             }
             @media (min-width: 600px) {
-            background-color: $card-bg-color; //realColor
+              background-color: $card-bg-color; //realColor
               width: 688px;
             }
             @media (min-width: 1444px) {
-            background-color: $card-bg-color; //realColor
+              background-color: $card-bg-color; //realColor
               width: 1500px;
             }
 
@@ -136,7 +134,6 @@ getAllTransaction();
               flex-direction: column;
               align-items: left;
               height: auto; //new height
-              //background-color: blue; //help
               margin-bottom: 20px;
 
               &__textBox {
@@ -180,11 +177,15 @@ getAllTransaction();
               }
 
               @media (min-width: 320px) {
-                width: 412px;
+                width: 385px;
                 margin-left: 25px;
               }
               @media (min-width: 600px) {
-                width: 688px;
+                width: 652px;
+                margin-left: 35px;
+              }
+              @media (min-width: 1444px) {
+                width: 1425px;
                 margin-left: 35px;
               }
 
@@ -197,8 +198,7 @@ getAllTransaction();
                 flex-direction: column;
                 border-radius: 15px;
                 padding: 10px;
-                margin-top: 33px; //new
-                //background-color: yellow; //help
+                margin-top: 33px;
 
                 @media (max-width: 599px) {
                   align-items: center;
