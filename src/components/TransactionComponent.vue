@@ -37,7 +37,7 @@ function getCategoryIcon(): string {
     newCategory = "md-school-round";
     break;
   default:
-    newCategory = "md-error-outline-round";
+    newCategory = "md-error";
     break;
   }
   return newCategory;

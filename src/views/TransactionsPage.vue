@@ -22,13 +22,12 @@ const transactions = ref<TransactionsPreview[]>([]);
 const howManyPages = ref<number>();
 
 async function getAllTransaction() {
-  try {
-    const response = await axios.post(
-      `${envUrl}/get-all-transactions-preview?page=1&size=4`);
-    feedback.value = "";
-    const json = await response.data;
-    howManyPages.value = json.pages;
-    transactions.value = json.data;
+  const response = await axios.get(
+    `${envUrl}/get-all-transactions-preview?page=1&size=4`);
+  feedback.value = "";
+  const json = await response.data;
+  howManyPages.value = json.pages;
+  transactions.value = json.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as Response;
