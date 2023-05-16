@@ -12,13 +12,13 @@
     <div class="container__navbuttons">
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/dashboard"
       >
         Início
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/transactions"
       >
         Transações
       </router-link>

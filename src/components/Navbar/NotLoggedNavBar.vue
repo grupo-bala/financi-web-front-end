@@ -12,13 +12,13 @@
     <div class="container__navbuttons">
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/login"
       >
         Entrar
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/register"
       >
         Registrar
       </router-link>

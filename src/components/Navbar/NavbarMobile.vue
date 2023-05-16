@@ -19,7 +19,7 @@ const popupIsOpen = ref(false);
         />
       </router-link>
       <router-link
-        to="/"
+        to="/transactions"
         class="container_navButtons_transaction"
       >
         <v-icon
@@ -53,7 +53,7 @@ const popupIsOpen = ref(false);
         />
       </router-link>
       <router-link
-        to="/"
+        to="/news"
         class="container_navButtons_chart"
       >
         <v-icon
