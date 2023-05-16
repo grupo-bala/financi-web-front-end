@@ -15,6 +15,9 @@ import {
   MdVisibilityoffRound,
   OiTriangleDown,
   OiTriangleUp,
+  BiPlusCircle,
+  PrMinusCircle,
+  CoCheckCircle,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -34,6 +37,9 @@ addIcons(
   MdVisibilityoffRound,
   OiTriangleDown,
   OiTriangleUp,
+  BiPlusCircle,
+  PrMinusCircle,
+  CoCheckCircle,
 );
 
 axios.defaults.withCredentials = true;
