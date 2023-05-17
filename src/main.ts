@@ -24,6 +24,9 @@ import {
   MdPaymentsRound,
   MdFoodbankRound,
   FaGifts,
+  GiPopcorn,
+  GiClothes,
+  GiComb,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -52,6 +55,9 @@ addIcons(
   MdPaymentsRound,
   MdFoodbankRound,
   FaGifts,
+  GiPopcorn,
+  GiClothes,
+  GiComb,
 );
 
 axios.defaults.withCredentials = true;
