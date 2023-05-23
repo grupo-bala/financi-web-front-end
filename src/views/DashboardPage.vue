@@ -5,6 +5,7 @@ import PopupComponent from "../components/PopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Greeting from "../components/GreetingCompenet.vue";
+import MovimentsInfo from "../components/MovimentsInfo.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -15,7 +16,7 @@ const envUrl = import.meta.env.VITE_API_URL;
 const popupIsOpen = ref(false);
 const currentOperation = ref<"Income" | "Out" | "Goal">();
 
-type ErrorResponse = {msg: string};
+type ErrorResponse = { msg: string };
 type SuccessResponse = {
   name: string,
   username: string,
@@ -98,34 +99,14 @@ onMounted(() => {
           />
         </div>
         <div class="container__content__balance__bottom_content">
-          <div class="container__content__balance__bottom_content__incomes">
-            <p
-              class="
-                container__content__balance__bottom_content__incomes__title
-              "
-            >
-              Entradas
-            </p>
-            <p
-              class="
-                container__content__balance__bottom_content__incomes__value
-              "
-            >
-              {{ formatToMoney(amount) }}
-            </p>
-          </div>
-          <div class="container__content__balance__bottom_content__outs">
-            <p
-              class="container__content__balance__bottom_content__outs__title"
-            >
-              Saídas
-            </p>
-            <p
-              class="container__content__balance__bottom_content__outs__value"
-            >
-              {{ formatToMoney(amount) }}
-            </p>
-          </div>
+          <MovimentsInfo
+            type="Income"
+            :value="formatToMoney(amount)"
+          />
+          <MovimentsInfo
+            type="Out"
+            :value="formatToMoney(amount)"
+          />
         </div>
         <div class="container__content__balance__quick_actions_container">
           <h2
@@ -190,7 +171,7 @@ onMounted(() => {
     display: grid;
     grid-template-rows: repeat(5, min-content);
     height: auto;
-    width: 100% ;
+    width: 100%;
     max-width: 1280px;
     gap: 40px;
     padding: 30px;
@@ -244,56 +225,6 @@ onMounted(() => {
         border-top: 1px solid rgba(128, 128, 128, 0.63);
         padding-top: 20px;
         width: 100%;
-
-        &__incomes {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 45%;
-          gap: 10px;
-          padding: 10px;
-          background-color: $child-card-bg-color;
-          box-shadow: $box-shadow;
-          border-radius: 5px;
-
-          &__title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: $text-color-gray;
-          }
-
-          &__value {
-            font-size: 1.1rem;
-            color: $financi-green;
-            font-weight: 700;
-          }
-        }
-
-        &__outs {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 45%;
-          gap: 10px;
-          padding: 15px;
-          background-color: $child-card-bg-color;
-          box-shadow: $box-shadow;
-          border-radius: 5px;
-
-          &__title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: $text-color-gray;
-          }
-
-          &__value {
-            font-size: 1.1rem;
-            color: $financi-red;
-            font-weight: 700;
-          }
-        }
       }
 
       &__quick_actions_container {
