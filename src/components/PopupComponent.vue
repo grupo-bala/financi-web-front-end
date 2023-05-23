@@ -48,6 +48,12 @@ watch(actualType, () => {
   calcDivWidth();
 });
 
+watch(isOpen, () => {
+  if (!isOpen.value) {
+    enableScroll();
+  }
+});
+
 onMounted(() => {
   calcDivWidth();
 });
