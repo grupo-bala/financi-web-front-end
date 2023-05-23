@@ -69,7 +69,7 @@ async function setPostType() {
 async function postGoal() {
   try {
     await axios.post(`${envUrl}/add-goal`, {
-      totalValue: value.value,
+      totalValue: Number(value.value.replace(".", "").replace(",", ".")),
       title: title.value,
       deadline: new Date(date.value),
     });
