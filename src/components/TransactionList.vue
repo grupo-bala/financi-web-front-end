@@ -171,9 +171,9 @@ getTransactions();
       :quantity="props.quantity"
     />
     <button
-      v-if="props.showLoadMore"
+      v-if="props.showLoadMore && totalPages !== page"
+      :disabled="isLoading"
       class="transactions_list__"
-      :disabled="totalPages === page || isLoading"
       @click="getTransactions()"
     >
       <h4>VER MAIS</h4>
