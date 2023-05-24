@@ -262,7 +262,8 @@ onMounted(() => {
           grid-row: 1 / 3;
           border: 0 solid $financi-green;
           border-width: 0 0 0 5px;
-          padding-left: 20px;
+          padding-left: 50px;
+          margin-left: 25px;
 
           &__title {
             font-size: 20px;
