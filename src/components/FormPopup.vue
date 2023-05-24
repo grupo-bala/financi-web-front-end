@@ -5,12 +5,12 @@ import InputField from "../components/InputField.vue";
 import SelectComponent from "../components/SelectComponent.vue";
 import ButtonComponent from "./ButtonComponent.vue";
 
-const description = ref("");
+const title = ref("");
 const value = ref("");
 const date = ref("");
 const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
-const selected = ref("teste");
+const selected = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
@@ -35,6 +35,13 @@ const props = defineProps<{
   type: "Income" | "Out" | "Goal"
 }>();
 
+const emits = defineEmits<{
+  (e: "success", value: boolean): boolean
+}>();
+
+const typeLabelMoney = props.type === "Goal" ? "Objetivo" : "Valor";
+const typeLabelDate = props.type === "Goal" ? "Data limite" : "Data";
+
 function getItensCategory() {
   return itensCategory.value.map((category) => category.name);
 }
@@ -51,6 +58,51 @@ async function getCategories() {
   }
 }
 
+async function setPostType() {
+  if (props.type === "Goal") {
+    postGoal();
+  } else {
+    postTransaction();
+  }
+}
+
+async function postGoal() {
+  try {
+    await axios.post(`${envUrl}/add-goal`, {
+      totalValue: value.value,
+      title: title.value,
+      deadline: new Date(date.value),
+    });
+    emits("success", true);
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const response = axiosError.response?.data as ErrorResponse;
+    feedback.value = response.msg;
+    emits("success", false);
+  }
+}
+
+async function postTransaction() {
+  try {
+    await axios.post(`${envUrl}/add-transaction`, {
+      value: Number(value.value.replace(".", "").replace(",", ".")),
+      date: new Date(date.value),
+      categoryId: itensCategory.value.find((category) => {
+        return category.name === selected.value;
+      })?.id,
+      title: title.value,
+      description: "",
+      isEntry: props.type === "Income" ? true : false,
+    });
+    emits("success", true);
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const response = axiosError.response?.data as ErrorResponse;
+    feedback.value = response.msg;
+    emits("success", false);
+  }
+}
+
 onMounted(() => {
   getCategories();
 });
@@ -59,9 +111,9 @@ onMounted(() => {
 <template>
   <div class="form_container">
     <InputField
-      v-model="description"
+      v-model="title"
       type="Text"
-      label="Descrição"
+      label="Titulo"
       placeholder="Digite uma descrição"
       required
       :numeric="false"
@@ -70,7 +122,7 @@ onMounted(() => {
       <InputField
         v-model="value"
         type="Text"
-        label="Objetivo"
+        :label="typeLabelMoney"
         placeholder="R$ 00,00"
         required
         numeric
@@ -79,7 +131,7 @@ onMounted(() => {
         v-model="date"
         class="form_container__objective_and_date__date"
         type="Date"
-        label="Data limite"
+        :label="typeLabelDate"
         placeholder="dd/mm/aaaa"
         required
         :numeric="false"
@@ -92,22 +144,28 @@ onMounted(() => {
     />
     <div class="form_container__inputs_error">
       <p
-        v-if="description.length === 0"
+        v-if="title.length === 0"
         class="form_container__inputs_error"
       >
-        Descrição não preenchida
+        Título não preenchido
       </p>
       <p
         v-else-if="value.length === 0"
         class="form_container__inputs_error"
       >
-        Objetivo não preenchido
+        {{ typeLabelMoney + " não está preenchido" }}
       </p>
       <p
         v-else-if="date.length === 0"
         class="form_container__inputs_error"
       >
         Data não preenchida
+      </p>
+      <p
+        v-else-if="selected.length === 0"
+        class="form_container__inputs_error"
+      >
+        Categoria não selecionada
       </p>
       <p
         v-else
@@ -120,9 +178,11 @@ onMounted(() => {
       <ButtonComponent
         :color="getColor"
         text="ADICIONAR"
-        :disabled="description.length == 0
+        :disabled="title.length == 0
           || value.length == 0
-          || date.length == 0"
+          || date.length == 0
+          || selected.length == 0"
+        @click="setPostType"
       />
     </div>
   </div>

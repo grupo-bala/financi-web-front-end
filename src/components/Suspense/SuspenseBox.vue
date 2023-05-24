@@ -6,6 +6,7 @@ const props = defineProps<{
   isLoading: boolean,
   loadingWidth: number | string,
   loadingHeight: number | string,
+  quantity?: number,
   circle?: boolean,
   pill?: boolean,
 }>();
@@ -13,17 +14,23 @@ const props = defineProps<{
 
 <template>
   <div
-    :style="{
-      width: isLoading ? props.loadingWidth : 'auto',
-      height: isLoading ? props.loadingHeight : 'auto',
-    }"
+    :class="isLoading ? 'suspense' : ''"
   >
-    <Skeletor
-      v-if="props.isLoading"
-      :width="props.loadingWidth"
-      :height="props.loadingHeight"
-      class="skeletor"
-    />
+    <div
+      v-for="i of props.quantity ?? 1"
+      :key="i"
+      :style="{
+        width: isLoading ? props.loadingWidth : 'auto',
+        height: isLoading ? props.loadingHeight : 'auto',
+      }"
+    >
+      <Skeletor
+        v-if="props.isLoading"
+        :width="props.loadingWidth"
+        :height="props.loadingHeight"
+        class="skeletor"
+      />
+    </div>
     <slot
       :style="{
         display: isLoading ? 'none' : 'block'
@@ -34,7 +41,15 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 @import "../../variables.scss";
+
+div
 .skeletor {
   border-radius: $border-radius;
+}
+
+.suspense {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>

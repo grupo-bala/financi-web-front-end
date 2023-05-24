@@ -1,234 +1,86 @@
 <script setup lang="ts">
-
 import { ref } from "vue";
-import Transaction from "../components/TransactionComponent.vue";
-import Logo from "../components/LogoFinanci.vue";
-import Filter from "../components/FilterButton.vue";
-import TextBox from "../components/TextBox.vue";
-import axios, { AxiosError } from "axios";
+import InputField from "../components/InputField.vue";
+import TransactionsList from "../components/TransactionList.vue";
 
-const envUrl = import.meta.env.VITE_API_URL!;
-const feedback = ref("");
-type Response = {msg: string};
-
-interface TransactionsPreview {
-    titleTransaction: string;
-    publishDate: string;
-    imgCategory: string;
-    valueAmount: number;
-}
-
-const transactions = ref<TransactionsPreview[]>([]);
-const howManyPages = ref<number>();
-
-async function getAllTransaction() {
-  try {
-    const response = await axios.post(
-      `${envUrl}/get-all-transactions-preview?page=1&size=4`);
-    feedback.value = "";
-    const json = await response.data;
-    howManyPages.value = json.pages;
-    transactions.value = json.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    const response = axiosError.response?.data as Response;
-    feedback.value = response.msg;
-  }
-}
-
-getAllTransaction();
-
+const searchValue = ref("");
 </script>
 
 <template>
-  <div class="main_container" style="color: white">
-    <div class="main_container__transactions_box">
-      <div class="main_container__transactions_box__title_filter">
-        <h1 class="main_container__transactions_box__title_filter__text">
-          Histórico de transações
-        </h1>
-        <Filter
-          class="main_container__transactions_box__title_filter__filter"
+  <div class="transactions">
+    <div class="transactions__container">
+      <div class="transactions__container__header">
+        <h1>Histórico de transações</h1>
+        <InputField
+          type="Text"
+          label=""
+          placeholder="Pesquisar"
+          :required="false"
+          :numeric="false"
+          :model-value="searchValue"
         />
       </div>
-      <div class="main_container__transactions_box__display">
-        <TextBox
-          class="main_container__transactions_box__display__textBox"
-          text="Recentes"
-        />
-        <li
-          v-for="{valueAmount,
-                  titleTransaction,
-                  publishDate,
-                  imgCategory} in transactions"
-          :key="titleTransaction"
-        >
-          <Transaction
-            :title="titleTransaction"
-            :date="publishDate"
-            :category="imgCategory"
-            :value="valueAmount"
-          />
-        </li>
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Hospital"
-          :value="200.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Payments"
-          :value="2000.00"
-        />
-        <Transaction
-          title="Mensalidade Estácio"
-          date="2 de Julho, 2022"
-          category="Studies"
-          :value="-2000.00"
-        />
-        <TextBox
-          class="main_container__transactions_box__display__textBox"
-          text="Outros dias"
-        />
-      </div>
+      <TransactionsList
+        :quantity="10"
+        show-dates
+        show-load-more
+      />
     </div>
-    <Logo />
   </div>
 </template>
 
 <style scoped lang="scss">
-    @import "../variables.scss";
+@import "../variables.scss";
+.transactions {
+  width: 100%;
+  min-height: 100dvh;
+  color: $text-color-white;
+  background-color: $bg-color;
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: center;
 
-    .main_container {
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        flex-direction: column;
-        margin: 0;
-        min-height: 100svh;
-        background-color: $bg-color; //realColor
-        //background-color: pink; //help
+  &__container {
+    width: 100%;
+    max-width: 1000px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-        &__transactions_box {
-            height: auto;
-            border-radius: 15px;
-            //background-color: green; //help
-            display: flex; //novo
-            flex-direction: column;
+    &__header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
 
-            @media (min-width: 320px) {
-            //  background-color: $bg-color; //realColor
-              width: 412px;
-            }
-            @media (min-width: 600px) {
-            //  background-color: $card-bg-color; //realColor
-              width: 688px;
-            }
-            @media (min-width: 1444px) {
-            //  background-color: $card-bg-color; //realColor
-              width: 1500px;
-            }
+      h1 {
+        font-size: 1.5rem;
+      }
 
-            &__display {
-              display: flex;
-              flex-direction: column;
-              gap: 15px;
-              align-items: left;
-              height: auto; //new height
-              //background-color: blue; //help
-              margin-bottom: 27px;
-
-              &__textBox {
-                margin-top: 83px;
-                margin-bottom: 27px;
-
-                @media (min-width: 320px) {
-                  margin-top: 27px;
-                }
-              }
-
-              @media (min-width: 320px) {
-                width: 412px;
-                margin-left: 25px;
-              }
-              @media (min-width: 600px) {
-                width: 688px;
-                margin-left: 35px;
-              }
-
-            }
-
-            &__title_filter {
-                display: flex;
-                font-size: 13px;
-                justify-content: space-between;
-                flex-direction: column;
-                border-radius: 15px;
-                padding: 10px;
-                margin-top: 33px; //new
-                //background-color: yellow; //help
-
-                @media (max-width: 599px) {
-                  align-items: center;
-                  height: 120px;
-                }
-                @media (min-width: 600px) {
-                  margin-left: 25px;
-                  align-items: left;
-                  height: 100px;
-
-                }
-            }
-        }
+      :deep div.container {
+        width: 100%;
+      }
     }
+  }
+}
+
+@media (min-width: 800px) {
+  .transactions {
+    &__container {
+      background-color: $card-bg-color;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+      padding: 3rem;
+
+      &__header {
+        h1 {
+          align-self: flex-start;
+        }
+      }
+    }
+  }
+}
 </style>

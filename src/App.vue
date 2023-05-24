@@ -14,10 +14,13 @@ import NavBar from "./components/Navbar/ChosenNavbar.vue";
 <style scoped lang="scss">
 @import "./variables.scss";
 
+.app_container {
+  background-color: $bg-color;
+}
+
 @media (max-width: 800px) {
   .app_container {
     padding-bottom: 100px;
-    background-color: $bg-color;
   }
 }
 </style>

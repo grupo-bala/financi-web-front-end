@@ -17,7 +17,14 @@ const regex = {
   Password: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).+$/,
   Text: /.?/,
   Date: /.?/,
+  Numeric: /[0-9]/,
 };
+
+function onKeyPress(key: KeyboardEvent) {
+  if (props.numeric && !regex.Numeric.test(key.code)) {
+    key.preventDefault();
+  }
+}
 
 function inputMask(value: string): string {
   if (props.numeric) {
@@ -29,7 +36,7 @@ function inputMask(value: string): string {
     }
 
     const start = 0;
-    const end = 0;
+    const end = -2;
 
     const integerPart = value.slice(start, end);
     const integerPartFormatted = integerPart
@@ -62,6 +69,7 @@ function inputMask(value: string): string {
       :type="type"
       :placeholder="placeholder"
       :inputmode="numeric ? 'numeric' : 'text'"
+      @keypress="onKeyPress"
       @input="[
         $emit(
           'update:modelValue',

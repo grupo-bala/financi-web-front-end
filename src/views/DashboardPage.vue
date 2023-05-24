@@ -2,14 +2,18 @@
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
 import PopupComponent from "../components/PopupComponent.vue";
+import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
+import Greeting from "../components/GreetingCompenet.vue";
 
 const username = ref("");
-const greeting = ref("");
 const feedback = ref("");
 const amount = ref("");
 const visibility = ref(false);
+/* Criar instancia do axios em outro arquivo */
 const envUrl = import.meta.env.VITE_API_URL;
+const popupIsOpen = ref(false);
+const currentOperation = ref<"Income" | "Out" | "Goal">();
 
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
@@ -18,31 +22,6 @@ type SuccessResponse = {
   fixedIncome: number,
   balance: number,
   email: string,
-}
-
-function setGreeting() {
-  const hours = {
-    hour: new Date().getHours(),
-    day: 0,
-    afternoon: 12,
-    night: 18,
-  };
-
-  if (hours.hour >= hours.day && hours.hour < hours.afternoon) {
-    greeting.value = "Bom dia!";
-  } else if (hours.hour >= hours.afternoon && hours.hour < hours.night) {
-    greeting.value = "Boa tarde!";
-  } else {
-    greeting.value = "Boa noite!";
-  }
-}
-
-function getGreetingAndsSetInterval() {
-  const interval = 900000;
-
-  setGreeting();
-
-  setInterval(setGreeting, interval);
 }
 
 function formatToMoney(value: string): string {
@@ -71,7 +50,6 @@ async function getUserInfos() {
 }
 
 onMounted(() => {
-  getGreetingAndsSetInterval();
   getUserInfos();
 });
 
@@ -80,35 +58,7 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="container__content">
-      <div class="container__content__greetings">
-        <div class="container__content__greetings__user_info">
-          <img
-            src="https://picsum.photos/500"
-            alt="user"
-            class="container__content__greetings__user_info__img"
-          >
-          <div class="container__content__greetings__user_info__content">
-            <p
-              class="
-                container__content__greetings__user_info__content__username
-              "
-            >
-              {{ username }}
-            </p>
-            <p
-              class="
-                container__content__greetings__user_info__content__greeting
-              "
-            >
-              {{ greeting }}
-            </p>
-          </div>
-        </div>
-        <v-icon
-          name="io-settings-sharp"
-          scale="1.5"
-        />
-      </div>
+      <Greeting :username="username" />
       <div class="container__content__balance">
         <div class="container__content__balance__top_content">
           <div class="container__content__balance__top_content__amount">
@@ -177,6 +127,34 @@ onMounted(() => {
             </p>
           </div>
         </div>
+        <div class="container__content__balance__quick_actions_container">
+          <h2
+            class="container__content__balance__quick_actions_container__title"
+          >
+            Acesso rápido
+          </h2>
+          <div
+            class="container__content__balance__quick_actions_container__button"
+          >
+            <DashboarButton
+              type="Out"
+              @click="[popupIsOpen = true, currentOperation = 'Out']"
+            />
+            <DashboarButton
+              type="Income"
+              @click="[popupIsOpen = true, currentOperation = 'Income']"
+            />
+            <DashboarButton
+              type="Goal"
+              @click="[popupIsOpen = true, currentOperation = 'Goal']"
+            />
+          </div>
+          <PopupComponent
+            v-if="popupIsOpen"
+            :type="currentOperation"
+            @close="popupIsOpen = false"
+          />
+        </div>
       </div>
       <div class="container__content__last_transactions">
         <h1>ultimas transações</h1>
@@ -190,7 +168,6 @@ onMounted(() => {
       <div class="container__content__lats_lessons">
         <h1>aulas</h1>
       </div>
-      <PopupComponent />
     </div>
     <footer>
       <Logo />
@@ -219,44 +196,6 @@ onMounted(() => {
     padding: 30px;
     background-color: $bg-color;
     color: $text-color-white;
-
-    &__greetings {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-
-      &__user_info {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        align-items: center;
-
-        &__img {
-          width: 65px;
-          height: 65px;
-          border: 3px solid $financi-green;
-          border-radius: 50%;
-        }
-
-        &__content {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-          font-size: 1.3em;
-
-          &__username {
-            font-weight: 600;
-          }
-
-          &__greeting {
-            font-weight: 400;
-            color: $text-color-gray;
-          }
-        }
-      }
-    }
 
     &__balance {
       display: flex;
@@ -356,19 +295,57 @@ onMounted(() => {
           }
         }
       }
+
+      &__quick_actions_container {
+        display: none;
+      }
     }
+  }
+}
 
-    // &__last_transactions {
-    // }
+@media screen and (min-width: 800px) {
+  .container {
+    &__content {
+      &__balance {
+        display: grid;
+        grid-template-columns: 0.9fr auto;
+        grid-template-rows: 1fr 1fr;
+        gap: 0 20px;
+        transition: all 1s;
 
-    // &__goals {
-    // }
+        &__top_content {
+          grid-column: 1 / 2;
+          grid-row: 1 / 2;
+        }
 
-    // &__news {
-    // }
+        &__bottom_content {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
 
-    // &__last_lessons {
-    // }
+        &__quick_actions_container {
+          display: grid;
+          height: 100%;
+          grid-template-rows: auto 1fr;
+          grid-column: 2 / 3;
+          grid-row: 1 / 3;
+          border: 0 solid $financi-green;
+          border-width: 0 0 0 5px;
+          padding-left: 20px;
+
+          &__title {
+            font-size: 20px;
+            margin-bottom: 20px;
+          }
+
+          &__button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+      }
+    }
   }
 }
 </style>
