@@ -6,6 +6,7 @@ import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Greeting from "../components/GreetingComponent.vue";
 import MovimentsInfo from "../components/MovimentsInfo.vue";
+import TransactionList from "../components/TransactionList.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -59,7 +60,10 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="container__content">
-      <Greeting :username="username" />
+      <Greeting
+        :username="username"
+        class="container__content__greetings"
+      />
       <div class="container__content__balance">
         <div class="container__content__balance__top_content">
           <div class="container__content__balance__top_content__amount">
@@ -138,7 +142,20 @@ onMounted(() => {
         </div>
       </div>
       <div class="container__content__last_transactions">
-        <h1>ultimas transações</h1>
+        <h2
+          class="container__content__last_transactions__title"
+        >
+          Últimas transações
+        </h2>
+        <TransactionList
+          :quantity="5"
+        />
+        <router-link
+          to="/transactions"
+          class="container__content__last_transactions__button"
+        >
+          <h5>VER TODAS</h5>
+        </router-link>
       </div>
       <div class="container__content__goals">
         <h1>metas</h1>
@@ -231,18 +248,47 @@ onMounted(() => {
         display: none;
       }
     }
+
+    &__last_transactions {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
+      }
+
+      &__button {
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem;
+        background-color: $financi-green;
+        text-decoration: none;
+        color: $text-color-white;
+        cursor: pointer;
+        border-radius: $border-radius;
+      }
+    }
   }
 }
 
 @media screen and (min-width: 800px) {
   .container {
     &__content {
+      grid-template-columns: repeat(2, 1fr);
+
+      &__greetings {
+        grid-row: 1 / 2;
+        grid-column: 1 / 3;
+      }
+
       &__balance {
         display: grid;
         grid-template-columns: 0.9fr auto;
         grid-template-rows: 1fr 1fr;
         gap: 0 20px;
         transition: all 1s;
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
 
         &__top_content {
           grid-column: 1 / 2;
@@ -277,6 +323,19 @@ onMounted(() => {
           }
         }
       }
+
+      &__last_transactions {
+        padding: 30px;
+        gap: 1rem;
+        background-color: $card-bg-color;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+
+        &__title {
+          margin-bottom: 0.5rem;
+        }
+      }
+
     }
   }
 }
