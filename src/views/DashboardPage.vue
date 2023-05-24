@@ -4,7 +4,7 @@ import { ref, onMounted } from "vue";
 import PopupComponent from "../components/PopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
-import Greeting from "../components/GreetingCompenet.vue";
+import Greeting from "../components/GreetingComponent.vue";
 import MovimentsInfo from "../components/MovimentsInfo.vue";
 
 const username = ref("");
