@@ -173,7 +173,6 @@ getTransactions();
     <button
       v-if="props.showLoadMore && totalPages !== page"
       :disabled="isLoading"
-      class="transactions_list__"
       @click="getTransactions()"
     >
       <h4>VER MAIS</h4>
@@ -210,17 +209,21 @@ getTransactions();
 
     &__left {
       display: flex;
-      justify-content: center;
+      align-items: center;
       gap: .5rem;
 
       &__info {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        max-width: 40vw;
 
         &__title {
           font-weight: bold;
           font-size: .8em;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
         &__date {
@@ -240,7 +243,9 @@ getTransactions();
       }
 
       &--in, &--out {
-        font-weight: 500;
+        font-weight: bold;
+        white-space: nowrap;
+        font-size: .8em;
       }
     }
   }

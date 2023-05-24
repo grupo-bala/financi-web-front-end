@@ -12,7 +12,7 @@ const props = defineProps<{
       class="button_container__out"
     >
       <v-icon
-        name="pr-minus-circle"
+        name="bi-dash-circle"
         scale="4"
       />
       <p

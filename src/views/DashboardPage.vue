@@ -4,7 +4,9 @@ import { ref, onMounted } from "vue";
 import PopupComponent from "../components/PopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
-import Greeting from "../components/GreetingCompenet.vue";
+import Greeting from "../components/GreetingComponent.vue";
+import MovimentsInfo from "../components/MovimentsInfo.vue";
+import TransactionList from "../components/TransactionList.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -15,7 +17,7 @@ const envUrl = import.meta.env.VITE_API_URL;
 const popupIsOpen = ref(false);
 const currentOperation = ref<"Income" | "Out" | "Goal">();
 
-type ErrorResponse = {msg: string};
+type ErrorResponse = { msg: string };
 type SuccessResponse = {
   name: string,
   username: string,
@@ -58,7 +60,10 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="container__content">
-      <Greeting :username="username" />
+      <Greeting
+        :username="username"
+        class="container__content__greetings"
+      />
       <div class="container__content__balance">
         <div class="container__content__balance__top_content">
           <div class="container__content__balance__top_content__amount">
@@ -98,34 +103,14 @@ onMounted(() => {
           />
         </div>
         <div class="container__content__balance__bottom_content">
-          <div class="container__content__balance__bottom_content__incomes">
-            <p
-              class="
-                container__content__balance__bottom_content__incomes__title
-              "
-            >
-              Entradas
-            </p>
-            <p
-              class="
-                container__content__balance__bottom_content__incomes__value
-              "
-            >
-              {{ formatToMoney(amount) }}
-            </p>
-          </div>
-          <div class="container__content__balance__bottom_content__outs">
-            <p
-              class="container__content__balance__bottom_content__outs__title"
-            >
-              Saídas
-            </p>
-            <p
-              class="container__content__balance__bottom_content__outs__value"
-            >
-              {{ formatToMoney(amount) }}
-            </p>
-          </div>
+          <MovimentsInfo
+            type="Income"
+            :value="formatToMoney(amount)"
+          />
+          <MovimentsInfo
+            type="Out"
+            :value="formatToMoney(amount)"
+          />
         </div>
         <div class="container__content__balance__quick_actions_container">
           <h2
@@ -157,7 +142,20 @@ onMounted(() => {
         </div>
       </div>
       <div class="container__content__last_transactions">
-        <h1>ultimas transações</h1>
+        <h2
+          class="container__content__last_transactions__title"
+        >
+          Últimas transações
+        </h2>
+        <TransactionList
+          :quantity="5"
+        />
+        <router-link
+          to="/transactions"
+          class="container__content__last_transactions__button"
+        >
+          <h5>VER TODAS</h5>
+        </router-link>
       </div>
       <div class="container__content__goals">
         <h1>metas</h1>
@@ -190,7 +188,7 @@ onMounted(() => {
     display: grid;
     grid-template-rows: repeat(5, min-content);
     height: auto;
-    width: 100% ;
+    width: 100%;
     max-width: 1280px;
     gap: 40px;
     padding: 30px;
@@ -244,60 +242,30 @@ onMounted(() => {
         border-top: 1px solid rgba(128, 128, 128, 0.63);
         padding-top: 20px;
         width: 100%;
-
-        &__incomes {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 45%;
-          gap: 10px;
-          padding: 10px;
-          background-color: $child-card-bg-color;
-          box-shadow: $box-shadow;
-          border-radius: 5px;
-
-          &__title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: $text-color-gray;
-          }
-
-          &__value {
-            font-size: 1.1rem;
-            color: $financi-green;
-            font-weight: 700;
-          }
-        }
-
-        &__outs {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 45%;
-          gap: 10px;
-          padding: 15px;
-          background-color: $child-card-bg-color;
-          box-shadow: $box-shadow;
-          border-radius: 5px;
-
-          &__title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: $text-color-gray;
-          }
-
-          &__value {
-            font-size: 1.1rem;
-            color: $financi-red;
-            font-weight: 700;
-          }
-        }
       }
 
       &__quick_actions_container {
         display: none;
+      }
+    }
+
+    &__last_transactions {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
+      }
+
+      &__button {
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem;
+        background-color: $financi-green;
+        text-decoration: none;
+        color: $text-color-white;
+        cursor: pointer;
+        border-radius: $border-radius;
       }
     }
   }
@@ -306,12 +274,21 @@ onMounted(() => {
 @media screen and (min-width: 800px) {
   .container {
     &__content {
+      grid-template-columns: repeat(2, 1fr);
+
+      &__greetings {
+        grid-row: 1 / 2;
+        grid-column: 1 / 3;
+      }
+
       &__balance {
         display: grid;
         grid-template-columns: 0.9fr auto;
         grid-template-rows: 1fr 1fr;
         gap: 0 20px;
         transition: all 1s;
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
 
         &__top_content {
           grid-column: 1 / 2;
@@ -331,7 +308,8 @@ onMounted(() => {
           grid-row: 1 / 3;
           border: 0 solid $financi-green;
           border-width: 0 0 0 5px;
-          padding-left: 20px;
+          padding-left: 50px;
+          margin-left: 25px;
 
           &__title {
             font-size: 20px;
@@ -345,6 +323,19 @@ onMounted(() => {
           }
         }
       }
+
+      &__last_transactions {
+        padding: 30px;
+        gap: 1rem;
+        background-color: $card-bg-color;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+
+        &__title {
+          margin-bottom: 0.5rem;
+        }
+      }
+
     }
   }
 }
