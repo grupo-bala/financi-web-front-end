@@ -12,8 +12,10 @@
   "dependencies": {
     "@vueuse/core": "^10.1.0",
     "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "vue": "^3.2.41",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.1.6",
     "vue-skeletor": "^1.0.6"
   },
