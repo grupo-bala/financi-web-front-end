@@ -22,7 +22,7 @@ async function getNews() {
   const response =
     await axios
       .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}
-      &size=3`);
+      &size=4`);
   const json = response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
@@ -64,38 +64,66 @@ getNews();
 @import "../variables.scss";
 
 .list {
-    border-bottom: $border-color;
-    &__button {
+  list-style: none;
+  margin-bottom: 1rem;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    color: $text-color-white;
+    background-color: $section-color;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius;
+    height: 5rem;
+    width: 100%;
+    padding: 0rem 1rem;
+
+    &__info {
+      display: flex;
+      width: 100%;
+
+      &__title {
+        font-weight: 600;
+        padding: 0rem 1rem;
+        width: 100%;
+        text-align: left;
+      }
+
+      &__date {
         display: flex;
         align-items: center;
-        color: $text-color-white;
-        background-color: $section-color;
-        box-shadow: none;
-        height: 7rem;
-        width: 100%;
-        &__info {
-            display: flex;
-            width: 100%;
-            &__title {
-                padding-left: 1rem;
-                width: 100%;
-                text-align: left;
-            }
-            &__date{
-                padding-right: 1rem;
-            }
-        }
-        :deep &__image {
-            padding: 0;
-            border-radius: 10px;
-            max-height: 5rem;
-            max-width: 5rem;
-        }
+      }
     }
+
+    :deep &__image {
+      padding: 0;
+      border-radius: $border-radius;
+      max-height: 3.5rem;
+      max-width: 3.5rem;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .list {
+    &__button {
+      background-color: $child-card-bg-color;
+
+      &__info {
+        &__title {
+          font-weight: 700;
+        }
+
+        &__date {
+          font-weight: 500;
+        }
+      }
+    }
+  }
 }
 
 button {
-    border: none;
-    cursor: pointer;
+  border: none;
+  cursor: pointer;
 }
 </style>
