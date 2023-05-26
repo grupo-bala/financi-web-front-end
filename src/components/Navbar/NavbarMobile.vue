@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import PopupComponent from "../PopupComponent.vue";
+import OperationPopup from "../OperationPopupComponent.vue";
 
 const popupIsOpen = ref(false);
 </script>
@@ -33,7 +33,7 @@ const popupIsOpen = ref(false);
         @click="popupIsOpen = true"
       >
         <Teleport to="body">
-          <PopupComponent
+          <OperationPopup
             v-if="popupIsOpen"
             @close="popupIsOpen = false"
           />
