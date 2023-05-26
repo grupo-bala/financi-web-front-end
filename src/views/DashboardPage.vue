@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
-import PopupComponent from "../components/PopupComponent.vue";
+import OperationPopup from "../components/OperationPopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Greeting from "../components/GreetingComponent.vue";
 import MovimentsInfo from "../components/MovimentsInfo.vue";
 import TransactionList from "../components/TransactionList.vue";
+import NewsPreview from "../components/NewsPreviewComponent.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -134,7 +135,7 @@ onMounted(() => {
               @click="[popupIsOpen = true, currentOperation = 'Goal']"
             />
           </div>
-          <PopupComponent
+          <OperationPopup
             v-if="popupIsOpen"
             :type="currentOperation"
             @close="popupIsOpen = false"
@@ -152,7 +153,7 @@ onMounted(() => {
         />
         <router-link
           to="/transactions"
-          class="container__content__last_transactions__button"
+          class="container__content__button"
         >
           <h5>VER TODAS</h5>
         </router-link>
@@ -160,8 +161,17 @@ onMounted(() => {
       <div class="container__content__goals">
         <h1>metas</h1>
       </div>
-      <div class="container__content__news">
-        <h1>noticias</h1>
+      <div class="container__content__last_news">
+        <div class="container__content__last_news__title">
+          <h2>Últimas noticías</h2>
+        </div>
+        <NewsPreview />
+        <router-link
+          to="/news"
+          class="container__content__button"
+        >
+          <h5>VER TODAS</h5>
+        </router-link>
       </div>
       <div class="container__content__lats_lessons">
         <h1>aulas</h1>
@@ -249,15 +259,7 @@ onMounted(() => {
       }
     }
 
-    &__last_transactions {
-      display: flex;
-      flex-direction: column;
-
-      &__title {
-        margin-bottom: 1rem;
-      }
-
-      &__button {
+    &__button {
         display: flex;
         justify-content: center;
         padding: 0.5rem;
@@ -266,6 +268,23 @@ onMounted(() => {
         color: $text-color-white;
         cursor: pointer;
         border-radius: $border-radius;
+      }
+
+    &__last_transactions {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
+      }
+    }
+
+    &__last_news {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
       }
     }
   }
@@ -336,6 +355,16 @@ onMounted(() => {
         }
       }
 
+      &__last_news {
+        padding: 30px;
+        gap: 1rem;
+        background-color: $card-bg-color;
+        box-shadow: $box-shadow;
+
+        &__title {
+          margin-bottom: 0.5rem;
+        }
+      }
     }
   }
 }
