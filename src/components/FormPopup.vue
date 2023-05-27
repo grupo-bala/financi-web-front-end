@@ -22,7 +22,7 @@ type Category = {
 }
 
 const getColor = computed(() => {
-  if (props.type === "Out") {
+  if (props.type === "Out" || props.type === "EditOut") {
     return "red";
   } else if (props.type === "Goal") {
     return "blue";
@@ -31,8 +31,22 @@ const getColor = computed(() => {
   return "green";
 });
 
+const getButtonText = computed(() => {
+  if (props.type === "Out" ||
+      props.type === "Income" ||
+      props.type === "Goal"){
+    return "Adicionar";
+  } else if (props.type === "EditIncome") {
+    return "Editar Entrada";
+  } else if (props.type === "EditOut") {
+    return "Editar Saída";
+  }
+
+  return "Adicionar";
+});
+
 const props = defineProps<{
-  type: "Income" | "Out" | "Goal"
+  type: "Income" | "Out" | "Goal" | "EditIncome" | "EditOut"
 }>();
 
 const emits = defineEmits<{
@@ -41,6 +55,17 @@ const emits = defineEmits<{
 
 const typeLabelMoney = props.type === "Goal" ? "Objetivo" : "Valor";
 const typeLabelDate = props.type === "Goal" ? "Data limite" : "Data";
+
+/*
+            if(props.type === "Goal") {
+            const typeLabelMoney = "Objetivo";
+            const typeLabelDate = "Data limite";
+            } else {
+            const typeLabelMoney = "Valor";
+            const typeLabelDate = "Data";
+            }
+
+*/
 
 function getItensCategory() {
   return itensCategory.value.map((category) => category.name);
@@ -61,6 +86,8 @@ async function getCategories() {
 async function setPostType() {
   if (props.type === "Goal") {
     postGoal();
+  } else if (props.type === "EditIncome" || props.type === "EditOut") {
+    editTransaction();
   } else {
     postTransaction();
   }
@@ -93,6 +120,28 @@ async function postTransaction() {
       title: title.value,
       description: "",
       isEntry: props.type === "Income" ? true : false,
+    });
+    emits("success", true);
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const response = axiosError.response?.data as ErrorResponse;
+    feedback.value = response.msg;
+    emits("success", false);
+  }
+}
+
+async function editTransaction() {
+  try {
+    await axios.put(`${envUrl}/update-transaction`, {
+      value: Number(value.value.replace(".", "").replace(",", ".")),
+      date: new Date(date.value),
+      categoryId: itensCategory.value.find((category) => {
+        return category.name === selected.value;
+      })?.id,
+      id: 3009,
+      title: title.value,
+      description: "",
+      isEntry: props.type === "EditIncome" ? true : false,
     });
     emits("success", true);
   } catch (error) {
@@ -177,7 +226,7 @@ onMounted(() => {
     <div class="form_container__confirm_button">
       <ButtonComponent
         :color="getColor"
-        text="ADICIONAR"
+        :text="getButtonText"
         :disabled="title.length == 0
           || value.length == 0
           || date.length == 0
