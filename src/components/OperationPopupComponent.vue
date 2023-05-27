@@ -2,7 +2,7 @@
 import { CSSProperties, computed, onMounted, ref, watch } from "vue";
 import FormPopup from "./FormPopup.vue";
 
-type Tab = "Income" | "Out" | "Goal";
+type Tab = "Income" | "Out" | "Goal" | "EditOut" | "EditIncome";
 type ElementRef = HTMLDivElement | null;
 
 const props = defineProps<{
@@ -18,6 +18,8 @@ const isOpen = ref(true);
 const inElement = ref<ElementRef>(null);
 const outElement = ref<ElementRef>(null);
 const goalElement = ref<ElementRef>(null);
+const editOutElement = ref<ElementRef>(null);
+const editInElement = ref<ElementRef>(null);
 
 defineEmits<{
   (e: "close"): void,
@@ -33,6 +35,8 @@ const tabToElement = {
   "Income": inElement,
   "Out": outElement,
   "Goal": goalElement,
+  "EditOut": editOutElement,
+  "EditIncome": editInElement,
 };
 
 function calcDivWidth() {
@@ -100,8 +104,55 @@ disableScroll();
         >
           Nova meta
         </h2>
+        <h2
+          v-if="props.type === 'EditIncome'"
+        >
+          Editar Entrada
+        </h2>
+        <h2
+          v-if="props.type === 'EditOut'"
+        >
+          Editar Saída
+        </h2>
       </div>
-      <div class="box__card__buttons_titles">
+      <div
+        v-if="props.type == 'EditOut'"
+        class="box__card__buttons_titles"
+      >
+        <button
+          ref="editOutElement"
+          @click="[
+            actualType = 'EditOut',
+            divStyle = {
+              left: 0,
+              backgroundColor: '#EF5350',
+            }
+          ]"
+        >
+          EDITAR SAÍDA
+        </button>
+      </div>
+      <div
+        v-else-if="props.type == 'EditIncome'"
+        class="box__card__buttons_titles"
+      >
+        <button
+          ref="editInElement"
+          @click="[
+            actualType = 'EditIncome',
+            divStyle = {
+              left: 0,
+              backgroundColor: '#EF5350',
+            }
+          ]"
+        >
+          EDITAR ENTRADA
+        </button>
+      </div>
+      <div
+        v-else
+        class="box__card__buttons_titles"
+      >
         <button
           ref="outElement"
           @click="[
@@ -153,6 +204,16 @@ disableScroll();
       <FormPopup
         v-else-if="actualType === 'Income'"
         type="Income"
+        @success="(feedback: boolean) => isOpen = !feedback"
+      />
+      <FormPopup
+        v-else-if="actualType === 'EditIncome'"
+        type="EditIncome"
+        @success="(feedback: boolean) => isOpen = !feedback"
+      />
+      <FormPopup
+        v-else-if="actualType === 'EditOut'"
+        type="EditOut"
         @success="(feedback: boolean) => isOpen = !feedback"
       />
       <FormPopup
