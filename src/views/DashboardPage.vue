@@ -197,6 +197,7 @@ onMounted(() => {
   &__content {
     display: grid;
     grid-template-rows: repeat(5, min-content);
+    grid-template-columns: 100%;
     height: auto;
     width: 100%;
     max-width: 1280px;

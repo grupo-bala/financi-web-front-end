@@ -211,12 +211,15 @@ getTransactions();
       display: flex;
       align-items: center;
       gap: .5rem;
+      flex-grow: 1;
+      overflow: hidden;
 
       &__info {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        max-width: 40vw;
+        overflow: hidden;
+        flex-grow: 1;
 
         &__title {
           font-weight: bold;
@@ -224,6 +227,7 @@ getTransactions();
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
+          max-width: 80%;
         }
 
         &__date {
@@ -246,6 +250,8 @@ getTransactions();
         font-weight: bold;
         white-space: nowrap;
         font-size: .8em;
+        justify-self: end;
+        align-self: center;
       }
     }
   }
