@@ -1,15 +1,32 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import ButtonComponent from "./ButtonComponent.vue";
+import { Transaction } from "../types/Transaction";
+import { getNameFromCategoryId } from "../types/Category";
+import { displayDate } from "../utils/Dates";
 
 const isOpen = ref(true);
 const props = defineProps<{
   type: "Income" | "Out" | "Goal"
+  operation: Transaction,
 }>();
 
 defineEmits<{
   (e: "close"): void,
 }>();
+
+const category = computed(() => {
+  return getNameFromCategoryId(props.operation.categoryId);
+});
+
+const date = computed(() => {
+  return displayDate(props.operation.date);
+});
+
+const value = computed(() => {
+  return Number(props.operation.value)
+    .toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+});
 
 const buttonColorValue = computed(() => {
   if (props.type === "Goal") {
@@ -61,73 +78,79 @@ disableScroll();
     @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
   >
     <div class="info_box__card">
+      <v-icon
+        class="info_box__card__close"
+        name="io-close"
+        scale="1.2"
+        fill="gray"
+        @click="[enableScroll(), isOpen = !isOpen, $emit('close')]"
+      />
       <div class="info_box__card__top_content">
-        <h2
+        <p
           class="info_box__card__top_content__title"
         >
-          Título da operação
-        </h2>
+          {{ operation.title }}
+        </p>
         <p
           class="info_box__card__top_content__value"
         >
-          Valor da operação
+          {{ (props.operation.isEntry ? "+ " : "- ") + "R$ " + value }}
         </p>
       </div>
       <div class="info_box__card__main_content">
         <div
           v-if="props.type === 'Goal'"
-          class="info_box__card__main_content__goals"
+          class="info_box__card__main_content__section"
         >
-          <div class="info_box__card__main_content__label_and_value">
-            <p
-              class="info_box__card__main_content__label_and_value__label"
-            >
-              Objetivo total
-            </p>
-            <p
-              class="info_box__card__main_content__label_and_value__value"
-            >
-              Valor
-            </p>
-          </div>
-          <div class="info_box__card__main_content__label_and_value">
-            <p
-              class="info_box__card__main_content__label_and_value__label"
-            >
-              Ideal por mês
-            </p>
-            <p
-              class="info_box__card__main_content__label_and_value__value"
-            >
-              Valor
-            </p>
-          </div>
+          <p
+            class="info_box__card__main_content__section__label"
+          >
+            Objetivo total
+          </p>
+          <p
+            class="info_box__card__main_content__section__value"
+          >
+            Valor
+          </p>
         </div>
-        <div class="info_box__card__main_content__default">
-          <div class="info_box__card__main_content__label_and_value">
-            <p
-              class="info_box__card__main_content__label_and_value__label"
-            >
-              {{ dateLabelValue }}
-            </p>
-            <p
-              class="info_box__card__main_content__label_and_value__value"
-            >
-              Valor
-            </p>
-          </div>
-          <div class="info_box__card__main_content__label_and_value">
-            <p
-              class="info_box__card__main_content__label_and_value__label"
-            >
-              Categoria
-            </p>
-            <p
-              class="info_box__card__main_content__label_and_value__value"
-            >
-              Valor
-            </p>
-          </div>
+        <div
+          v-if="props.type === 'Goal'"
+          class="info_box__card__main_content__section"
+        >
+          <p
+            class="info_box__card__main_content__section__label"
+          >
+            Ideal por mês
+          </p>
+          <p
+            class="info_box__card__main_content__section__value"
+          >
+            Valor
+          </p>
+        </div>
+        <div class="info_box__card__main_content__section">
+          <p
+            class="info_box__card__main_content__section__label"
+          >
+            {{ dateLabelValue }}
+          </p>
+          <p
+            class="info_box__card__main_content__section__value"
+          >
+            {{ date }}
+          </p>
+        </div>
+        <div class="info_box__card__main_content__section">
+          <p
+            class="info_box__card__main_content__section__label"
+          >
+            Categoria
+          </p>
+          <p
+            class="info_box__card__main_content__section__value"
+          >
+            {{ category }}
+          </p>
         </div>
       </div>
       <div class="info_box__card__buttons">
@@ -163,6 +186,7 @@ disableScroll();
   align-items: end;
 
   &__card {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -170,9 +194,13 @@ disableScroll();
     background-color: $card-bg-color;
     border-radius: $border-radius;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     padding: 2rem 2.5rem;
     gap: 3rem;
+
+    &__close {
+      display: none;
+    }
 
     &__top_content {
       display: flex;
@@ -181,55 +209,44 @@ disableScroll();
       gap: 0.5rem;
 
       &__title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-align: center;
         color: white;
       }
 
       &__value {
         font-weight: 600;
+        font-size: 1.2rem;
         color: v-bind(colorValue);
       }
     }
 
     &__main_content {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr auto;
       width: 100%;
       gap: 1rem;
 
-      &__default {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        gap: 6.9rem;
-      }
+      &__section {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+          align-items: start;
 
-      &__goals {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-      }
+          &__label {
+            color: $text-color-gray;
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 90;
+            text-align: start;
+          }
 
-      &__label_and_value {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-
-        &__label {
-          color: $text-color-gray;
-          font-size: 0.8rem;
-          font-weight: 500;
-          opacity: 90;
+          &__value {
+            color: $text-color-white;
+            font-weight: 600;
+          }
         }
-
-        &__value {
-          color: $text-color-white;
-          font-weight: 600;
-        }
-      }
-
     }
 
     &__button {
@@ -251,6 +268,30 @@ disableScroll();
       display: flex;
       flex-direction: row;
       gap: 1rem;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .info_box {
+    align-items: center;
+
+    &__card {
+      width: 50%;
+      padding: 3rem 2.5rem;
+
+      &__close {
+        display: flex;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        cursor: pointer;
+        transition: fill 0.4s;
+
+        &:hover {
+          fill: $financi-red;
+        }
+      }
     }
   }
 }
