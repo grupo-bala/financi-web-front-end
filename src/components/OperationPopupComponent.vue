@@ -48,12 +48,6 @@ watch(actualType, () => {
   calcDivWidth();
 });
 
-watch(isOpen, () => {
-  if (!isOpen.value) {
-    enableScroll();
-  }
-});
-
 onMounted(() => {
   calcDivWidth();
 });
@@ -65,7 +59,7 @@ function disableScroll() {
 }
 
 function enableScroll() {
-  const scrollY = document.body.style.top;
+  const scrollY = document.body.style.top.split("px")[0];
   document.body.classList.remove("disable_scroll");
   document.body.style.top = "";
 
