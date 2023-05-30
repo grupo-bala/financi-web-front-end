@@ -3,7 +3,8 @@ import "./style.scss";
 import App from "./App.vue";
 import router from "./router";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useStorage } from "@vueuse/core";
 import {
   FaHome,
   FaChartBar,
@@ -28,6 +29,7 @@ import {
   GiClothes,
   GiComb,
   IoClose,
+  PrSpinner,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -60,9 +62,22 @@ addIcons(
   GiClothes,
   GiComb,
   IoClose,
+  PrSpinner,
 );
 
 axios.defaults.withCredentials = true;
+axios.interceptors.response.use((res) => {
+  return res;
+}, (error) => {
+  const axiosError = error as AxiosError;
+  const unauthorized = 401;
+  if (axiosError.status === unauthorized) {
+    useStorage("isLogged", false).value = false;
+    router.replace("/login");
+  } else {
+    router.replace("/ops");
+  }
+});
 
 createApp(App)
   .component("v-icon", OhVueIcon)
