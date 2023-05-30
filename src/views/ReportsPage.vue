@@ -39,6 +39,8 @@ const endDate = ref("");
 const view = ref<"Day" | "Week" | "Month">("Day");
 const isLoadingTransactions = ref(false);
 const isLoadingCategories = ref(false);
+const isLoadingPDF = ref(false);
+const isLoadingXLSX = ref(false);
 const isFirstLoad = ref(true);
 const error = ref("");
 const transactionsData = ref<BarChartData>({
@@ -184,6 +186,54 @@ async function loadData() {
   loadCategories();
 }
 
+async function generatePDF() {
+  isLoadingPDF.value = true;
+  const res = await axios.get(
+    `${baseURL}/generate-report-pdf?
+      initDate=${initDate.value}&
+      endDate=${endDate.value}
+    `.replaceAll(/^\s+|\n/gm, ""),
+    {
+      responseType: "blob",
+    },
+  );
+
+  const url = window.URL.createObjectURL(new Blob([res.data]));
+  const link = document.createElement("a");
+  const initDateFormatted = displayDate(initDate.value).split("/").join("-");
+  const endDateFormatted = displayDate(endDate.value).split("/").join("-");
+  link.href = url;
+  link.download =`${initDateFormatted} - ${endDateFormatted}.pdf`;
+  link.click();
+
+  window.URL.revokeObjectURL(url);
+  isLoadingPDF.value = false;
+}
+
+async function generateXLSX() {
+  isLoadingXLSX.value = true;
+  const res = await axios.get(
+    `${baseURL}/generate-report-xlsx?
+      initDate=${initDate.value}&
+      endDate=${endDate.value}
+    `.replaceAll(/^\s+|\n/gm, ""),
+    {
+      responseType: "blob",
+    },
+  );
+
+  const url = window.URL.createObjectURL(new Blob([res.data]));
+  const link = document.createElement("a");
+  const initDateFormatted = displayDate(initDate.value).split("/").join("-");
+  const endDateFormatted = displayDate(endDate.value).split("/").join("-");
+  link.href = url;
+  link.download =`${initDateFormatted} - ${endDateFormatted}.xlsx`;
+  link.click();
+
+  window.URL.revokeObjectURL(url);
+  isLoadingXLSX.value = false;
+}
+
 function formatDate(date: string): string {
   if (view.value === "Day") {
     return displayDate(date);
@@ -281,6 +331,34 @@ watch(view, () => {
           Selecione um período para gerar a visualização
         </h3>
       </div>
+      <div class="reports__container__exports">
+        <button
+          v-if="!isFirstLoad"
+          @click="generatePDF()"
+        >
+          <v-icon
+            v-if="isLoadingPDF"
+            name="pr-spinner"
+            animation="spin"
+          />
+          <span v-else>
+            Exportar transações para PDF
+          </span>
+        </button>
+        <button
+          v-if="!isFirstLoad"
+          @click="generateXLSX()"
+        >
+          <v-icon
+            v-if="isLoadingXLSX"
+            name="pr-spinner"
+            animation="spin"
+          />
+          <span v-else>
+            Exportar transações para XLSX (Excel)
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -321,14 +399,6 @@ watch(view, () => {
         }
 
         button {
-          height: 2rem;
-          border-radius: $border-radius;
-          text-align: center;
-          background-color: $financi-green;
-          color: $text-color-white;
-          margin-top: 1rem;
-          border: none;
-          cursor: pointer;
           grid-column: 1 / 3;
         }
       }
@@ -382,7 +452,24 @@ watch(view, () => {
         }
       }
     }
+
+    &__exports {
+      display: flex;
+      flex-direction: column;
+    }
   }
+}
+
+button {
+  height: 2rem;
+  border-radius: $border-radius;
+  text-align: center;
+  background-color: $financi-green;
+  color: $text-color-white;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 @media (min-width: 800px) {
