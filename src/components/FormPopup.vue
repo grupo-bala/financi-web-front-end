@@ -4,6 +4,8 @@ import axios, { AxiosError } from "axios";
 import InputField from "../components/InputField.vue";
 import SelectComponent from "../components/SelectComponent.vue";
 import ButtonComponent from "./ButtonComponent.vue";
+import { useTransactionsStore } from "../stores/transactionsStore";
+import { Transaction } from "../types/Transaction";
 
 const title = ref("");
 const value = ref("");
@@ -11,11 +13,19 @@ const date = ref("");
 const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const selected = ref("");
+const transactions = useTransactionsStore();
 const envUrl = import.meta.env.VITE_API_URL;
+
 type ErrorResponse = {msg: string};
-type SuccessResponse = {
+
+type SuccessCategoryResponse = {
   data: Category[],
 }
+
+type SuccessTransactionResponse = {
+  data: Transaction,
+}
+
 type Category = {
   id: number,
   name: string,
@@ -49,7 +59,7 @@ function getItensCategory() {
 async function getCategories() {
   try {
     const response = await axios
-      .get<SuccessResponse>(`${envUrl}/get-all-categories`);
+      .get<SuccessCategoryResponse>(`${envUrl}/get-all-categories`);
     itensCategory.value = response.data.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -84,16 +94,20 @@ async function postGoal() {
 
 async function postTransaction() {
   try {
-    await axios.post(`${envUrl}/add-transaction`, {
-      value: Number(value.value.replace(".", "").replace(",", ".")),
-      date: new Date(date.value),
-      categoryId: itensCategory.value.find((category) => {
-        return category.name === selected.value;
-      })?.id,
-      title: title.value,
-      description: "",
-      isEntry: props.type === "Income" ? true : false,
-    });
+    const res = await axios.post<SuccessTransactionResponse>(
+      `${envUrl}/add-transaction`, {
+        value: Number(value.value.replace(".", "").replace(",", ".")),
+        date: new Date(date.value),
+        categoryId: itensCategory.value.find((category) => {
+          return category.name === selected.value;
+        })?.id,
+        title: title.value,
+        description: "",
+        isEntry: props.type === "Income" ? true : false,
+      });
+
+    transactions.add(res.data.data);
+
     emits("success", true);
   } catch (error) {
     const axiosError = error as AxiosError;
