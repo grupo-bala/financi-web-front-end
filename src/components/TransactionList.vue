@@ -5,15 +5,8 @@ import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
 import router from "../router/index";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
-
-type Transaction = {
-  value: string,
-  categoryId: number,
-  title: string,
-  isEntry: boolean,
-  date: string,
-  id: number,
-};
+import InfoPopup from "./InfoOperationPopup.vue";
+import { Transaction } from "../types/Transaction";
 
 type SuccesfulReponse = {
   data: Transaction[],
@@ -32,6 +25,16 @@ const isLoading = ref(true);
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
 const transactions = ref<Transaction[]>([]);
+const isEntry = ref(false);
+const popupIsOpen = ref(false);
+const currentTransaction = ref<Transaction>();
+function operationType(isEntry: boolean): "Income" | "Out" {
+  if (isEntry) {
+    return "Income";
+  }
+
+  return "Out";
+}
 const dates = computed(() => {
   if (!transactions.value.length) {
     return [];
@@ -134,6 +137,11 @@ getTransactions();
           v-for="transaction of transactions.filter(t => t.date === date)"
           :key="transaction.id"
           class="transactions_list__item"
+          @click="[
+            popupIsOpen = true,
+            isEntry = transaction.isEntry,
+            currentTransaction = transaction
+          ]"
         >
           <div class="transactions_list__item__left">
             <v-icon
@@ -163,6 +171,12 @@ getTransactions();
           </div>
         </li>
       </ul>
+      <InfoPopup
+        v-if="popupIsOpen"
+        :operation="currentTransaction!"
+        :type="operationType(isEntry)"
+        @close="popupIsOpen = false"
+      />
     </SuspenseBox>
     <SuspenseBox
       :is-loading="isLoading && page > 1"
@@ -206,6 +220,7 @@ getTransactions();
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 
     &__left {
       display: flex;

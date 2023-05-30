@@ -27,6 +27,7 @@ import {
   GiPopcorn,
   GiClothes,
   GiComb,
+  IoClose,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -58,6 +59,7 @@ addIcons(
   GiPopcorn,
   GiClothes,
   GiComb,
+  IoClose,
 );
 
 axios.defaults.withCredentials = true;
