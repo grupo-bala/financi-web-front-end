@@ -31,6 +31,7 @@ import {
   IoClose,
   PrSpinner,
 } from "oh-vue-icons/icons";
+import { createPinia } from "pinia";
 
 export default {
   components: {
@@ -79,7 +80,10 @@ axios.interceptors.response.use((res) => {
   }
 });
 
+const pinia = createPinia();
+
 createApp(App)
   .component("v-icon", OhVueIcon)
   .use(router)
+  .use(pinia)
   .mount("#app");
