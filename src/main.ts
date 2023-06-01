@@ -27,6 +27,8 @@ import {
   GiPopcorn,
   GiClothes,
   GiComb,
+  MdOndemandvideoRound,
+  MdAccesstimeRound,
 } from "oh-vue-icons/icons";
 
 export default {
@@ -58,6 +60,8 @@ addIcons(
   GiPopcorn,
   GiClothes,
   GiComb,
+  MdOndemandvideoRound,
+  MdAccesstimeRound,
 );
 
 axios.defaults.withCredentials = true;
