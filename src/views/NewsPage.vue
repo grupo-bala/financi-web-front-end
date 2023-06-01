@@ -255,6 +255,10 @@ getNews();
       }
   }
 
+  h5 {
+    text-align: center;
+  }
+
 @media (max-width: 900px)  {
   aside {
     display: none;
@@ -287,7 +291,7 @@ getNews();
         }
       }
       &__aside {
-        display: flex;
+        display: flow-root;
         flex-direction: column;
         align-items: center;
         background-color: $section-color;
