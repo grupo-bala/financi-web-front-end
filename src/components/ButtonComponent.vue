@@ -33,10 +33,14 @@ const getColor = computed(() => {
 @import "../variables.scss";
 
 .container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 
   &__button {
-    width: 200.35px;
-    height: 50px;
+    max-width: 200.35px;
+    width: 100%;
+    padding: 0.8rem 1.5rem;
     border: 1px solid v-bind(getColor);
     border-radius: 5px;
     background-color: v-bind(getColor);

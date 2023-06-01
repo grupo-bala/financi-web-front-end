@@ -65,7 +65,7 @@ function disableScroll() {
 }
 
 function enableScroll() {
-  const scrollY = document.body.style.top;
+  const scrollY = document.body.style.top.split("px")[0];
   document.body.classList.remove("disable_scroll");
   document.body.style.top = "";
 
@@ -84,6 +84,13 @@ disableScroll();
     @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
   >
     <div class="box__card">
+      <v-icon
+        class="box__card__close"
+        name="io-close"
+        scale="1.5"
+        fill="gray"
+        @click="[enableScroll(), isOpen = !isOpen, $emit('close')]"
+      />
       <div class="box__card__titles">
         <h2
           v-if="props.type === 'Out'"
@@ -186,6 +193,7 @@ disableScroll();
   align-items: end;
 
   &__card {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -194,8 +202,12 @@ disableScroll();
     border-radius: 5px;
     width: 100%;
     max-width: 600px;
-    padding: 2rem 2.5rem;
+    padding: 3rem 2.5rem;
     gap: 2rem;
+
+    &__close {
+      display: none;
+    }
 
     &__titles {
       display: none;
@@ -235,6 +247,19 @@ disableScroll();
 
     &__card {
       width: 80%;
+
+      &__close {
+        display: flex;
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        cursor: pointer;
+        transition: fill 0.4s;
+
+        &:hover {
+          fill: $financi-red;
+        }
+      }
 
       &__titles {
         display: block;
