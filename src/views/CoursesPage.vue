@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from "../components/InputField.vue";
+import CourseList from "../components/CourseList.vue";
 
 </script>
 
@@ -19,6 +20,10 @@ import InputField from "../components/InputField.vue";
           />
         </form>
       </div>
+      <CourseList
+        :quantity="10"
+        show-load-more
+      />
     </div>
   </div>
 </template>
