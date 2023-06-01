@@ -28,6 +28,8 @@ import {
   GiPopcorn,
   GiClothes,
   GiComb,
+  MdOndemandvideoRound,
+  MdAccesstimeRound,
   IoClose,
   PrSpinner,
 } from "oh-vue-icons/icons";
@@ -62,6 +64,8 @@ addIcons(
   GiPopcorn,
   GiClothes,
   GiComb,
+  MdOndemandvideoRound,
+  MdAccesstimeRound,
   IoClose,
   PrSpinner,
 );

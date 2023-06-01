@@ -30,9 +30,9 @@
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/courses"
       >
-        Aulas
+        Cursos
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
