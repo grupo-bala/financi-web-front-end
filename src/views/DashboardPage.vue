@@ -20,11 +20,13 @@ const currentOperation = ref<"Income" | "Out" | "Goal">();
 
 type ErrorResponse = { msg: string };
 type SuccessResponse = {
-  name: string,
-  username: string,
-  fixedIncome: number,
-  balance: number,
-  email: string,
+  data: {
+    name: string,
+    username: string,
+    fixedIncome: number,
+    balance: number,
+    email: string,
+  },
 }
 
 function formatToMoney(value: string): string {
@@ -43,8 +45,8 @@ async function getUserInfos() {
       `${envUrl}/get-me`,
     );
     feedback.value = "";
-    username.value = response.data.username;
-    amount.value = response.data.balance.toString();
+    username.value = response.data.data.username;
+    amount.value = response.data.data.balance.toString();
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as ErrorResponse;
@@ -197,6 +199,7 @@ onMounted(() => {
   &__content {
     display: grid;
     grid-template-rows: repeat(5, min-content);
+    grid-template-columns: 100%;
     height: auto;
     width: 100%;
     max-width: 1280px;

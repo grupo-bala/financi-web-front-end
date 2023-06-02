@@ -6,3 +6,7 @@ export const Categories = {
   5: "Vestuário",
   6: "Cuidados pessoais",
 };
+
+export function getNameFromCategoryId(id: number) {
+  return Categories[id as keyof typeof Categories];
+}

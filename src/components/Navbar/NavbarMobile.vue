@@ -43,7 +43,7 @@ const popupIsOpen = ref(false);
         </div>
       </button>
       <router-link
-        to="/"
+        to="/courses"
         class="container_navButtons_courses"
       >
         <v-icon

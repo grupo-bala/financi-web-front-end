@@ -1,28 +1,27 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import InputField from "../components/InputField.vue";
-import TransactionsList from "../components/TransactionList.vue";
+import CourseList from "../components/CourseList.vue";
 
-const searchValue = ref("");
 </script>
 
 <template>
-  <div class="transactions">
-    <div class="transactions__container">
-      <div class="transactions__container__header">
-        <h1>Histórico de transações</h1>
-        <InputField
-          type="Text"
-          label=""
-          placeholder="Pesquisar"
-          :required="false"
-          :numeric="false"
-          :model-value="searchValue"
-        />
+  <div class="courses">
+    <div class="courses__container">
+      <div class="courses__container__header">
+        <h1>Cursos</h1>
+        <form class="courses__container__header__form">
+          <InputField
+            model-value=""
+            type="Text"
+            label=""
+            placeholder="Pesquisar por um curso"
+            :required="false"
+            :numeric="false"
+          />
+        </form>
       </div>
-      <TransactionsList
+      <CourseList
         :quantity="10"
-        show-dates
         show-load-more
       />
     </div>
@@ -31,11 +30,11 @@ const searchValue = ref("");
 
 <style scoped lang="scss">
 @import "../variables.scss";
-.transactions {
-  width: 100vw;
+
+.courses {
   min-height: 100dvh;
+  width: 100%;
   color: $text-color-white;
-  background-color: $bg-color;
   padding: 5rem 2rem;
   display: flex;
   justify-content: center;
@@ -46,29 +45,19 @@ const searchValue = ref("");
     height: fit-content;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
 
     &__header {
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 2.5rem;
 
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      :deep div.container {
-        width: 100%;
-      }
     }
   }
 }
 
 @media (min-width: 800px) {
-  .transactions {
+  .courses {
     &__container {
       background-color: $card-bg-color;
       border-radius: $border-radius;
@@ -82,5 +71,10 @@ const searchValue = ref("");
       }
     }
   }
+}
+
+h1 {
+  align-self: center;
+
 }
 </style>

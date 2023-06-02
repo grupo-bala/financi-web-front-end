@@ -3,17 +3,10 @@ import { computed, ref } from "vue";
 import axios from "axios";
 import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
-import router from "../router/index";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
-
-type Transaction = {
-  value: string,
-  categoryId: number,
-  title: string,
-  isEntry: boolean,
-  date: string,
-  id: number,
-};
+import InfoPopup from "./InfoOperationPopup.vue";
+import { Transaction } from "../types/Transaction";
+import { useTransactionsStore } from "../stores/transactionsStore";
 
 type SuccesfulReponse = {
   data: Transaction[],
@@ -31,25 +24,42 @@ const initialPage = 0;
 const isLoading = ref(true);
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
-const transactions = ref<Transaction[]>([]);
+const transactions = useTransactionsStore();
+const isEntry = ref(false);
+const popupIsOpen = ref(false);
+const currentTransaction = ref<Transaction>();
+function operationType(isEntry: boolean): "Income" | "Out" {
+  if (isEntry) {
+    return "Income";
+  }
+
+  return "Out";
+}
+
+const transactionsList = computed(() => {
+  return props.showLoadMore
+    ? transactions.data
+    : transactions.get(props.quantity);
+});
+
 const dates = computed(() => {
-  if (!transactions.value.length) {
+  if (!transactionsList.value.length) {
     return [];
   }
 
   const initialIndex = 0;
-  const uniqueDates = [transactions.value[initialIndex].date];
+  const uniqueDates = [transactionsList.value[initialIndex].date];
   const unitOffset = 1;
 
-  for (let i = 1; i < transactions.value.length; i++) {
-    const currentDate = transactions.value[i].date;
-    const previousDate = transactions.value[i - unitOffset].date;
+  for (let i = 1; i < transactionsList.value.length; i++) {
+    const currentDate = transactionsList.value[i].date;
+    const previousDate = transactionsList.value[i - unitOffset].date;
 
     if (
       displayDate(currentDate) !==
       displayDate(previousDate)
     ) {
-      uniqueDates.push(transactions.value[i].date);
+      uniqueDates.push(transactionsList.value[i].date);
     }
   }
 
@@ -67,21 +77,25 @@ const categoryToIcon = {
 
 async function getTransactions() {
   isLoading.value = true;
-  try {
-    page.value++;
-    const res = await axios.get<SuccesfulReponse>(
-      `${baseURL}/get-all-transactions-preview?
-        page=${page.value}&
-        size=${props.quantity}
-      `.replaceAll(/^\s+|\n/gm, ""),
-    );
+  page.value++;
 
-    transactions.value = transactions.value.concat(res.data.data);
-    totalPages.value = res.data.pages;
+  if (transactions.page >= page.value) {
     isLoading.value = false;
-  } catch (e) {
-    router.push("/ops");
+    return;
   }
+
+  const res = await axios.get<SuccesfulReponse>(
+    `${baseURL}/get-all-transactions-preview?
+      page=${page.value}&
+      size=${props.quantity}
+    `.replaceAll(/^\s+|\n/gm, ""),
+  );
+
+  transactions.concat(res.data.data);
+  transactions.nextPage();
+
+  totalPages.value = res.data.pages;
+  isLoading.value = false;
 }
 
 function getFormatedDate(date: string) {
@@ -131,9 +145,14 @@ getTransactions();
           {{ getDateCardFormat(date) }}
         </li>
         <li
-          v-for="transaction of transactions.filter(t => t.date === date)"
+          v-for="transaction of transactionsList.filter(t => t.date === date)"
           :key="transaction.id"
           class="transactions_list__item"
+          @click="[
+            popupIsOpen = true,
+            isEntry = transaction.isEntry,
+            currentTransaction = transaction
+          ]"
         >
           <div class="transactions_list__item__left">
             <v-icon
@@ -163,6 +182,12 @@ getTransactions();
           </div>
         </li>
       </ul>
+      <InfoPopup
+        v-if="popupIsOpen"
+        :operation="currentTransaction!"
+        :type="operationType(isEntry)"
+        @close="popupIsOpen = false"
+      />
     </SuspenseBox>
     <SuspenseBox
       :is-loading="isLoading && page > 1"
@@ -206,17 +231,21 @@ getTransactions();
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 
     &__left {
       display: flex;
       align-items: center;
       gap: .5rem;
+      flex-grow: 1;
+      overflow: hidden;
 
       &__info {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        max-width: 40vw;
+        overflow: hidden;
+        flex-grow: 1;
 
         &__title {
           font-weight: bold;
@@ -224,6 +253,7 @@ getTransactions();
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
+          max-width: 80%;
         }
 
         &__date {
@@ -246,6 +276,8 @@ getTransactions();
         font-weight: bold;
         white-space: nowrap;
         font-size: .8em;
+        justify-self: end;
+        align-self: center;
       }
     }
   }
