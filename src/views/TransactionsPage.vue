@@ -2,6 +2,10 @@
 import { ref } from "vue";
 import InputField from "../components/InputField.vue";
 import TransactionsList from "../components/TransactionList.vue";
+import DashboarButton from "../components/DashboardButton.vue";
+import EditPopup from "../components/EditPopupComponent.vue";
+const popupIsOpen = ref(false);
+const currentOperation = ref<"EditIncome" | "EditOut">();
 
 const searchValue = ref("");
 </script>
@@ -20,6 +24,25 @@ const searchValue = ref("");
           :model-value="searchValue"
         />
       </div>
+      <DashboarButton
+        type="Income"
+        @click="[popupIsOpen = true, currentOperation = 'EditIncome']"
+      />
+      <EditPopup
+        v-if="popupIsOpen"
+        :type="currentOperation"
+        @close="popupIsOpen = false"
+      />
+
+      <DashboarButton
+        type="Out"
+        @click="[popupIsOpen = true, currentOperation = 'EditOut']"
+      />
+      <EditPopup
+        v-if="popupIsOpen"
+        :type="currentOperation"
+        @close="popupIsOpen = false"
+      />
       <TransactionsList
         :quantity="10"
         show-dates
