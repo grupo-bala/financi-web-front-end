@@ -12,7 +12,16 @@ const percent = ref(props.percent);
   <div class="progress_container">
     <div class="progress_container__circle">
       <div class="progress_container__circle__inner">
-        {{ percent + "%" }}
+        {{ percent }}%
+      </div>
+    </div>
+    <div class="progress_container__bar">
+      <p>{{ percent }}% atingido</p>
+      <div class="progress_container__bar__percent">
+        <progress
+          :value="percent"
+          max="100"
+        />
       </div>
     </div>
   </div>
@@ -48,9 +57,57 @@ const percent = ref(props.percent);
       height: 78%;
       background-color: $card-bg-color;
       color: $text-color-white;
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: 600;
       border-radius: 50%;
+    }
+  }
+
+  &__bar {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  .progress_container {
+    &__circle {
+      display: none;
+    }
+
+    &__bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+
+      p {
+        font-size: .9rem;
+        color: $financi-blue;
+        font-weight: 600;
+      }
+
+      &__percent {
+        position: relative;
+        display: inline-block;
+        background: #eee;
+        height: 9px;
+        border-radius: $border-radius;
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: calc(v-bind(percent) * 1%);
+          background: $financi-blue;
+        }
+
+        progress {
+          opacity: 0;
+        }
+      }
     }
   }
 }
