@@ -155,17 +155,29 @@ disableScroll();
       <FormPopup
         v-if="actualType === 'Goal'"
         type="Goal"
-        @success="[(feedback: boolean) => isOpen = !feedback, $emit('close')]"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
       <FormPopup
         v-else-if="actualType === 'Income'"
         type="Income"
-        @success="[(feedback: boolean) => isOpen = !feedback, $emit('close')]"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
       <FormPopup
         v-else
         type="Out"
-        @success="[(feedback: boolean) => isOpen = !feedback, $emit('close')]"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
     </div>
   </div>
