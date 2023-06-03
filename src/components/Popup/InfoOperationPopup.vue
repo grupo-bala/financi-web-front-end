@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import ButtonComponent from "./ButtonComponent.vue";
-import { Transaction } from "../types/Transaction";
-import { getNameFromCategoryId } from "../types/Category";
-import { displayDate } from "../utils/Dates";
+import ButtonComponent from "../ButtonComponent.vue";
+import { Transaction } from "../../types/Transaction";
+import { getNameFromCategoryId } from "../../types/Category";
+import { displayDate } from "../../utils/Dates";
 
 const isOpen = ref(true);
 const props = defineProps<{
@@ -171,7 +171,7 @@ disableScroll();
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 .info_box {
   display: flex;
