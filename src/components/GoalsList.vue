@@ -190,7 +190,7 @@ getGoals();
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
 
   &__item {
     background-color: $card-bg-color;
@@ -223,7 +223,7 @@ getGoals();
         display: flex;
         flex-direction: column;
         gap: .5rem;
-        font-size: .8rem;
+        font-size: .7rem;
 
         &__label_value {
           display: flex;
@@ -253,16 +253,16 @@ getGoals();
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        font-size: .9rem;
         gap: .2rem;
 
         &__current_value {
+          font-size: .9rem;
           color: $financi-blue;
           font-weight: 700;
         }
 
         &__remaining {
+          font-size: .7rem;
           text-align: center;
           font-weight: 500;
           color: $text-color-white;
@@ -279,13 +279,51 @@ button {
   text-align: center;
   background-color: $financi-green;
   color: $text-color-white;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border: none;
   cursor: pointer;
 
   &:disabled {
     cursor: not-allowed;
     opacity: .2;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  .goals_list {
+    &__item {
+      background-color: $child-card-bg-color;
+
+      &__left {
+        &__title {
+          font-size: 1.3rem;
+        }
+
+        &__content {
+          flex-direction: row;
+          gap: 2rem;
+          font-size: .9rem;
+
+          &__label_value {
+            border-left: 1px solid $text-color-gray;
+            padding-left: 2rem;
+          }
+
+          :first-child {
+            border: 0px;
+            padding: 0;
+          }
+        }
+      }
+
+      &__right {
+        &__bottom {
+          &__remaining {
+            font-size: .9rem;
+          }
+        }
+      }
+    }
   }
 }
 </style>
