@@ -53,73 +53,81 @@ getCourses();
 </script>
 
 <template>
-  <div class="course__list">
-    <SuspenseBox
-      :is-loading="isLoading && page === 1"
-      loading-width="100%"
-      loading-height="200px"
-      :quantity="props.quantity"
+  <div>
+    <div
+      v-if="allCourses.length !== 0"
+      class="course__list"
     >
-      <li
-        v-for="course in allCourses"
-        :key="course.id"
-        class="course__list__item"
+      <SuspenseBox
+        :is-loading="isLoading && page === 1"
+        loading-width="100%"
+        loading-height="200px"
+        :quantity="props.quantity"
       >
-        <div class="course__list__item__top">
-          <span class="course__list__item__top__title">
-            {{ course.title }}
-          </span>
-          <span class="course__list__item__top__description">
-            {{ course.description }}
-          </span>
-        </div>
-        <div class="course__list__item__bottom">
-          <div class="course__list__item__bottom__load">
-            <span class="course__list__item__bottom__load__icon">
-              <v-icon
-                name="md-accesstime-round"
-                fill="#4ECB71"
-                scale="0.8"
-              />
+        <ul
+          v-for="course in allCourses"
+          :key="course.id"
+          class="course__list__item"
+        >
+          <div class="course__list__item__top">
+            <span class="course__list__item__top__title">
+              {{ course.title }}
             </span>
-            <span class="course__list__item__bottom__load__info">
-              Carga horária
-              <p>{{ course.totalTime + " horas" }} </p>
+            <span class="course__list__item__top__description">
+              {{ course.description }}
             </span>
           </div>
-          <div class="course__list__item__bottom__lesson">
-            <span class="course__list__item__bottom__lesson__icon">
-              <v-icon
-                name="md-ondemandvideo-round"
-                fill="#4ECB71"
-                scale="0.8"
-              />
-            </span>
-            <span class="course__list__item__bottom__lesson__info">
-              {{ course.howManyLessons + " Aulas" }}
-              <p>{{ course.averageTimePerLesson + " minutos" }}</p>
-            </span>
+          <div class="course__list__item__bottom">
+            <div class="course__list__item__bottom__load">
+              <span class="course__list__item__bottom__load__icon">
+                <v-icon
+                  name="md-accesstime-round"
+                  fill="#4ECB71"
+                  scale="0.8"
+                />
+              </span>
+              <span class="course__list__item__bottom__load__info">
+                Carga horária
+                <p>{{ course.totalTime + " horas" }} </p>
+              </span>
+            </div>
+            <div class="course__list__item__bottom__lesson">
+              <span class="course__list__item__bottom__lesson__icon">
+                <v-icon
+                  name="md-ondemandvideo-round"
+                  fill="#4ECB71"
+                  scale="0.8"
+                />
+              </span>
+              <span class="course__list__item__bottom__lesson__info">
+                {{ course.howManyLessons + " Aulas" }}
+                <p>{{ course.averageTimePerLesson + " minutos" }}</p>
+              </span>
+            </div>
           </div>
-        </div>
-        <button class="course__list__item__button">
-          <h5> VER CURSO </h5>
-        </button>
-      </li>
-    </SuspenseBox>
-    <SuspenseBox
-      :is-loading="isLoading && page > 1"
-      loading-width="100%"
-      loading-height="70px"
-      :quantity="props.quantity"
-    />
-    <button
-      v-if="props.showLoadMore && totalPages !== page"
-      :disabled="isLoading"
-      class="course__list__seemore"
-      @click="getCourses()"
-    >
-      <h4>VER MAIS</h4>
-    </button>
+          <button class="course__list__item__button">
+            <h5> VER CURSO </h5>
+          </button>
+        </ul>
+      </SuspenseBox>
+      <SuspenseBox
+        :is-loading="isLoading && page > 1"
+        loading-width="100%"
+        loading-height="70px"
+        :quantity="props.quantity"
+      />
+      <button
+        v-if="props.showLoadMore && totalPages !== page"
+        :disabled="isLoading"
+        class="course__list__seemore"
+        @click="getCourses()"
+      >
+        <h4>VER MAIS</h4>
+      </button>
+    </div>
+    <div v-else>
+      <h2> Ainda não há cursos</h2>
+    </div>
   </div>
 </template>
 
@@ -130,9 +138,7 @@ getCourses();
   list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
   &__seemore {
     width: 100%;
     height: 2rem;
@@ -153,12 +159,13 @@ getCourses();
   &__item {
     height: 200px;
     width: 100%;
-    background-color: $section-color;
+    background-color: $filter-bg-color;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1em;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    border-radius: $border-radius;
     box-shadow: $box-shadow;
     align-items: center;
     &__button {
@@ -200,6 +207,7 @@ getCourses();
       justify-content: space-between;
       &__load {
         display: flex;
+        padding-right: 1rem;
         gap: 0.5em;
         font-size: .8em;
         &__info {
@@ -226,8 +234,11 @@ p {
 
 @media (min-width: 800px) {
   .course__list {
+    align-items: center;
     &__item {
+
       height: 250px;
+      min-width: 600px;
     }
   }
 }
