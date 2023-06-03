@@ -292,8 +292,6 @@ getNews();
       }
       &__aside {
         display: flow-root;
-        flex-direction: column;
-        align-items: center;
         background-color: $section-color;
         margin-left: 2rem;
         color: $text-color-white;
