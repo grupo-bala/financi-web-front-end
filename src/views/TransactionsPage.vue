@@ -77,6 +77,7 @@ const searchValue = ref("");
 
       &__header {
         h1 {
+          font-size: 2rem;
           align-self: flex-start;
         }
       }
