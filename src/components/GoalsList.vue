@@ -6,7 +6,7 @@ import axios from "axios";
 import { displayDate } from "../utils/Dates";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
 import Progress from "./ProgressBarComponent.vue";
-import InfoPopup from "./Popup/InfoOperationPopup.vue";
+import GoalInfo from "./Popup/GoalInfoPopupComponent.vue";
 
 type SuccesfulReponse = {
   data: Goal[],
@@ -160,10 +160,9 @@ getGoals();
           </div>
         </li>
       </ul>
-      <InfoPopup
+      <GoalInfo
         v-if="popupIsOpen"
-        type="Goal"
-        :operation="currentGoal"
+        :goal="currentGoal!"
         @close="popupIsOpen = false"
       />
     </SuspenseBox>
