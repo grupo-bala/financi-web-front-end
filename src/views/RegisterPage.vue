@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Button from "../components/ButtonComponent.vue";
-import Input from "../components/InputField.vue";
+import Input from "../components/Inputs/InputField.vue";
 import axios, { AxiosError } from "axios";
 import router from "../router";
 
@@ -26,7 +26,7 @@ async function postRegisterUser() {
       username: username.value,
       fixedIncome: Number(fixedIncome.value.split(",").join(".")),
     });
-    router.push({ name:"Home" });
+    router.push({ name:"Login" });
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as Response;

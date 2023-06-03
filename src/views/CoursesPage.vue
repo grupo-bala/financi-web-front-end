@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputField from "../components/InputField.vue";
+import InputField from "../components/Inputs/InputField.vue";
 import CourseList from "../components/CourseList.vue";
 
 </script>

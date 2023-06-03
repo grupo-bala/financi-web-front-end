@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
-import OperationPopup from "../components/OperationPopupComponent.vue";
+import OperationPopup from "../components/Popup/OperationPopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Greeting from "../components/GreetingComponent.vue";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import InputField from "../components/InputField.vue";
+import InputField from "../components/Inputs/InputField.vue";
 import TransactionsList from "../components/TransactionList.vue";
 
 const searchValue = ref("");

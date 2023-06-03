@@ -24,7 +24,7 @@
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
-        to="/"
+        to="/goals"
       >
         Metas
       </router-link>

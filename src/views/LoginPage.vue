@@ -2,9 +2,9 @@
 import { ref } from "vue";
 import { useStorage } from "@vueuse/core";
 import axios, { AxiosError } from "axios";
-import Input from "../components/InputField.vue";
+import Input from "../components/Inputs/InputField.vue";
 import Button from "../components/ButtonComponent.vue";
-import CheckboxLogin from "../components/CheckboxLogin.vue";
+import CheckboxLogin from "../components/Inputs/CheckboxLogin.vue";
 import router from "../router";
 
 const username = ref("");
