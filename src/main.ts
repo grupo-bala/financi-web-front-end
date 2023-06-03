@@ -32,6 +32,7 @@ import {
   MdAccesstimeRound,
   IoClose,
   PrSpinner,
+  FaTrash,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -68,6 +69,7 @@ addIcons(
   MdAccesstimeRound,
   IoClose,
   PrSpinner,
+  FaTrash,
 );
 
 axios.defaults.withCredentials = true;
