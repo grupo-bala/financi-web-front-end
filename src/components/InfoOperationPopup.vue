@@ -4,7 +4,9 @@ import ButtonComponent from "./ButtonComponent.vue";
 import { Transaction } from "../types/Transaction";
 import { getNameFromCategoryId } from "../types/Category";
 import { displayDate } from "../utils/Dates";
+import EditPopup from "../components/EditPopupComponent.vue";
 
+const popupIsOpen = ref(false);
 const isOpen = ref(true);
 const props = defineProps<{
   type: "Income" | "Out" | "Goal"
@@ -26,6 +28,10 @@ const date = computed(() => {
 const value = computed(() => {
   return Number(props.operation.value)
     .toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+});
+
+const id = computed(() => {
+  return props.operation.id;
 });
 
 const buttonColorValue = computed(() => {
@@ -158,6 +164,21 @@ disableScroll();
           :color="buttonColorValue"
           text="EDITAR"
           :disabled="false"
+          @click="[popupIsOpen = true]"
+        />
+        <EditPopup
+          v-if="popupIsOpen && props.type == 'Income'"
+          :operation="props.operation"
+          :type="props.type"
+          :id-number="id"
+          @close="popupIsOpen = false"
+        />
+        <EditPopup
+          v-if="popupIsOpen && props.type == 'Out'"
+          :operation="props.operation"
+          type="Out"
+          :id-number="id"
+          @close="popupIsOpen = false"
         />
         <button
           v-if="props.type === 'Goal'"
