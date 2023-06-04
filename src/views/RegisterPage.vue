@@ -153,8 +153,8 @@ async function postRegisterUser() {
           </p>
           <p
             v-else-if="feedback.length > 0"
-          >
             class="main_content__container__inputs__error"
+          >
             {{ feedback }}
           </p>
           <p
