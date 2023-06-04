@@ -153,6 +153,7 @@ onMounted(() => {
         </h2>
         <TransactionList
           :quantity="5"
+          force-reload
         />
         <router-link
           to="/transactions"
