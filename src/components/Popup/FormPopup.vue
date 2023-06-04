@@ -6,6 +6,7 @@ import SelectComponent from "../Inputs/SelectComponent.vue";
 import ButtonComponent from "../ButtonComponent.vue";
 import { useTransactionsStore } from "../../stores/transactionsStore";
 import { Transaction } from "../../types/Transaction";
+import { useGoalsStore } from "../../stores/goalsStore";
 
 const title = ref("");
 const value = ref("");
@@ -14,6 +15,7 @@ const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const selected = ref("");
 const transactions = useTransactionsStore();
+const goals = useGoalsStore();
 const envUrl = import.meta.env.VITE_API_URL;
 
 type ErrorResponse = {msg: string};
@@ -78,11 +80,14 @@ async function setPostType() {
 
 async function postGoal() {
   try {
-    await axios.post(`${envUrl}/add-goal`, {
+    const res = await axios.post(`${envUrl}/add-goal`, {
       totalValue: Number(value.value.replace(".", "").replace(",", ".")),
       title: title.value,
       deadline: new Date(date.value),
     });
+
+    goals.add(res.data.data);
+
     emits("success", true);
   } catch (error) {
     const axiosError = error as AxiosError;
