@@ -82,7 +82,7 @@ axios.interceptors.response.use((res) => {
     useStorage("isLogged", false).value = false;
     router.replace("/login");
   } else {
-    router.replace("/ops");
+    throw error;
   }
 });
 
