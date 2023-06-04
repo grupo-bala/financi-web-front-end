@@ -16,6 +16,7 @@ type SuccesfulReponse = {
 const props = defineProps<{
   quantity: number,
   showLoadMore?: boolean,
+  minimalist?: boolean,
 }>();
 
 const baseURL = import.meta.env.VITE_API_URL as string;
@@ -99,7 +100,10 @@ getGoals();
               {{ goal.title }}
             </p>
             <div class="goals_list__item__left__content">
-              <div class="goals_list__item__left__content__label_value">
+              <div
+                v-if="props.minimalist === false"
+                class="goals_list__item__left__content__label_value"
+              >
                 <div
                   class="goals_list__item__left__content__label_value__title"
                 >
@@ -118,7 +122,7 @@ getGoals();
                   class="goals_list__item__left__content__label_value__title"
                 >
                   <p>
-                    Pretendo alcançar em
+                    Data estimada
                   </p>
                 </div>
                 <div
@@ -190,7 +194,8 @@ getGoals();
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1rem;
+  margin-bottom: .4rem;
 
   &__item {
     background-color: $card-bg-color;
@@ -228,6 +233,9 @@ getGoals();
         &__label_value {
           display: flex;
           flex-direction: column;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
           gap: .3rem;
 
           &__title {
@@ -248,6 +256,7 @@ getGoals();
       flex-direction: column;
       align-items: center;
       gap: .7rem;
+      overflow: hidden;
 
       &__bottom {
         display: flex;
@@ -289,24 +298,24 @@ button {
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 800px) {
   .goals_list {
     &__item {
       background-color: $child-card-bg-color;
 
       &__left {
         &__title {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
         }
 
         &__content {
           flex-direction: row;
-          gap: 2rem;
-          font-size: .9rem;
+          gap: 1.5rem;
+          font-size: .8rem;
 
           &__label_value {
             border-left: 1px solid $text-color-gray;
-            padding-left: 2rem;
+            padding-left: 1.5rem;
           }
 
           :first-child {
@@ -319,7 +328,7 @@ button {
       &__right {
         &__bottom {
           &__remaining {
-            font-size: .9rem;
+            font-size: .8rem;
           }
         }
       }
