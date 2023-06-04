@@ -67,7 +67,7 @@ const searchValue = ref("");
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 800px) {
   .goals {
     &__container {
       background-color: $card-bg-color;

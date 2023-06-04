@@ -77,7 +77,7 @@ disableScroll();
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 800px) {
   .popup_box {
     align-items: center;
 

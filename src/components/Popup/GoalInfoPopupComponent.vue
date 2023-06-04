@@ -168,7 +168,7 @@ const currentValue = computed(() => {
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 800px) {
   .goal_container {
     gap: 3rem;
 

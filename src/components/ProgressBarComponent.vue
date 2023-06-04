@@ -68,7 +68,7 @@ const percent = ref(props.percent);
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 800px) {
   .progress_container {
     &__circle {
       display: none;
