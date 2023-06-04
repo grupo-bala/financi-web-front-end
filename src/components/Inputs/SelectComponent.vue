@@ -59,7 +59,7 @@ const currentArrow = computed(() =>
 </template>
 
 <style scooped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 .select_container {
   &__label {

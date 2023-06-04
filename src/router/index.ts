@@ -21,11 +21,8 @@ const routes = [
     component: () => import("../views/ReportsPage.vue") },
   { path: "/courses", name: "Courses",
     component: () => import("../views/CoursesPage.vue") },
-  /**
-   para adicionar novas rotas para outras páginas, faça isso de forma dinâmica
-   ex:
-   {path: "/exemplo", name: "exemplo", component: () => import("path-da-view")}
-  */
+  { path: "/goals", name: "Goals",
+    component: () => import("../views/GoalsPage.vue") },
 ];
 
 const noAuthRoutes = [

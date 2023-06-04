@@ -32,6 +32,7 @@ import {
   MdAccesstimeRound,
   IoClose,
   PrSpinner,
+  FaTrash,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -68,6 +69,7 @@ addIcons(
   MdAccesstimeRound,
   IoClose,
   PrSpinner,
+  FaTrash,
 );
 
 axios.defaults.withCredentials = true;
@@ -80,7 +82,7 @@ axios.interceptors.response.use((res) => {
     useStorage("isLogged", false).value = false;
     router.replace("/login");
   } else {
-    router.replace("/ops");
+    throw error;
   }
 });
 

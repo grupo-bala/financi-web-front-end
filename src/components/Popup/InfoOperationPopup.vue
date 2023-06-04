@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import ButtonComponent from "./ButtonComponent.vue";
-import { Transaction } from "../types/Transaction";
-import { getNameFromCategoryId } from "../types/Category";
-import { displayDate } from "../utils/Dates";
+import ButtonComponent from "../ButtonComponent.vue";
+import { Transaction } from "../../types/Transaction";
+import { getNameFromCategoryId } from "../../types/Category";
+import { displayDate } from "../../utils/Dates";
 
 const isOpen = ref(true);
 const props = defineProps<{
-  type: "Income" | "Out" | "Goal"
+  type: "Income" | "Out"
   operation: Transaction,
 }>();
 
@@ -29,9 +29,7 @@ const value = computed(() => {
 });
 
 const buttonColorValue = computed(() => {
-  if (props.type === "Goal") {
-    return "blue";
-  } else if (props.type === "Income") {
+  if (props.type === "Income") {
     return "green";
   }
 
@@ -39,17 +37,11 @@ const buttonColorValue = computed(() => {
 });
 
 const colorValue = computed(() => {
-  if (props.type === "Goal") {
-    return "#168CC0";
-  } else if (props.type === "Income") {
+  if (props.type === "Income") {
     return "#49AD5A";
   }
 
   return "#EF5350";
-});
-
-const dateLabelValue = computed(() => {
-  return props.type === "Goal" ? "Data estimada" : "Data realizada";
 });
 
 function disableScroll() {
@@ -98,41 +90,11 @@ disableScroll();
         </p>
       </div>
       <div class="info_box__card__main_content">
-        <div
-          v-if="props.type === 'Goal'"
-          class="info_box__card__main_content__section"
-        >
-          <p
-            class="info_box__card__main_content__section__label"
-          >
-            Objetivo total
-          </p>
-          <p
-            class="info_box__card__main_content__section__value"
-          >
-            Valor
-          </p>
-        </div>
-        <div
-          v-if="props.type === 'Goal'"
-          class="info_box__card__main_content__section"
-        >
-          <p
-            class="info_box__card__main_content__section__label"
-          >
-            Ideal por mês
-          </p>
-          <p
-            class="info_box__card__main_content__section__value"
-          >
-            Valor
-          </p>
-        </div>
         <div class="info_box__card__main_content__section">
           <p
             class="info_box__card__main_content__section__label"
           >
-            {{ dateLabelValue }}
+            Data realizada
           </p>
           <p
             class="info_box__card__main_content__section__value"
@@ -159,19 +121,13 @@ disableScroll();
           text="EDITAR"
           :disabled="false"
         />
-        <button
-          v-if="props.type === 'Goal'"
-          class="info_box__card__button"
-        >
-          DEPOSITAR
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 .info_box {
   display: flex;
@@ -206,7 +162,7 @@ disableScroll();
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.3rem;
 
       &__title {
         font-size: 1.3rem;
@@ -279,6 +235,28 @@ disableScroll();
     &__card {
       width: 50%;
       padding: 3rem 2.5rem;
+
+      &__top_content {
+        &__title {
+          font-size: 1.5rem;
+        }
+
+        &__value {
+          font-size: 1.4rem;
+        }
+      }
+
+      &__main_content {
+        &__section {
+          &__label {
+            font-size: 1rem;
+          }
+
+          &__value {
+            font-size: 1.1rem;
+          }
+        }
+      }
 
       &__close {
         display: flex;

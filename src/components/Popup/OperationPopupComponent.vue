@@ -155,24 +155,36 @@ disableScroll();
       <FormPopup
         v-if="actualType === 'Goal'"
         type="Goal"
-        @success="(feedback: boolean) => isOpen = !feedback"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
       <FormPopup
         v-else-if="actualType === 'Income'"
         type="Income"
-        @success="(feedback: boolean) => isOpen = !feedback"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
       <FormPopup
         v-else
         type="Out"
-        @success="(feedback: boolean) => isOpen = !feedback"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 :global(body.disable_scroll) {
   height: 100vh;

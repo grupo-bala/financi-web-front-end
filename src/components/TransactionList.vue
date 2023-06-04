@@ -4,7 +4,7 @@ import axios from "axios";
 import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
-import InfoPopup from "./InfoOperationPopup.vue";
+import InfoPopup from "./Popup/InfoOperationPopup.vue";
 import { Transaction } from "../types/Transaction";
 import { useTransactionsStore } from "../stores/transactionsStore";
 

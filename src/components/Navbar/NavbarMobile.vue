@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import OperationPopup from "../OperationPopupComponent.vue";
+import OperationPopup from "../Popup/OperationPopupComponent.vue";
 
 const popupIsOpen = ref(false);
 </script>
@@ -9,7 +9,7 @@ const popupIsOpen = ref(false);
   <div class="container">
     <div class="container_navButtons">
       <router-link
-        to="/"
+        to="/dashboard"
         class="container_navButtons_home"
       >
         <v-icon
@@ -122,6 +122,7 @@ const popupIsOpen = ref(false);
       width: 1.5em;
       background-color: #383838;
       box-shadow: $box-shadow;
+      cursor: pointer;
     }
   }
 }
