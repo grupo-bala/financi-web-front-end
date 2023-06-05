@@ -5,6 +5,7 @@ import FinanciLogo from "../components/LogoFinanci.vue";
 import Button from "../components/ButtonComponent.vue";
 import { ref } from "vue";
 import axios from "axios";
+import router from "../router";
 
 interface UserInfo {
   id: number,
@@ -14,6 +15,7 @@ interface UserInfo {
   email: string,
 }
 
+const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
 const isEmailCorrect = ref(false);
 const info = ref<UserInfo>({
@@ -23,7 +25,6 @@ const info = ref<UserInfo>({
   fixedIncome: "",
   email: "",
 });
-const envUrl = import.meta.env.VITE_API_URL;
 
 async function getMe() {
   const response = await axios.get(`${envUrl}/get-me`);
@@ -33,6 +34,11 @@ async function getMe() {
 
 async function updateProfile() {
 
+}
+
+async function logOut() {
+  await axios.post(`${envUrl}/logout`);
+  router.push("/login");
 }
 
 getMe();
@@ -72,18 +78,18 @@ getMe();
         placeholder="Digite sua renda mensal"
       />
       <Button
-        class="main_container__content_box__butto-update"
+        class="main_container__content_box__update"
         color="green"
         text="EDITAR PERFIL"
         :disabled="info!.name.length === 0 || info!.email.length === 0"
         @click="updateProfile"
       />
-      <router-link
-        class="main_container__content_box__link"
-        to="/login"
+      <button
+        class="main_container__content_box__logout"
+        @click="logOut"
       >
-        FAZER LOGOUT.
-      </router-link>
+        FAZER LOGOUT
+      </button>
     </div>
     <FinanciLogo class="main_container__logo-financi" />
   </div>
@@ -109,6 +115,13 @@ getMe();
         flex-direction: column;
         justify-content: space-evenly;
 
+        &__logout {
+          background-color: transparent;
+          text-decoration: underline;
+          border-color: transparent;
+          color: $financi-red;
+        }
+
         @media (min-width: 400px) {
           width: 400px;
           background-color: $bg-color
@@ -117,10 +130,6 @@ getMe();
         @media (min-width: 800px) {
           width: 1000px;
           background-color: $card-bg-color;
-        }
-
-        &__link {
-          color: $financi-red;
         }
 
     }
