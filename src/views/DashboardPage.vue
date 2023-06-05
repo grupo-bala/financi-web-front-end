@@ -9,6 +9,7 @@ import MovimentsInfo from "../components/MovimentsInfo.vue";
 import TransactionList from "../components/TransactionList.vue";
 import NewsPreview from "../components/NewsPreviewComponent.vue";
 import GoalsList from "../components/GoalsList.vue";
+import CourseList from "../components/CourseList.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -159,7 +160,7 @@ onMounted(() => {
           to="/transactions"
           class="container__content__button"
         >
-          <h5>VER TODAS</h5>
+          <h5>IR PARA TRANSAÇÕES</h5>
         </router-link>
       </div>
       <div class="container__content__goals">
@@ -169,14 +170,14 @@ onMounted(() => {
           Metas
         </h2>
         <GoalsList
-          :quantity="3"
+          :quantity="2"
           :minimalist="true"
         />
         <router-link
           to="/goals"
           class="container__content__button"
         >
-          <h5>VER TODAS</h5>
+          <h5>IR PARA METAS</h5>
         </router-link>
       </div>
       <div class="container__content__last_news">
@@ -188,11 +189,23 @@ onMounted(() => {
           to="/news"
           class="container__content__button"
         >
-          <h5>VER TODAS</h5>
+          <h5>IR PARA NOTÍCIAS</h5>
         </router-link>
       </div>
-      <div class="container__content__lats_lessons">
-        <h1>aulas</h1>
+      <div class="container__content__courses">
+        <div class="container__content__courses__title">
+          <h2>Cursos</h2>
+        </div>
+        <CourseList
+          :quantity="3"
+          show-load-more
+        />
+        <router-link
+          to="/courses"
+          class="container__content__button"
+        >
+          <h5>IR PARA CURSOS</h5>
+        </router-link>
       </div>
     </div>
     <footer>
@@ -315,6 +328,15 @@ onMounted(() => {
         margin-bottom: 1rem;
       }
     }
+
+    &__courses {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
+      }
+    }
   }
 }
 
@@ -403,6 +425,17 @@ onMounted(() => {
 
         &__title {
           margin-bottom: 0.5rem;
+        }
+      }
+
+      &__courses {
+        padding: 30px;
+        gap: 1rem;
+        background-color: $card-bg-color;
+        box-shadow: $box-shadow;
+
+        &__title {
+          margin-bottom: .5rem;
         }
       }
     }

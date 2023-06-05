@@ -77,112 +77,123 @@ getGoals();
 
 <template>
   <div>
-    <SuspenseBox
-      :is-loading="isLoading && page === 1"
-      loading-width="100%"
-      loading-height="150px"
-      :quantity="props.quantity"
+    <div
+      v-if="goals.data.length > 0"
     >
-      <ul
-        class="goals_list"
+      <SuspenseBox
+        :is-loading="isLoading && page === 1"
+        loading-width="100%"
+        loading-height="150px"
+        :quantity="props.quantity"
       >
-        <li
-          v-for="goal of goalsList"
-          :key="goal.id"
-          class="goals_list__item"
-          @click="[
-            popupIsOpen = true,
-            currentGoal = goal
-          ]"
-        >
-          <div class="goals_list__item__left">
-            <p class="goals_list__item__left__title">
-              {{ goal.title }}
-            </p>
-            <div class="goals_list__item__left__content">
-              <div
-                v-if="props.minimalist === false"
-                class="goals_list__item__left__content__label_value"
-              >
+        <ul class="goals_list">
+          <li
+            v-for="goal of goalsList"
+            :key="goal.id"
+            class="goals_list__item"
+            @click="[
+              popupIsOpen = true,
+              currentGoal = goal
+            ]"
+          >
+            <div class="goals_list__item__left">
+              <p class="goals_list__item__left__title">
+                {{ goal.title }}
+              </p>
+              <div class="goals_list__item__left__content">
                 <div
-                  class="goals_list__item__left__content__label_value__title"
+                  v-if="props.minimalist === false"
+                  class="goals_list__item__left__content__label_value"
                 >
-                  <p>
-                    Objetivo
-                  </p>
+                  <div
+                    class="goals_list__item__left__content__label_value__title"
+                  >
+                    <p>
+                      Objetivo
+                    </p>
+                  </div>
+                  <div
+                    class="goals_list__item__left__content__label_value__value"
+                  >
+                    {{ "R$ " + getNumberAsCurrency(goal.totalValue) }}
+                  </div>
                 </div>
-                <div
-                  class="goals_list__item__left__content__label_value__value"
-                >
-                  {{ "R$ " + getNumberAsCurrency(goal.totalValue) }}
+                <div class="goals_list__item__left__content__label_value">
+                  <div
+                    class="goals_list__item__left__content__label_value__title"
+                  >
+                    <p>
+                      Data estimada
+                    </p>
+                  </div>
+                  <div
+                    class="goals_list__item__left__content__label_value__value"
+                  >
+                    {{ getFormatedDate(goal.deadline) }}
+                  </div>
                 </div>
-              </div>
-              <div class="goals_list__item__left__content__label_value">
-                <div
-                  class="goals_list__item__left__content__label_value__title"
-                >
-                  <p>
-                    Data estimada
-                  </p>
-                </div>
-                <div
-                  class="goals_list__item__left__content__label_value__value"
-                >
-                  {{ getFormatedDate(goal.deadline) }}
-                </div>
-              </div>
-              <div class="goals_list__item__left__content__label_value">
-                <div
-                  class="goals_list__item__left__content__label_value__title"
-                >
-                  <p>
-                    Ideal por mês
-                  </p>
-                </div>
-                <div
-                  class="goals_list__item__left__content__label_value__value"
-                >
-                  R$ 10,00
+                <div class="goals_list__item__left__content__label_value">
+                  <div
+                    class="goals_list__item__left__content__label_value__title"
+                  >
+                    <p>
+                      Ideal por mês
+                    </p>
+                  </div>
+                  <div
+                    class="goals_list__item__left__content__label_value__value"
+                  >
+                    R$ 10,00
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="goals_list__item__right">
-            <Progress
-              :percent="getProgressPercent(goal.totalValue, goal.currentValue)"
-            />
-            <div class="goals_list__item__right__bottom">
-              <p
-                class="goals_list__item__right__bottom__current_value"
-              >
-                {{ "R$ " + getNumberAsCurrency(goal.currentValue) }}
-              </p>
-              <p class="goals_list__item__right__bottom__remaining">
-                {{ "Faltam R$ " + getNumberAsCurrency(goal.totalValue) }}
-              </p>
+            <div class="goals_list__item__right">
+              <Progress
+                :percent="getProgressPercent(
+                  goal.totalValue,
+                  goal.currentValue,
+                )"
+              />
+              <div class="goals_list__item__right__bottom">
+                <p
+                  class="goals_list__item__right__bottom__current_value"
+                >
+                  {{ "R$ " + getNumberAsCurrency(goal.currentValue) }}
+                </p>
+                <p class="goals_list__item__right__bottom__remaining">
+                  {{ "Faltam R$ " + getNumberAsCurrency(goal.totalValue) }}
+                </p>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-      <GoalInfo
-        v-if="popupIsOpen"
-        :goal="currentGoal!"
-        @close="popupIsOpen = false"
+          </li>
+        </ul>
+        <GoalInfo
+          v-if="popupIsOpen"
+          :goal="currentGoal!"
+          @close="popupIsOpen = false"
+        />
+      </SuspenseBox>
+      <SuspenseBox
+        :is-loading="isLoading && page > 1"
+        loading-width="100%"
+        loading-height="150px"
+        :quantity="props.quantity"
       />
-    </SuspenseBox>
-    <SuspenseBox
-      :is-loading="isLoading && page > 1"
-      loading-width="100%"
-      loading-height="150px"
-      :quantity="props.quantity"
-    />
-    <button
-      v-if="props.showLoadMore && totalPages !== page"
-      :disabled="isLoading"
-      @click="getGoals()"
+      <button
+        v-if="props.showLoadMore && totalPages !== page"
+        :disabled="isLoading"
+        @click="getGoals()"
+      >
+        <h4>VER MAIS</h4>
+      </button>
+    </div>
+    <div
+      v-else
+      class="goals_list"
     >
-      <h4>VER MAIS</h4>
-    </button>
+      <h3>Ainda não há metas</h3>
+    </div>
   </div>
 </template>
 
@@ -195,7 +206,7 @@ getGoals();
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: .4rem;
+  margin-bottom: 1rem;
 
   &__item {
     background-color: $card-bg-color;
@@ -298,7 +309,26 @@ button {
   }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and ((min-width: 800px) and (max-width: 1079px)) {
+  .goals_list {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &__item {
+      flex-grow: 1;
+      flex-basis: 40%;
+      background-color: $child-card-bg-color;
+
+      &__left {
+        &__content {
+          font-size: .9rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1080px) {
   .goals_list {
     &__item {
       background-color: $child-card-bg-color;
@@ -311,7 +341,7 @@ button {
         &__content {
           flex-direction: row;
           gap: 1.5rem;
-          font-size: .8rem;
+          font-size: .9rem;
 
           &__label_value {
             border-left: 1px solid $text-color-gray;

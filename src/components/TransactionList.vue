@@ -145,75 +145,89 @@ getTransactions();
 
 <template>
   <div>
-    <SuspenseBox
-      :is-loading="isLoading"
-      loading-width="100%"
-      loading-height="70px"
-      :quantity="props.quantity"
-    >
-      <ul
-        v-for="date of dates"
-        :key="date"
-        class="transactions_list"
+    <div v-if="transactions.data.length > 0">
+      <SuspenseBox
+        :is-loading="isLoading"
+        loading-width="100%"
+        loading-height="70px"
+        :quantity="props.quantity"
       >
-        <li
-          v-if="props.showDates"
-          class="transactions_list__date"
+        <ul
+          v-for="date of dates"
+          :key="date"
+          class="transactions_list"
         >
-          {{ getDateCardFormat(date) }}
-        </li>
-        <li
-          v-for="transaction of transactionsList.filter(t => t.date === date)"
-          :key="transaction.id"
-          class="transactions_list__item"
-          @click="[
-            popupIsOpen = true,
-            isEntry = transaction.isEntry,
-            currentTransaction = transaction
-          ]"
-        >
-          <div class="transactions_list__item__left">
-            <v-icon
-              :name="getIconNameFromCategoryId(transaction.categoryId)"
-              scale="2"
-            />
-            <div class="transactions_list__item__left__info">
-              <span class="transactions_list__item__left__info__title">
-                {{ transaction.title }}
-              </span>
-              <span class="transactions_list__item__left__info__date">
-                {{ getFormatedDate(transaction.date) }}
-              </span>
+          <li
+            v-if="props.showDates"
+            class="transactions_list__date"
+          >
+            {{ getDateCardFormat(date) }}
+          </li>
+          <li
+            v-for="transaction of transactionsList.filter(t => t.date === date)"
+            :key="transaction.id"
+            class="transactions_list__item"
+            @click="[
+              popupIsOpen = true,
+              isEntry = transaction.isEntry,
+              currentTransaction = transaction
+            ]"
+          >
+            <div class="transactions_list__item__left">
+              <v-icon
+                :name="getIconNameFromCategoryId(transaction.categoryId)"
+                scale="2"
+              />
+              <div class="transactions_list__item__left__info">
+                <span class="transactions_list__item__left__info__title">
+                  {{ transaction.title }}
+                </span>
+                <span class="transactions_list__item__left__info__date">
+                  {{ getFormatedDate(transaction.date) }}
+                </span>
+              </div>
             </div>
-          </div>
-          <div
-            v-if="transaction.isEntry"
-            class="transactions_list__item__right--in"
-          >
-            + R$ {{ getNumberAsCurrency(transaction.value) }}
-          </div>
-          <div
-            v-else
-            class="transactions_list__item__right--out"
-          >
-            - R$ {{ getNumberAsCurrency(transaction.value) }}
-          </div>
-        </li>
-      </ul>
-      <InfoPopup
-        v-if="popupIsOpen"
-        :operation="currentTransaction!"
-        :type="operationType(isEntry)"
-        @close="popupIsOpen = false"
+            <div
+              v-if="transaction.isEntry"
+              class="transactions_list__item__right--in"
+            >
+              + R$ {{ getNumberAsCurrency(transaction.value) }}
+            </div>
+            <div
+              v-else
+              class="transactions_list__item__right--out"
+            >
+              - R$ {{ getNumberAsCurrency(transaction.value) }}
+            </div>
+          </li>
+        </ul>
+        <InfoPopup
+          v-if="popupIsOpen"
+          :operation="currentTransaction!"
+          :type="operationType(isEntry)"
+          @close="popupIsOpen = false"
+        />
+      </SuspenseBox>
+      <SuspenseBox
+        :is-loading="isLoading && page > 1"
+        loading-width="100%"
+        loading-height="70px"
+        :quantity="props.quantity"
       />
-    </SuspenseBox>
-    <button
-      v-if="props.showLoadMore && transactions.total > transactions.page"
-      :disabled="isLoading"
-      @click="getTransactions()"
+      <button
+        v-if="props.showLoadMore && transactions.total > transactions.page"
+        :disabled="isLoading"
+        @click="getTransactions()"
+      >
+        <h4>VER MAIS</h4>
+      </button>
+    </div>
+    <div
+      v-else
+      class="transacions_list"
     >
-      <h4>VER MAIS</h4>
-    </button>
+      <h3>Ainda não há transações</h3>
+    </div>
   </div>
 </template>
 
