@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import axios from "axios";
 import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
-import InfoPopup from "./InfoOperationPopup.vue";
+import InfoPopup from "./Popup/InfoOperationPopup.vue";
 import { Transaction } from "../types/Transaction";
 import { useTransactionsStore } from "../stores/transactionsStore";
+import { useDebounceFn } from "@vueuse/core";
 
 type SuccesfulReponse = {
   data: Transaction[],
@@ -14,20 +15,20 @@ type SuccesfulReponse = {
 };
 
 const props = defineProps<{
-  quantity: number,
+  quantity?: number,
   showDates?: boolean,
   showLoadMore?: boolean,
+  search?: string,
+  forceReload?: boolean,
 }>();
 
 const baseURL = import.meta.env.VITE_API_URL as string;
-const initialPage = 0;
 const isLoading = ref(true);
-const page = ref(initialPage);
-const totalPages = ref(initialPage);
 const transactions = useTransactionsStore();
 const isEntry = ref(false);
 const popupIsOpen = ref(false);
 const currentTransaction = ref<Transaction>();
+
 function operationType(isEntry: boolean): "Income" | "Out" {
   if (isEntry) {
     return "Income";
@@ -37,9 +38,10 @@ function operationType(isEntry: boolean): "Income" | "Out" {
 }
 
 const transactionsList = computed(() => {
+  const empty = 0;
   return props.showLoadMore
     ? transactions.data
-    : transactions.get(props.quantity);
+    : transactions.get(props.quantity ?? empty);
 });
 
 const dates = computed(() => {
@@ -77,26 +79,38 @@ const categoryToIcon = {
 
 async function getTransactions() {
   isLoading.value = true;
-  page.value++;
 
-  if (transactions.page >= page.value) {
+  if (props.forceReload) {
+    transactions.clear();
+  }
+
+  if (props.search !== undefined && props.search !== transactions.search) {
+    transactions.search = props.search;
+    transactions.clear();
+  } else if (transactions.page >= transactions.total && transactions.total) {
     isLoading.value = false;
     return;
   }
 
   const res = await axios.get<SuccesfulReponse>(
     `${baseURL}/get-all-transactions-preview?
-      page=${page.value}&
-      size=${props.quantity}
+      page=${transactions.page}&
+      size=10&
+      search=${props.search ?? ""}
     `.replaceAll(/^\s+|\n/gm, ""),
   );
 
   transactions.concat(res.data.data);
   transactions.nextPage();
+  transactions.setTotalPages(res.data.pages);
 
-  totalPages.value = res.data.pages;
   isLoading.value = false;
 }
+const delay = 500;
+const debounceFetch = useDebounceFn(
+  getTransactions,
+  delay,
+);
 
 function getFormatedDate(date: string) {
   return displayDate(date);
@@ -122,13 +136,17 @@ function getDateCardFormat(date: string) {
   return prefixText + dateString;
 }
 
+watch(() => props.search, () => {
+  debounceFetch();
+});
+
 getTransactions();
 </script>
 
 <template>
   <div>
     <SuspenseBox
-      :is-loading="isLoading && page === 1"
+      :is-loading="isLoading"
       loading-width="100%"
       loading-height="70px"
       :quantity="props.quantity"
@@ -189,14 +207,8 @@ getTransactions();
         @close="popupIsOpen = false"
       />
     </SuspenseBox>
-    <SuspenseBox
-      :is-loading="isLoading && page > 1"
-      loading-width="100%"
-      loading-height="70px"
-      :quantity="props.quantity"
-    />
     <button
-      v-if="props.showLoadMore && totalPages !== page"
+      v-if="props.showLoadMore && transactions.total > transactions.page"
       :disabled="isLoading"
       @click="getTransactions()"
     >
@@ -213,7 +225,10 @@ getTransactions();
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+
+  &:not(:nth-child(1)) {
+    margin-top: 1rem;
+  }
 
   &__date {
     padding: .5rem;

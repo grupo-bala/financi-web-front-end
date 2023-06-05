@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import axios, { AxiosError } from "axios";
-import InputField from "../components/InputField.vue";
-import SelectComponent from "../components/SelectComponent.vue";
-import ButtonComponent from "./ButtonComponent.vue";
-import { Transaction } from "../types/Transaction";
-import { getNameFromCategoryId } from "../types/Category";
+import InputField from "../Inputs/InputField.vue";
+import SelectComponent from "../Inputs/SelectComponent.vue";
+import ButtonComponent from "../ButtonComponent.vue";
+import { Transaction } from "../../types/Transaction";
+import { getNameFromCategoryId } from "../../types/Category";
 
 const sliceStart = 0;
 const sliceEnd = 10;
@@ -186,7 +186,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 .form_container {
   display: flex;

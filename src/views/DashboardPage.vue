@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import axios, { AxiosError } from "axios";
 import { ref, onMounted } from "vue";
-import OperationPopup from "../components/OperationPopupComponent.vue";
+import OperationPopup from "../components/Popup/OperationPopupComponent.vue";
 import DashboarButton from "../components/DashboardButton.vue";
 import Logo from "../components/LogoFinanci.vue";
 import Greeting from "../components/GreetingComponent.vue";
 import MovimentsInfo from "../components/MovimentsInfo.vue";
 import TransactionList from "../components/TransactionList.vue";
 import NewsPreview from "../components/NewsPreviewComponent.vue";
+import GoalsList from "../components/GoalsList.vue";
 
 const username = ref("");
 const feedback = ref("");
@@ -152,6 +153,7 @@ onMounted(() => {
         </h2>
         <TransactionList
           :quantity="5"
+          force-reload
         />
         <router-link
           to="/transactions"
@@ -161,7 +163,21 @@ onMounted(() => {
         </router-link>
       </div>
       <div class="container__content__goals">
-        <h1>metas</h1>
+        <h2
+          class="container__content__goals__title"
+        >
+          Metas
+        </h2>
+        <GoalsList
+          :quantity="3"
+          :minimalist="true"
+        />
+        <router-link
+          to="/goals"
+          class="container__content__button"
+        >
+          <h5>VER TODAS</h5>
+        </router-link>
       </div>
       <div class="container__content__last_news">
         <div class="container__content__last_news__title">
@@ -282,6 +298,15 @@ onMounted(() => {
       }
     }
 
+    &__goals {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 1rem;
+      }
+    }
+
     &__last_news {
       display: flex;
       flex-direction: column;
@@ -355,6 +380,18 @@ onMounted(() => {
 
         &__title {
           margin-bottom: 0.5rem;
+        }
+      }
+
+      &__goals {
+        padding: 30px;
+        gap: 1rem;
+        background-color: $card-bg-color;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+
+        &__title {
+          margin-bottom: .5rem;
         }
       }
 

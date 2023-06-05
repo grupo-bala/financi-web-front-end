@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import InputField from "../components/InputField.vue";
+import InputField from "../components/Inputs/InputField.vue";
 import BarChart, { BarChartData } from "../components/Charts/BarChart.vue";
 import CategoriesChart from "../components/Charts/CategoriesChart.vue";
 import axios, { AxiosError } from "axios";

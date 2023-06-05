@@ -85,7 +85,7 @@ function inputMask(value: string): string {
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 .container {
 

@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { CSSProperties, computed, onMounted, ref, watch } from "vue";
-import FormEditPopup from "./FormEditPopup.vue";
-import { Transaction } from "../types/Transaction";
+import FormPopup from "./FormPopup.vue";
 
-type Tab = "Out" | "Income";
+type Tab = "Income" | "Out" | "Goal";
 type ElementRef = HTMLDivElement | null;
 
 const props = defineProps<{
   type?: Tab,
-  operation: Transaction,
 }>();
 
 const noWidth = 0;
@@ -17,8 +15,9 @@ const divSizeInPx = computed(() => `${divSize.value}px`);
 const actualType = ref<Tab>(props.type ?? "Income");
 const isOpen = ref(true);
 
-const editOutElement = ref<ElementRef>(null);
-const editInElement = ref<ElementRef>(null);
+const inElement = ref<ElementRef>(null);
+const outElement = ref<ElementRef>(null);
+const goalElement = ref<ElementRef>(null);
 
 defineEmits<{
   (e: "close"): void,
@@ -31,8 +30,9 @@ const divStyle = ref<CSSProperties>({
 });
 
 const tabToElement = {
-  "Out": editOutElement,
-  "Income": editInElement,
+  "Income": inElement,
+  "Out": outElement,
+  "Goal": goalElement,
 };
 
 function calcDivWidth() {
@@ -65,7 +65,7 @@ function disableScroll() {
 }
 
 function enableScroll() {
-  const scrollY = document.body.style.top;
+  const scrollY = document.body.style.top.split("px")[0];
   document.body.classList.remove("disable_scroll");
   document.body.style.top = "";
 
@@ -84,24 +84,33 @@ disableScroll();
     @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
   >
     <div class="box__card">
+      <v-icon
+        class="box__card__close"
+        name="io-close"
+        scale="1.5"
+        fill="gray"
+        @click="[enableScroll(), isOpen = !isOpen, $emit('close')]"
+      />
       <div class="box__card__titles">
-        <h2
-          v-if="props.type === 'Income'"
-        >
-          EDITAR ENTRADA
-        </h2>
         <h2
           v-if="props.type === 'Out'"
         >
-          EDITAR SAÍDA
+          Nova saída
+        </h2>
+        <h2
+          v-if="props.type === 'Income'"
+        >
+          Nova entrada
+        </h2>
+        <h2
+          v-if="props.type === 'Goal'"
+        >
+          Nova meta
         </h2>
       </div>
-      <div
-        v-if="props.type == 'Out'"
-        class="box__card__buttons_titles"
-      >
+      <div class="box__card__buttons_titles">
         <button
-          ref="editOutElement"
+          ref="outElement"
           @click="[
             actualType = 'Out',
             divStyle = {
@@ -110,37 +119,72 @@ disableScroll();
             }
           ]"
         >
-          EDITAR SAÍDA
+          SAÍDA
         </button>
-      </div>
-      <div
-        v-else-if="props.type == 'Income'"
-        class="box__card__buttons_titles"
-      >
         <button
-          ref="editInElement"
+          ref="inElement"
           @click="[
             actualType = 'Income',
             divStyle = {
-              left: 0,
-              backgroundColor: '#EF5350',
+              left: '50%',
+              transform: 'translateX(-45%)',
+              backgroundColor: '#49AD5A',
             }
           ]"
         >
-          EDITAR ENTRADA
+          ENTRADA
         </button>
+        <button
+          ref="goalElement"
+          @click="[
+            actualType = 'Goal',
+            divStyle = {
+              left: '100%',
+              transform: 'translateX(-98%)',
+              backgroundColor: '#168CC0',
+            }
+          ]"
+        >
+          META
+        </button>
+        <div
+          class="box__card__buttons_titles__line"
+          :style="divStyle"
+        />
       </div>
-      <FormEditPopup
-        :operation="props.operation"
-        :type="actualType"
-        @success="(feedback: boolean) => isOpen = !feedback"
+      <FormPopup
+        v-if="actualType === 'Goal'"
+        type="Goal"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
+      />
+      <FormPopup
+        v-else-if="actualType === 'Income'"
+        type="Income"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
+      />
+      <FormPopup
+        v-else
+        type="Out"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+@import "../../variables.scss";
 
 :global(body.disable_scroll) {
   height: 100vh;
@@ -161,6 +205,7 @@ disableScroll();
   align-items: end;
 
   &__card {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -169,8 +214,12 @@ disableScroll();
     border-radius: 5px;
     width: 100%;
     max-width: 600px;
-    padding: 2rem 2.5rem;
+    padding: 3rem 2.5rem;
     gap: 2rem;
+
+    &__close {
+      display: none;
+    }
 
     &__titles {
       display: none;
@@ -181,7 +230,7 @@ disableScroll();
       display: flex;
       flex-direction: row;
       width: 100%;
-      justify-content: space-evenly;
+      justify-content: space-between;
 
       button {
         font-size: 1rem;
@@ -210,6 +259,19 @@ disableScroll();
 
     &__card {
       width: 80%;
+
+      &__close {
+        display: flex;
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        cursor: pointer;
+        transition: fill 0.4s;
+
+        &:hover {
+          fill: $financi-red;
+        }
+      }
 
       &__titles {
         display: block;

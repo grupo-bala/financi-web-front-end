@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import GoalsList from "../components/GoalsList.vue";
 import InputField from "../components/Inputs/InputField.vue";
-import TransactionsList from "../components/TransactionList.vue";
 
 const searchValue = ref("");
 </script>
 
 <template>
-  <div class="transactions">
-    <div class="transactions__container">
-      <div class="transactions__container__header">
-        <h1>Histórico de transações</h1>
+  <div class="goals">
+    <div class="goals__container">
+      <div class="goals__container__header">
+        <h1>Metas</h1>
         <InputField
-          v-model="searchValue"
           type="Text"
           label=""
           placeholder="Pesquisar"
           :required="false"
           :numeric="false"
+          :model-value="searchValue"
         />
       </div>
-      <TransactionsList
-        show-dates
+      <GoalsList
+        :quantity="5"
         show-load-more
-        :search="searchValue"
       />
     </div>
   </div>
@@ -31,7 +30,8 @@ const searchValue = ref("");
 
 <style scoped lang="scss">
 @import "../variables.scss";
-.transactions {
+
+.goals {
   width: 100vw;
   min-height: 100dvh;
   color: $text-color-white;
@@ -50,11 +50,11 @@ const searchValue = ref("");
 
     &__header {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
 
       h1 {
         font-size: 1.5rem;
@@ -67,8 +67,8 @@ const searchValue = ref("");
   }
 }
 
-@media (min-width: 800px) {
-  .transactions {
+@media screen and (min-width: 800px) {
+  .goals {
     &__container {
       background-color: $card-bg-color;
       border-radius: $border-radius;
