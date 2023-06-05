@@ -68,7 +68,17 @@ const percent = ref(props.percent);
   }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and ((min-width: 800px) and (max-width: 1079px)) {
+  .progress_container {
+    &__circle {
+      &__inner {
+        background-color: $child-card-bg-color;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1080px) {
   .progress_container {
     &__circle {
       display: none;
