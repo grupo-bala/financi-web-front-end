@@ -48,7 +48,7 @@
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
-        to="/perfil"
+        to="/profile"
       >
         Perfil
       </router-link>
@@ -66,7 +66,7 @@
   display: flex;
   justify-content: space-between;
   padding-left: 1.5rem;
-  height: 4rem;
+  height: $navbar-height;
 
   &__logo {
     display: flex;
