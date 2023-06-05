@@ -4,6 +4,7 @@ import ButtonComponent from "../ButtonComponent.vue";
 import { Transaction } from "../../types/Transaction";
 import { getNameFromCategoryId } from "../../types/Category";
 import { displayDate } from "../../utils/Dates";
+import EditPopup from "./EditPopupComponent.vue";
 
 const isOpen = ref(true);
 const props = defineProps<{
@@ -120,6 +121,18 @@ disableScroll();
           :color="buttonColorValue"
           text="EDITAR"
           :disabled="false"
+        />
+        <EditPopup
+          v-if="isOpen && props.type == 'Income'"
+          :operation="props.operation"
+          :type="props.type"
+          @close="isOpen = false"
+        />
+        <EditPopup
+          v-if="isOpen && props.type == 'Out'"
+          :operation="props.operation"
+          type="Out"
+          @close="isOpen = false"
         />
       </div>
     </div>
