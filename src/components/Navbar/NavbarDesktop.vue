@@ -66,7 +66,7 @@
   display: flex;
   justify-content: space-between;
   padding-left: 1.5rem;
-  height: $navbar-height;
+  height: 4rem;
 
   &__logo {
     display: flex;

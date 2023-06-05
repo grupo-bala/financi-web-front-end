@@ -1,49 +1,18 @@
 <script setup lang="ts">
-//import { onMounted, ref } from "vue";
-//import { ref } from "vue";
 
+const envUrl = import.meta.env.VITE_API_URL;
+const photoSource = `${envUrl}/get-photo`;
 const props = defineProps<{
   username: string
 }>();
 
-/*
-function setGreeting() {
-  const hours = {
-    hour: new Date().getHours(),
-    day: 0,
-    afternoon: 12,
-    night: 18,
-  };
-
-  if (hours.hour >= hours.day && hours.hour < hours.afternoon) {
-    greeting.value = "Bom dia!";
-  } else if (hours.hour >= hours.afternoon && hours.hour < hours.night) {
-    greeting.value = "Boa tarde!";
-  } else {
-    greeting.value = "Boa noite!";
-  }
-}
-
-function getGreetingAndsSetInterval() {
-  const interval = 900000;
-
-  setGreeting();
-
-  setInterval(setGreeting, interval);
-}
-
-onMounted(() => {
-  getGreetingAndsSetInterval();
-});*/
 </script>
-
-<!-- Atualizar para pegar o url da foto usuario nas props -->
 
 <template>
   <div class="profile_container">
     <div class="profile_container__user_info">
       <img
-        src="https://picsum.photos/500"
+        :src="photoSource"
         alt="user"
         class="profile_container__user_info__img"
       >
