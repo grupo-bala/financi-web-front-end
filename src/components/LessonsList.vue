@@ -64,10 +64,10 @@ getLessons();
         v-for="lesson in lessons"
         :key="lesson.title"
         class="lessons__list__item__button"
+        data-status="checked"
       >
         <li
           class="lessons__list__item__button__check"
-          data-status="checked"
         >
           <div class="lessons__list__item__button__check__bullet" />
           <span class="lessons__list__item__button__check__title">
@@ -92,19 +92,18 @@ getLessons();
   color: $financi-green;
   border-radius: $border-radius;
   padding: 1rem;
-  list-style: none;
 
   &__item {
     display: flex;
     padding-top: 1rem;
     padding-bottom: 0.5rem;
     width: 100%;
+    list-style: none;
+    flex-direction: column;
+    gap: 1rem;
 
     &__button {
-      display: flex;
-      justify-content: space-between;
       width: 100%;
-      align-items: center;
       cursor: pointer;
       background-color: transparent;
       border-style: none;
@@ -112,55 +111,70 @@ getLessons();
       gap: 1rem;
 
       &__check {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+
+        &__title {
+          flex-grow: 1;
+          text-align: start;
+        }
+
         &__bullet {
           width: 10px;
           height: 10px;
-          background: #1e2111;
+          background: $input-bg-color;
           border-radius: 50%;
           box-sizing: content-box;
           position: relative;
           transform-style: preserve-3d;
           cursor: pointer;
         }
+      }
 
-        &:not(:last-child)
-        &__bullet::after {
-          content: "";
-          width: 2px;
-          height: 1.1rem;
-          background: #1e2111;
-          position: absolute;
-          top: 100%;
-          left: calc(50% - 1px);
-        }
+      &:not(:last-child)
+      &__check__bullet::after {
+        content: "";
+        width: 2px;
+        height: 1.5rem;
+        background: $filter-text-color;
+        position: absolute;
+        top: 100%;
+        left: calc(50% - 1px);
+      }
 
-        &[data-status="checked"] +
-        &:not([data-status="checked"]) >
-        &__bullet {
-          background: #49ad5a;
-        }
+      &[data-status="checked"] +
+      &:not([data-status="checked"])
+      &__check__bullet {
+        background: #49ad5a;
+      }
 
-        &[data-status="checked"]
-        &__bullet::before {
-          content: "";
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: #49ad5a;
-          position: absolute;
-          transform: translatez(-1px);
-          inset: calc(50% - 8px);
-        }
+      &[data-status="checked"]
+      &__check__bullet::before {
+        content: "";
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #49ad5a;
+        position: absolute;
+        transform: translatez(-1px);
+        inset: calc(50% - 8px);
+      }
 
-        &[data-status="checked"]
-        &__bullet::after {
-          background: #49ad5a;
-        }
+      &[data-status="checked"]
+      &__check__bullet::after {
+        background: #49ad5a;
+      }
 
-        &[data-status="checked"]
-        &__title {
-          color: #49ad5a;
-        }
+      &[data-status="checked"]
+      &__check__bullet {
+        background: $bg-color;
+      }
+
+      &[data-status="checked"]
+      &__check__title {
+        color: #49ad5a;
       }
     }
   }
