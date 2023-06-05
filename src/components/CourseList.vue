@@ -42,8 +42,8 @@ async function getCourses() {
     const json = res.data;
     totalPages.value = json.pages;
     courses.value = json.data;
-    isLoading.value = false;
     allCourses.value.push(...courses.value);
+    isLoading.value = false;
 
   } catch (e) {
     router.push("/ops");
@@ -105,13 +105,16 @@ getCourses();
               </span>
             </div>
           </div>
-          <button class="course__list__item__button">
+          <button
+            class="course__list__item__button"
+            @click="router.push(`/courses/${course.id}`)"
+          >
             <h5> VER CURSO </h5>
           </button>
         </ul>
       </SuspenseBox>
       <SuspenseBox
-        :is-loading="isLoading && page > 1"
+        :is-loading="isLoading"
         loading-width="100%"
         loading-height="70px"
         :quantity="props.quantity"
@@ -136,9 +139,7 @@ getCourses();
 
 .course__list {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: flow-root;
   &__seemore {
     width: 100%;
     height: 2rem;
@@ -158,8 +159,7 @@ getCourses();
 
   &__item {
     height: 200px;
-    width: 100%;
-    background-color: $filter-bg-color;
+    background-color: $section-color;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -236,9 +236,13 @@ p {
   .course__list {
     align-items: center;
     &__item {
-
-      height: 250px;
-      min-width: 600px;
+      background-color: $filter-bg-color;
+      height: 200px;
+      &__bottom {
+        display: flex;
+        justify-content: center;
+        gap: 10rem;
+      }
     }
   }
 }
