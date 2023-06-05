@@ -133,7 +133,11 @@ disableScroll();
       <FormEditPopup
         :operation="props.operation"
         :type="actualType"
-        @success="(feedback: boolean) => isOpen = !feedback"
+        @success="[
+          (feedback: boolean) => isOpen = !feedback,
+          $emit('close'),
+          enableScroll(),
+        ]"
       />
     </div>
   </div>

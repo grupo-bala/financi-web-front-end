@@ -39,16 +39,6 @@ const getColor = computed(() => {
   return "green";
 });
 
-const getButtonText = computed(() => {
-  if (props.type === "Income") {
-    return "Editar Entrada";
-  } else if (props.type === "Out") {
-    return "Editar Saída";
-  }
-
-  return "Adicionar";
-});
-
 const emits = defineEmits<{
   (e: "success", value: boolean): boolean
 }>();
@@ -174,7 +164,7 @@ onMounted(() => {
     <div class="form_container__confirm_button">
       <ButtonComponent
         :color="getColor"
-        :text="getButtonText"
+        text="CONFIRMAR"
         :disabled="title.length == 0
           || value.length == 0
           || date.length == 0

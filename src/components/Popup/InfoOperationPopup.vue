@@ -7,6 +7,7 @@ import { displayDate } from "../../utils/Dates";
 import EditPopup from "./EditPopupComponent.vue";
 
 const isOpen = ref(true);
+const editIsOpen = ref(false);
 const props = defineProps<{
   type: "Income" | "Out"
   operation: Transaction,
@@ -121,18 +122,13 @@ disableScroll();
           :color="buttonColorValue"
           text="EDITAR"
           :disabled="false"
+          @click="editIsOpen = true"
         />
         <EditPopup
-          v-if="isOpen && props.type == 'Income'"
+          v-if="editIsOpen"
           :operation="props.operation"
           :type="props.type"
-          @close="isOpen = false"
-        />
-        <EditPopup
-          v-if="isOpen && props.type == 'Out'"
-          :operation="props.operation"
-          type="Out"
-          @close="isOpen = false"
+          @close="editIsOpen = false"
         />
       </div>
     </div>
