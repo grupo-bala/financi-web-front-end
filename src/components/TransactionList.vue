@@ -208,12 +208,6 @@ getTransactions();
           @close="popupIsOpen = false"
         />
       </SuspenseBox>
-      <SuspenseBox
-        :is-loading="isLoading && page > 1"
-        loading-width="100%"
-        loading-height="70px"
-        :quantity="props.quantity"
-      />
       <button
         v-if="props.showLoadMore && transactions.total > transactions.page"
         :disabled="isLoading"
