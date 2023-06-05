@@ -33,7 +33,7 @@ import CourseList from "../components/CourseList.vue";
 
 .courses {
   min-height: 100dvh;
-  width: 100vw;
+  width: 100%;
   color: $text-color-white;
   padding: 5rem 2rem;
   display: flex;
@@ -50,7 +50,8 @@ import CourseList from "../components/CourseList.vue";
     &__header {
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
 
     }
   }
