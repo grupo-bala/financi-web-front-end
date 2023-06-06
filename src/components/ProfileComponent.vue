@@ -11,11 +11,18 @@ const props = defineProps<{
 <template>
   <div class="profile_container">
     <div class="profile_container__user_info">
-      <img
-        :src="photoSource"
-        alt="user"
-        class="profile_container__user_info__img"
+      <label
+        for="photoInput"
+        class="profile_container__user_info__image-input-label"
+        :style="{ backgroundImage: `url(${photoSource})` }"
       >
+        <input
+          type="file"
+          id="photoInput"
+          class="profile_container__user_info__image-input"
+          accept="image/*"
+        >
+      </label>
       <p class="profile_container__user_info__username">
         @{{ props.username }}
       </p>
@@ -50,6 +57,21 @@ const props = defineProps<{
       color: $text-color-white;
       font-size: 24px;
       font-weight: 600;
+    }
+
+    &__image-input-label {
+    display: inline-block;
+    width: 132px;
+    height: 132px;
+    border: 3px solid $financi-green;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+    &__image-input {
+      display: none;
     }
   }
 }

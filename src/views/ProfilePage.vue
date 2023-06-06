@@ -27,9 +27,13 @@ const info = ref<UserInfo>({
 });
 
 async function getMe() {
-  const response = await axios.get(`${envUrl}/get-me`);
-  const json = response.data;
-  info.value = json.data;
+  try {
+    const response = await axios.get(`${envUrl}/get-me`);
+    const json = response.data;
+    info.value = json.data;
+  } catch (error) {
+    router.push("/login");
+  }
 }
 
 async function updateProfile() {
