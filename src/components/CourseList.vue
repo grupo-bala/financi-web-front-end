@@ -49,6 +49,18 @@ async function getCourses() {
     router.push("/ops");
   }
 }
+
+const denominator = 60;
+
+function convertToHour(seconds: number){
+  const hour = Math.floor(convertToMinutes(seconds)/denominator);
+  return hour;
+}
+
+function convertToMinutes(seconds: number){
+  const minutes = seconds/denominator;
+  return Math.ceil(minutes);
+}
 getCourses();
 </script>
 
@@ -88,7 +100,7 @@ getCourses();
               </span>
               <span class="course__list__item__bottom__load__info">
                 Carga horária
-                <p>{{ course.totalTime + " horas" }} </p>
+                <p>{{ convertToHour(course.totalTime) + " horas" }} </p>
               </span>
             </div>
             <div class="course__list__item__bottom__lesson">
@@ -101,7 +113,10 @@ getCourses();
               </span>
               <span class="course__list__item__bottom__lesson__info">
                 {{ course.howManyLessons + " Aulas" }}
-                <p>{{ course.averageTimePerLesson + " minutos" }}</p>
+                <p>
+                  {{ convertToMinutes(course.averageTimePerLesson)
+                    + " minutos" }}
+                </p>
               </span>
             </div>
           </div>
