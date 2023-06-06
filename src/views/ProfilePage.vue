@@ -10,7 +10,7 @@ import router from "../router";
 interface UserInfo {
   name: string,
   username: string,
-  fixedIncome: number,
+  fixedIncome: string,
   email: string,
 }
 
@@ -20,7 +20,7 @@ const isEmailCorrect = ref(false);
 const info = ref<UserInfo>({
   name: "",
   username: "",
-  fixedIncome: 0,
+  fixedIncome: "0",
   email: "",
 });
 
@@ -29,22 +29,29 @@ async function getMe() {
     const response = await axios.get(`${envUrl}/get-me`);
     const json = response.data;
     info.value = json.data;
+    info.value.fixedIncome = Number(info.value.fixedIncome)
+      .toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
   } catch (error) {
     router.push("/login");
   }
 }
+
 getMe();
 
 async function updateProfile() {
-  await axios.put(`${envUrl}/update-user`, info.value);
+  await axios.put(`${envUrl}/update-user`, {
+    ...info.value,
+    fixedIncome: info.value.fixedIncome.replace(".", "").split(",").join("."),
+  });
 }
 
 async function logOut() {
   await axios.post(`${envUrl}/logout`);
   router.push("/login");
 }
-
-const stringIncome = ref(info.value.fixedIncome.toString());
 
 </script>
 
@@ -74,7 +81,7 @@ const stringIncome = ref(info.value.fixedIncome.toString());
         @is-correct="(correct: boolean) => isEmailCorrect = correct"
       />
       <InputField
-        v-model="stringIncome"
+        v-model="info.fixedIncome"
         numeric
         required
         label="Renda"
