@@ -8,10 +8,9 @@ import axios from "axios";
 import router from "../router";
 
 interface UserInfo {
-  id: number,
   name: string,
   username: string,
-  fixedIncome: string,
+  fixedIncome: number,
   email: string,
 }
 
@@ -19,10 +18,9 @@ const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
 const isEmailCorrect = ref(false);
 const info = ref<UserInfo>({
-  id: -1,
   name: "",
   username: "",
-  fixedIncome: "",
+  fixedIncome: 0,
   email: "",
 });
 
@@ -35,9 +33,10 @@ async function getMe() {
     router.push("/login");
   }
 }
+getMe();
 
 async function updateProfile() {
-
+  await axios.put(`${envUrl}/update-user`, info.value);
 }
 
 async function logOut() {
@@ -45,7 +44,8 @@ async function logOut() {
   router.push("/login");
 }
 
-getMe();
+const stringIncome = ref(info.value.fixedIncome.toString());
+
 </script>
 
 <template>
@@ -74,7 +74,7 @@ getMe();
         @is-correct="(correct: boolean) => isEmailCorrect = correct"
       />
       <InputField
-        v-model="info!.fixedIncome"
+        v-model="stringIncome"
         numeric
         required
         label="Renda"
@@ -124,6 +124,7 @@ getMe();
           text-decoration: underline;
           border-color: transparent;
           color: $financi-red;
+          cursor: pointer;
         }
 
         @media (min-width: 400px) {
