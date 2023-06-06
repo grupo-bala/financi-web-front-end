@@ -2,7 +2,6 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-//import { useCourseStore } from "../stores/courseStore";
 
 type Lesson = {
     title: string,
@@ -22,6 +21,7 @@ const isLoading = ref(true);
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
 const lessons = ref<Lesson[]>([]);
+const allLessons = ref<Lesson[]>([]);
 const route = useRoute();
 const router = useRouter();
 const courseId = route.params.id;
@@ -31,8 +31,16 @@ const props = defineProps<{
 }>();
 
 function convertTime(time: number){
-  const seconds = 60;
-  return Math.ceil(time/seconds);
+
+  const denominator = 60;
+  const limit = 9;
+  let minutes = Math.ceil(time/denominator);
+  let hour = Math.floor(minutes/denominator);
+  minutes = Math.ceil(minutes%denominator);
+  if(hour < limit){
+    return "0" + hour + ":" + minutes;
+  }
+  return hour + ":" + minutes;
 }
 
 async function getLessons() {
@@ -46,6 +54,7 @@ async function getLessons() {
     const json = res.data;
     totalPages.value = json.pages;
     lessons.value = json.data;
+    allLessons.value.push(...lessons.value);
     isLoading.value = false;
   } catch (e) {
     router.push("/ops");
@@ -61,7 +70,7 @@ getLessons();
       class="lessons__list__item"
     >
       <button
-        v-for="lesson in lessons"
+        v-for="lesson in allLessons"
         :key="lesson.title"
         class="lessons__list__item__button"
         data-status="checked"
@@ -74,8 +83,7 @@ getLessons();
             {{ lesson.title }}
           </span>
           <span class="lessons__list__item__button__check__time">
-            00:{{ convertTime(lesson.time) > 9
-              ? convertTime(lesson.time) : "0" + convertTime(lesson.time) }}
+            {{ convertTime(lesson.time) }}
           </span>
         </li>
       </button>
@@ -88,19 +96,19 @@ getLessons();
 
 .lessons__list {
   margin: 1.3rem;
-  background-color: $section-color;
   color: $financi-green;
   border-radius: $border-radius;
   padding: 1rem;
 
   &__item {
     display: flex;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
+    padding: 1.5rem;
     width: 100%;
+    border-radius: $border-radius;
     list-style: none;
     flex-direction: column;
     gap: 1rem;
+    background-color: $filter-bg-color;
 
     &__button {
       width: 100%;
