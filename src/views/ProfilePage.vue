@@ -1,23 +1,17 @@
 <script setup lang="ts">
+import { Profile } from "../types/Profile";
 import InputField from "../components/Inputs/InputField.vue";
-import Profile from "../components/ProfileComponent.vue";
+import ProfilePhotoUser from "../components/ProfileComponent.vue";
 import FinanciLogo from "../components/LogoFinanci.vue";
 import Button from "../components/ButtonComponent.vue";
 import { ref } from "vue";
 import axios from "axios";
 import router from "../router";
 
-interface UserInfo {
-  name: string,
-  username: string,
-  fixedIncome: string,
-  email: string,
-}
-
 const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
 const isEmailCorrect = ref(false);
-const info = ref<UserInfo>({
+const info = ref<Profile>({
   name: "",
   username: "",
   fixedIncome: "0",
@@ -58,7 +52,7 @@ async function logOut() {
 <template>
   <div class="main_container">
     <div class="main_container__content_box">
-      <Profile
+      <ProfilePhotoUser
         :username="info!.username"
         class="container__content__greetings"
       />
