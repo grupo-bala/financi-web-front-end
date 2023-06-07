@@ -1,10 +1,37 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import axios from "axios";
+import router from "../router";
+import { useProfileStore } from "../stores/profileStore";
 
+const profileStore = useProfileStore();
+const photoInput = ref<HTMLInputElement | null>(null);
 const envUrl = import.meta.env.VITE_API_URL;
 const photoSource = `${envUrl}/get-photo`;
 const props = defineProps<{
   username: string
 }>();
+
+async function changeProfilePicture() {
+  const file = photoInput.value!.files![0];
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    await axios.post(`${envUrl}/upload-photo`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    profileStore.updateProfileImage(file);
+  } catch (error) {
+    router.push("/ops");
+  }
+}
+
+function handleFileChange(): void {
+  changeProfilePicture();
+}
 
 </script>
 
@@ -17,10 +44,12 @@ const props = defineProps<{
         :style="{ backgroundImage: `url(${photoSource})` }"
       >
         <input
-          type="file"
           id="photoInput"
+          ref="photoInput"
+          type="file"
           class="profile_container__user_info__image-input"
           accept="image/*"
+          @change="handleFileChange"
         >
       </label>
       <p class="profile_container__user_info__username">
@@ -61,8 +90,8 @@ const props = defineProps<{
 
     &__image-input-label {
     display: inline-block;
-    width: 132px;
-    height: 132px;
+    width: 120px;
+    height: 120px;
     border: 3px solid $financi-green;
     background-size: cover;
     background-position: center;
