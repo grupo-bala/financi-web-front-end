@@ -33,6 +33,8 @@ import {
   IoClose,
   PrSpinner,
   FaTrash,
+  BiChevronDown,
+  BiChevronUp,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -70,6 +72,8 @@ addIcons(
   IoClose,
   PrSpinner,
   FaTrash,
+  BiChevronDown,
+  BiChevronUp,
 );
 
 axios.defaults.withCredentials = true;

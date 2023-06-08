@@ -6,12 +6,14 @@ import SelectComponent from "../Inputs/SelectComponent.vue";
 import ButtonComponent from "../ButtonComponent.vue";
 import { Transaction } from "../../types/Transaction";
 import { getNameFromCategoryId } from "../../types/Category";
+import { useTransactionsStore } from "../../stores/transactionsStore";
 
 const sliceStart = 0;
 const sliceEnd = 10;
 const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
+const transactions = useTransactionsStore();
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
   data: Category[],
@@ -80,6 +82,16 @@ async function editTransaction() {
       title: title.value,
       isEntry: props.operation.isEntry,
       description: "",
+    });
+    transactions.edit({
+      value: value.value.replace(".", "").replace(",", "."),
+      date: date.value,
+      categoryId: itensCategory.value.find((c) => {
+        return c.name === category.value;
+      })!.id,
+      id: props.operation.id,
+      title: title.value,
+      isEntry: props.operation.isEntry,
     });
     emits("success", true);
   } catch (error) {
