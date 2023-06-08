@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import axios from "axios";
-import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
 import SuspenseBox from "./Suspense/SuspenseBox.vue";
-import InfoPopup from "./Popup/InfoOperationPopup.vue";
 import { Transaction } from "../types/Transaction";
 import { useTransactionsStore } from "../stores/transactionsStore";
 import { useDebounceFn } from "@vueuse/core";
+import TransactionCard from "./TransactionCard.vue";
 
 type SuccesfulReponse = {
   data: Transaction[],
@@ -28,14 +27,6 @@ const transactions = useTransactionsStore();
 const isEntry = ref(false);
 const popupIsOpen = ref(false);
 const currentTransaction = ref<Transaction>();
-
-function operationType(isEntry: boolean): "Income" | "Out" {
-  if (isEntry) {
-    return "Income";
-  }
-
-  return "Out";
-}
 
 const transactionsList = computed(() => {
   const empty = 0;
@@ -67,15 +58,6 @@ const dates = computed(() => {
 
   return uniqueDates;
 });
-
-const categoryToIcon = {
-  "Saúde": "fa-briefcase-medical",
-  "Alimentação": "md-foodbank-round",
-  "Educação": "md-school-round",
-  "Entretenimento": "gi-popcorn",
-  "Vestuário": "gi-clothes",
-  "Cuidados pessoais": "gi-comb",
-};
 
 async function getTransactions() {
   isLoading.value = true;
@@ -111,21 +93,6 @@ const debounceFetch = useDebounceFn(
   getTransactions,
   delay,
 );
-
-function getFormatedDate(date: string) {
-  return displayDate(date);
-}
-
-function getNumberAsCurrency(value: string) {
-  return Number(value)
-    .toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-}
-
-function getIconNameFromCategoryId(id: number) {
-  return categoryToIcon[
-    Categories[id as keyof typeof Categories] as keyof typeof categoryToIcon
-  ];
-}
 
 function getDateCardFormat(date: string) {
   const dateString = displayDate(date);
@@ -166,50 +133,21 @@ getTransactions();
           <li
             v-for="transaction of transactionsList.filter(t => t.date === date)"
             :key="transaction.id"
-            class="transactions_list__item"
             @click="[
               popupIsOpen = true,
               isEntry = transaction.isEntry,
               currentTransaction = transaction
             ]"
           >
-            <div class="transactions_list__item__left">
-              <v-icon
-                :name="getIconNameFromCategoryId(transaction.categoryId)"
-                scale="2"
-              />
-              <div class="transactions_list__item__left__info">
-                <span class="transactions_list__item__left__info__title">
-                  {{ transaction.title }}
-                </span>
-                <span class="transactions_list__item__left__info__date">
-                  {{ getFormatedDate(transaction.date) }}
-                </span>
-              </div>
-            </div>
-            <div
-              v-if="transaction.isEntry"
-              class="transactions_list__item__right--in"
-            >
-              + R$ {{ getNumberAsCurrency(transaction.value) }}
-            </div>
-            <div
-              v-else
-              class="transactions_list__item__right--out"
-            >
-              - R$ {{ getNumberAsCurrency(transaction.value) }}
-            </div>
+            <TransactionCard
+              :transaction="transaction"
+            />
           </li>
         </ul>
-        <InfoPopup
-          v-if="popupIsOpen"
-          :operation="currentTransaction!"
-          :type="operationType(isEntry)"
-          @close="popupIsOpen = false"
-        />
       </SuspenseBox>
       <button
         v-if="props.showLoadMore && transactions.total > transactions.page"
+        class="transactions_list__see_more"
         :disabled="isLoading"
         @click="getTransactions()"
       >
@@ -233,6 +171,7 @@ getTransactions();
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 
   &:not(:nth-child(1)) {
     margin-top: 1rem;
@@ -246,87 +185,20 @@ getTransactions();
     font-weight: 500;
   }
 
-  &__item {
-    background-color: $card-bg-color;
-    padding: 1rem;
+  &__see_more {
+    width: 100%;
+    height: 2rem;
     border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
+    background-color: $financi-green;
+    color: $text-color-white;
+    margin-top: 1rem;
+    border: none;
     cursor: pointer;
 
-    &__left {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      flex-grow: 1;
-      overflow: hidden;
-
-      &__info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
-        flex-grow: 1;
-
-        &__title {
-          font-weight: bold;
-          font-size: .8em;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          max-width: 80%;
-        }
-
-        &__date {
-          font-size: .8em;
-          opacity: .5;
-        }
-      }
-    }
-
-    &__right {
-      &--in {
-        color: $financi-green;
-      }
-
-      &--out {
-        color: $financi-red;
-      }
-
-      &--in, &--out {
-        font-weight: bold;
-        white-space: nowrap;
-        font-size: .8em;
-        justify-self: end;
-        align-self: center;
-      }
-    }
-  }
-}
-
-button {
-  width: 100%;
-  height: 2rem;
-  border-radius: $border-radius;
-  text-align: center;
-  background-color: $financi-green;
-  color: $text-color-white;
-  margin-top: 1rem;
-  border: none;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: .2;
-  }
-}
-
-@media (min-width: 800px) {
-  .transactions_list {
-    &__item {
-      background-color: $child-card-bg-color;
+    &:disabled {
+      cursor: not-allowed;
+      opacity: .2;
     }
   }
 }
