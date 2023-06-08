@@ -5,7 +5,7 @@ import router from "../router";
 
 const photoInput = ref<HTMLInputElement | null>(null);
 const envUrl = import.meta.env.VITE_API_URL;
-const photoSource = ref(`${envUrl}/get-photo`);
+const photoSource = ref(`${envUrl}/get-photo?timestap=${Date.now()}`);
 const props = defineProps<{
   username: string
 }>();
@@ -21,7 +21,8 @@ async function changeProfilePicture() {
         "Content-Type": "multipart/form-data",
       },
     });
-    photoSource.value = `${envUrl}/get-photo?timestamp=${Date.now()}`;
+
+    photoSource.value = `${envUrl}/get-photo?timestap=${Date.now()}`;
   } catch (error) {
     router.push("/ops");
   }

@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 
 const envUrl = import.meta.env.VITE_API_URL;
-const photoSource = `${envUrl}/get-photo`;
+const photoSource = `${envUrl}/get-photo?timestamp=${Date.now()}`;
 const greeting = ref("");
 const props = defineProps<{
   username: string
