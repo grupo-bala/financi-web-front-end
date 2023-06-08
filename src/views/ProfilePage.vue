@@ -133,7 +133,7 @@ async function logOut() {
           background-color: $bg-color
         }
 
-        @media (min-width: 800px) {
+        @media (min-width: 1000px) {
           width: 1000px;
           background-color: $card-bg-color;
         }
