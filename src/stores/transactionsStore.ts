@@ -28,6 +28,17 @@ export const useTransactionsStore = defineStore("transactions", {
         return t !== transaction;
       });
     },
+    edit(transaction: Transaction) {
+      const newTransaction = this.data.find((t) => {
+        return t.id === transaction.id;
+      });
+
+      newTransaction!.categoryId = transaction.categoryId;
+      newTransaction!.date = transaction.date;
+      newTransaction!.isEntry = transaction.isEntry;
+      newTransaction!.value = transaction.value;
+      newTransaction!.title = transaction.title;
+    },
     clear() {
       this.data = [];
       this.page = 1;
