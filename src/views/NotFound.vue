@@ -1,11 +1,11 @@
 <template>
   <main class="not_found">
-    <h1>Essa página não existe...</h1>
     <img
       alt="Imagem de gato confuso"
       src="../assets/NotFoundImage.png"
       class="not_found__image"
     >
+    <h1>Essa página não existe...</h1>
   </main>
 </template>
 
@@ -27,9 +27,4 @@
   }
 }
 
-@media (min-width: 800px){
-  .not_found{
-    flex-direction: row;
-  }
-}
 </style>
