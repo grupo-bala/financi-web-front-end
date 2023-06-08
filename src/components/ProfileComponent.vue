@@ -2,12 +2,10 @@
 import { ref } from "vue";
 import axios from "axios";
 import router from "../router";
-import { useProfileStore } from "../stores/profileStore";
 
-const profileStore = useProfileStore();
 const photoInput = ref<HTMLInputElement | null>(null);
 const envUrl = import.meta.env.VITE_API_URL;
-const photoSource = `${envUrl}/get-photo`;
+const photoSource = ref(`${envUrl}/get-photo`);
 const props = defineProps<{
   username: string
 }>();
@@ -23,7 +21,7 @@ async function changeProfilePicture() {
         "Content-Type": "multipart/form-data",
       },
     });
-    profileStore.updateProfileImage(file);
+    photoSource.value = `${envUrl}/get-photo?timestamp=${Date.now()}`;
   } catch (error) {
     router.push("/ops");
   }
@@ -59,7 +57,7 @@ function handleFileChange(): void {
   </div>
 </template>
 
-<style scooped lang="scss">
+<style scoped lang="scss">
 @import "../variables.scss";
 
 .profile_container {
