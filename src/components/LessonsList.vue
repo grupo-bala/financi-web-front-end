@@ -30,17 +30,17 @@ const props = defineProps<{
   quantity: number,
 }>();
 
-function convertTime(time: number){
+function convertTime(seconds: number){
 
   const denominator = 60;
   const limit = 9;
-  let minutes = Math.ceil(time/denominator);
-  let hour = Math.floor(minutes/denominator);
-  minutes = Math.ceil(minutes%denominator);
-  if(hour < limit){
-    return "0" + hour + ":" + minutes;
+  let minutes = Math.ceil(seconds/denominator);
+  seconds = Math.floor(minutes%denominator);
+
+  if(minutes < limit){
+    return "0" + minutes + ":" + seconds;
   }
-  return hour + ":" + minutes;
+  return minutes + ":" + seconds;
 }
 
 async function getLessons() {
@@ -98,7 +98,6 @@ getLessons();
   margin: 1.3rem;
   color: $financi-green;
   border-radius: $border-radius;
-  padding: 1rem;
 
   &__item {
     display: flex;
@@ -188,4 +187,9 @@ getLessons();
   }
 }
 
+@media (min-width: 900){
+  .lessons__list {
+    padding: 0;
+  }
+}
 </style>
