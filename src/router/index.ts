@@ -23,6 +23,8 @@ const routes = [
     component: () => import("../views/CoursesPage.vue") },
   { path: "/goals", name: "Goals",
     component: () => import("../views/GoalsPage.vue") },
+  { path: "/profile", name: "Profile",
+    component: () => import("../views/ProfilePage.vue") },
 ];
 
 const noAuthRoutes = [

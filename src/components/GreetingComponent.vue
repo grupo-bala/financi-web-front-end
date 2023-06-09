@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
+const envUrl = import.meta.env.VITE_API_URL;
+const photoSource = `${envUrl}/get-photo?timestamp=${Date.now()}`;
 const greeting = ref("");
 const props = defineProps<{
   username: string
@@ -42,7 +44,7 @@ onMounted(() => {
   <div class="greetings_container">
     <div class="greetings_container__user_info">
       <img
-        src="https://picsum.photos/500"
+        :src="photoSource"
         alt="user"
         class="greetings_container__user_info__img"
       >
