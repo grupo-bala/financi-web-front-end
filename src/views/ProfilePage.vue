@@ -82,13 +82,15 @@ async function logOut() {
         type="Text"
         placeholder="Digite sua renda mensal"
       />
-      <Button
-        class="main_container__content_box__update"
-        color="green"
-        text="EDITAR PERFIL"
-        :disabled="info!.name.length === 0 || info!.email.length === 0"
-        @click="updateProfile"
-      />
+      <div class="main_container__content_box__update">
+        <Button
+          class="main_container__content_box__update__button"
+          color="green"
+          text="EDITAR PERFIL"
+          :disabled="info!.name.length === 0 || info!.email.length === 0"
+          @click="updateProfile"
+        />
+      </div>
       <button
         class="main_container__content_box__logout"
         @click="logOut"
