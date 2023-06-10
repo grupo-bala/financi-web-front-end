@@ -5,14 +5,19 @@ import NavbarMobile from "./NavbarMobile.vue";
 import NotLoggedNavBar from "./NotLoggedNavBar.vue";
 import { useStorage } from "@vueuse/core";
 import router from "../../router";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
-const isDesktop = ref(useMediaQuery("(min-width: 800px)"));
+const isDesktop = useMediaQuery("(min-width: 800px)");
 const skipRoutes = ["Login", "Register"];
 const isLogged = useStorage("isLogged", false);
 const isWindowLoaded = ref(false);
 const isInSkipRoutes = ref(true);
 const currentRoute = router.currentRoute;
+const shouldAppear = computed(() => {
+  const isMobileInHome =
+    !isDesktop.value && currentRoute.value.name!.toString() === "Home";
+  return !isInSkipRoutes.value && !isMobileInHome;
+});
 
 watch(currentRoute, () => {
   isInSkipRoutes.value = skipRoutes.includes(
@@ -31,7 +36,7 @@ watch(currentRoute, () => {
 
 <template>
   <nav
-    v-if="!isInSkipRoutes && isWindowLoaded"
+    v-if="shouldAppear && isWindowLoaded"
   >
     <NotLoggedNavBar v-if="!isLogged" />
     <NavbarDesktop v-else-if="isDesktop" />

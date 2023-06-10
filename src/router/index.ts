@@ -47,7 +47,7 @@ router.beforeEach((to) => {
     !noAuthRoutes.includes(to.name?.toString() ?? "") &&
     isLogged !== "true"
   ) {
-    router.push("Login");
+    router.push("/login");
   }
 });
 

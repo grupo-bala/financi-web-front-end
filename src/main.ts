@@ -4,7 +4,6 @@ import App from "./App.vue";
 import router from "./router";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import axios, { AxiosError } from "axios";
-import { useStorage } from "@vueuse/core";
 import {
   FaHome,
   FaChartBar,
@@ -35,6 +34,11 @@ import {
   FaTrash,
   BiChevronDown,
   BiChevronUp,
+  MdEditnote,
+  MdCalendarmonthOutlined,
+  MdInsertchartoutlined,
+  MdNewspaperOutlined,
+  MdPlaycircleoutline,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -74,6 +78,11 @@ addIcons(
   FaTrash,
   BiChevronDown,
   BiChevronUp,
+  MdEditnote,
+  MdCalendarmonthOutlined,
+  MdInsertchartoutlined,
+  MdNewspaperOutlined,
+  MdPlaycircleoutline,
 );
 
 axios.defaults.withCredentials = true;
@@ -82,8 +91,8 @@ axios.interceptors.response.use((res) => {
 }, (error) => {
   const axiosError = error as AxiosError;
   const unauthorized = 401;
-  if (axiosError.status === unauthorized) {
-    useStorage("isLogged", false).value = false;
+  if (axiosError.response?.status === unauthorized) {
+    localStorage.setItem("isLogged", "false");
     router.replace("/login");
   } else {
     throw error;
