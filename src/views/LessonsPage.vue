@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref, computed } from "vue";
 import LessonsList from "../components/LessonsList.vue";
 import Logo from "../components/LogoFinanci.vue";
 import { useRoute, useRouter } from "vue-router";
@@ -48,7 +48,6 @@ const route = useRoute();
 const router = useRouter();
 const courseId = route.params.id;
 const lessons = ref<Lessons[]>([]);
-const currentLessonId = ref<Lessons>();
 const currentLesson = ref<Lesson>();
 const course = ref<Course>();
 const baseURL = import.meta.env.VITE_API_URL as string;
@@ -56,9 +55,14 @@ const initialPage = 0;
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
 const quantity = 10;
+const videoURL = ref<string>();
 const videoCode = computed(() => {
-  return currentLesson.value?.videoURL.split("v=")[1];
+  return videoURL.value?.split("v=")[1];
 });
+
+function changeVideoURL(newVideoURL: string){
+  videoURL.value = newVideoURL;
+}
 
 async function getAllLessons(){
   try {
@@ -70,23 +74,23 @@ async function getAllLessons(){
     const json = res.data;
     totalPages.value = json.pages;
     lessons.value = json.data;
+    const initialLesson = 1;
 
-    currentLessonId.value = lessons.value[0];
-
-    getLesson();
+    getLesson(initialLesson);
   } catch(e){
     router.push("/ops");
   }
 }
 
-async function getLesson(){
+async function getLesson(id: number){
   try {
     const res = await axios.get<LessonResponse>(
-      `${baseURL}/get-lesson?id=${currentLessonId.value?.id}
+      `${baseURL}/get-lesson?id=${id}
       &courseId=${courseId}`,
     );
     const json = res.data;
     currentLesson.value = json.data;
+    videoURL.value = currentLesson.value.videoURL;
   } catch(e){
     return null;
   }
@@ -117,14 +121,13 @@ getCourse();
           :src="`https://www.youtube.com/embed/${videoCode}`"
           title="YouTube video player"
           frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-          gyroscope; picture-in-picture; web-share;"
           allowfullscreen
         />
       </div>
       <div class="lessons__container__list">
         <LessonsList
           :quantity="10"
+          @watch="videoURL => changeVideoURL(videoURL)"
         />
       </div>
     </div>

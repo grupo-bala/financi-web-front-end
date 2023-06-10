@@ -30,6 +30,10 @@ const props = defineProps<{
   quantity: number,
 }>();
 
+const emit = defineEmits<{
+  (e: "watch", videoURL: string): void,
+}>();
+
 function convertTime(seconds: number){
 
   const denominator = 60;
@@ -74,6 +78,7 @@ getLessons();
         :key="lesson.title"
         class="lessons__list__item__button"
         data-status="checked"
+        @click="emit('watch', lesson.videoURL)"
       >
         <li
           class="lessons__list__item__button__check"
