@@ -6,11 +6,11 @@ import { useRoute, useRouter } from "vue-router";
 type Lesson = {
     title: string,
     time: number,
-    videoURL: string,
-    courseId: number,
+    status: boolean,
+    id: number,
 };
 
-type SuccesfulReponse = {
+type LessonResponse = {
   data: Lesson[],
   pages: number,
 };
@@ -21,29 +21,34 @@ const isLoading = ref(true);
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
 const lessons = ref<Lesson[]>([]);
-const allLessons = ref<Lesson[]>([]);
 const route = useRoute();
 const router = useRouter();
 const courseId = route.params.id;
-
 const props = defineProps<{
   quantity: number,
 }>();
 
 const emit = defineEmits<{
-  (e: "watch", videoURL: string): void,
+  (e: "watch", id: number): void,
 }>();
 
 function convertTime(seconds: number){
 
   const denominator = 60;
   const limit = 9;
-  let minutes = Math.ceil(seconds/denominator);
-  seconds = Math.floor(minutes%denominator);
+  let minutes = Math.floor(seconds/denominator);
+  seconds = Math.round(seconds % denominator);
 
   if(minutes < limit){
+    if(seconds < limit){
+      return "0" + minutes + ":" + "0" + seconds;
+    }
     return "0" + minutes + ":" + seconds;
   }
+  if(seconds < limit){
+    return minutes + ":" + "0" + seconds;
+  }
+
   return minutes + ":" + seconds;
 }
 
@@ -51,19 +56,37 @@ async function getLessons() {
   isLoading.value = true;
   try {
     page.value++;
-    const res = await axios.get<SuccesfulReponse>(
+    const res = await axios.get<LessonResponse>(
       `${baseURL}/get-all-lessons?page=${page.value}&size=${props.quantity}
       &courseId=${courseId}`,
     );
     const json = res.data;
     totalPages.value = json.pages;
     lessons.value = json.data;
-    allLessons.value.push(...lessons.value);
     isLoading.value = false;
+    console.log(lessons);
   } catch (e) {
     router.push("/ops");
   }
 }
+
+async function changeWatched(id: number, status: boolean){
+  emit("watch", id);
+  try{
+    await axios.put(
+      `${baseURL}/update-lesson-watched-status`,
+      { id, courseId, status });
+    lessons.value.forEach((lesson) => {
+      if(lesson.id === id){
+        lesson.status = status;
+      }
+    });
+  } catch(e) {
+    router.push("/ops");
+  }
+
+}
+
 getLessons();
 
 </script>
@@ -74,11 +97,11 @@ getLessons();
       class="lessons__list__item"
     >
       <button
-        v-for="lesson in allLessons"
+        v-for="lesson in lessons"
         :key="lesson.title"
         class="lessons__list__item__button"
-        data-status="checked"
-        @click="emit('watch', lesson.videoURL)"
+        :data-status="`${lesson.status ? 'checked' : ''}`"
+        @click="changeWatched(lesson.id, !lesson.status)"
       >
         <li
           class="lessons__list__item__button__check"

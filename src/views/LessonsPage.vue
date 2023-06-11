@@ -4,6 +4,7 @@ import LessonsList from "../components/LessonsList.vue";
 import Logo from "../components/LogoFinanci.vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
+import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
 
 type Lessons = {
   id: number,
@@ -43,7 +44,7 @@ type LessonsResponse = {
   data: Lessons[],
   pages: number,
 }
-
+const isLoading = ref(true);
 const route = useRoute();
 const router = useRouter();
 const courseId = route.params.id;
@@ -55,14 +56,9 @@ const initialPage = 0;
 const page = ref(initialPage);
 const totalPages = ref(initialPage);
 const quantity = 10;
-const videoURL = ref<string>();
 const videoCode = computed(() => {
-  return videoURL.value?.split("v=")[1];
+  return currentLesson.value?.videoURL.split("v=")[1];
 });
-
-function changeVideoURL(newVideoURL: string){
-  videoURL.value = newVideoURL;
-}
 
 async function getAllLessons(){
   try {
@@ -74,9 +70,8 @@ async function getAllLessons(){
     const json = res.data;
     totalPages.value = json.pages;
     lessons.value = json.data;
-    const initialLesson = 1;
 
-    getLesson(initialLesson);
+    getLesson(lessons.value[0].id);
   } catch(e){
     router.push("/ops");
   }
@@ -90,7 +85,7 @@ async function getLesson(id: number){
     );
     const json = res.data;
     currentLesson.value = json.data;
-    videoURL.value = currentLesson.value.videoURL;
+    isLoading.value = false;
   } catch(e){
     return null;
   }
@@ -116,18 +111,24 @@ getCourse();
   <main class="lessons">
     <div class="lessons__container">
       <div class="lessons__container__video">
-        <h1> {{ course?.title }} </h1>
-        <iframe
-          :src="`https://www.youtube.com/embed/${videoCode}`"
-          title="YouTube video player"
-          frameborder="0"
-          allowfullscreen
-        />
+        <h2> {{ course?.title }} </h2>
+        <SuspenseBox
+          :is-loading="isLoading"
+          loading-width="100%"
+          loading-height="350px"
+        >
+          <iframe
+            :src="`https://www.youtube.com/embed/${videoCode}`"
+            title="YouTube video player"
+            frameborder="0"
+            allowfullscreen
+          />
+        </SuspenseBox>
       </div>
       <div class="lessons__container__list">
         <LessonsList
           :quantity="10"
-          @watch="videoURL => changeVideoURL(videoURL)"
+          @watch="id => getLesson(id)"
         />
       </div>
     </div>
@@ -150,7 +151,7 @@ getCourse();
   flex-direction: column;
   &__container {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1200px;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -165,7 +166,7 @@ getCourse();
     }
   }
 }
-h1 {
+h2 {
   padding-bottom:  1rem;
 }
 
@@ -181,7 +182,8 @@ iframe {
     background-color: $card-bg-color;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
-    padding: 5rem 2rem;
+    padding: 2rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: row;
   }
