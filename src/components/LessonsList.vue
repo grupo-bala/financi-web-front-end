@@ -4,10 +4,10 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 type Lesson = {
-    title: string,
-    time: number,
-    status: boolean,
-    id: number,
+  title: string,
+  time: number,
+  isWatched: boolean,
+  id: number,
 };
 
 type LessonResponse = {
@@ -64,7 +64,7 @@ async function getLessons() {
     totalPages.value = json.pages;
     lessons.value = json.data;
     isLoading.value = false;
-    console.log(lessons);
+
   } catch (e) {
     router.push("/ops");
   }
@@ -78,7 +78,7 @@ async function changeWatched(id: number, status: boolean){
       { id, courseId, status });
     lessons.value.forEach((lesson) => {
       if(lesson.id === id){
-        lesson.status = status;
+        lesson.isWatched = status;
       }
     });
   } catch(e) {
@@ -100,8 +100,8 @@ getLessons();
         v-for="lesson in lessons"
         :key="lesson.title"
         class="lessons__list__item__button"
-        :data-status="`${lesson.status ? 'checked' : ''}`"
-        @click="changeWatched(lesson.id, !lesson.status)"
+        :data-status="`${lesson.isWatched ? 'checked' : ''}`"
+        @click="changeWatched(lesson.id, !lesson.isWatched)"
       >
         <li
           class="lessons__list__item__button__check"
