@@ -137,8 +137,11 @@ getCourses();
         <h4>VER MAIS</h4>
       </button>
     </div>
-    <div v-else>
-      <h2> Ainda não há cursos</h2>
+    <div
+      v-else
+      class="course__list"
+    >
+      <h3> Ainda não há cursos</h3>
     </div>
   </div>
 </template>

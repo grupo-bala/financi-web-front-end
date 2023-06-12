@@ -16,6 +16,11 @@ const props = defineProps<{
   <div
     :class="isLoading ? 'suspense' : ''"
   >
+    <slot
+      :style="{
+        display: isLoading ? 'none' : 'block'
+      }"
+    />
     <div
       v-for="i of props.quantity ?? 1"
       :key="i"
@@ -31,11 +36,6 @@ const props = defineProps<{
         class="skeletor"
       />
     </div>
-    <slot
-      :style="{
-        display: isLoading ? 'none' : 'block'
-      }"
-    />
   </div>
 </template>
 

@@ -25,6 +25,8 @@ const routes = [
     component: () => import("../views/GoalsPage.vue") },
   { path: "/courses/:id", name: "Lessons",
     component: () => import("../views/LessonsPage.vue") },
+  { path: "/profile", name: "Profile",
+    component: () => import("../views/ProfilePage.vue") },
 ];
 
 const noAuthRoutes = [
@@ -47,7 +49,7 @@ router.beforeEach((to) => {
     !noAuthRoutes.includes(to.name?.toString() ?? "") &&
     isLogged !== "true"
   ) {
-    router.push("Login");
+    router.push("/login");
   }
 });
 

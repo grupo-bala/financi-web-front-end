@@ -38,9 +38,8 @@ const getColor = computed(() => {
   width: 100%;
 
   &__button {
-    max-width: 200.35px;
     width: 100%;
-    padding: 0.8rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     border: 1px solid v-bind(getColor);
     border-radius: 5px;
     background-color: v-bind(getColor);
@@ -61,7 +60,7 @@ const getColor = computed(() => {
 @media screen and ((min-width: 768px) and (min-height: 850px))   {
   .container {
     &__button {
-      font-size: 1rem;
+      font-size: .9rem;
     }
   }
 }

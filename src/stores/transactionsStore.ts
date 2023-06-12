@@ -5,7 +5,9 @@ export const useTransactionsStore = defineStore("transactions", {
   state: () => {
     return {
       data: [] as Transaction[],
-      page: 0,
+      search: "",
+      page: 1,
+      total: 0,
     };
   },
   actions: {
@@ -26,8 +28,27 @@ export const useTransactionsStore = defineStore("transactions", {
         return t !== transaction;
       });
     },
+    edit(transaction: Transaction) {
+      const newTransaction = this.data.find((t) => {
+        return t.id === transaction.id;
+      });
+
+      newTransaction!.categoryId = transaction.categoryId;
+      newTransaction!.date = transaction.date;
+      newTransaction!.isEntry = transaction.isEntry;
+      newTransaction!.value = transaction.value;
+      newTransaction!.title = transaction.title;
+    },
+    clear() {
+      this.data = [];
+      this.page = 1;
+      this.total = 0;
+    },
     nextPage() {
       this.page++;
+    },
+    setTotalPages(total: number) {
+      this.total = total;
     },
   },
   getters: {

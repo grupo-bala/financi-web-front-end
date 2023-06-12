@@ -12,18 +12,18 @@ const searchValue = ref("");
       <div class="transactions__container__header">
         <h1>Histórico de transações</h1>
         <InputField
+          v-model="searchValue"
           type="Text"
           label=""
           placeholder="Pesquisar"
           :required="false"
           :numeric="false"
-          :model-value="searchValue"
         />
       </div>
       <TransactionsList
-        :quantity="10"
         show-dates
         show-load-more
+        :search="searchValue"
       />
     </div>
   </div>
