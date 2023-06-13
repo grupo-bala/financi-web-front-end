@@ -7,6 +7,7 @@ import ButtonComponent from "../ButtonComponent.vue";
 import { useTransactionsStore } from "../../stores/transactionsStore";
 import { Transaction } from "../../types/Transaction";
 import { useGoalsStore } from "../../stores/goalsStore";
+import { useFeedbackStore } from "../../stores/feedbackStore";
 
 const title = ref("");
 const value = ref("");
@@ -15,6 +16,7 @@ const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const transactions = useTransactionsStore();
 const goals = useGoalsStore();
+const feedbackModal = useFeedbackStore();
 const envUrl = import.meta.env.VITE_API_URL;
 
 type ErrorResponse = {msg: string};
@@ -87,6 +89,7 @@ async function postGoal() {
     });
 
     goals.add(res.data.data);
+    feedbackModal.notify("Sua meta foi adicionada com sucesso");
 
     emits("success", true);
   } catch (error) {
@@ -112,6 +115,7 @@ async function postTransaction() {
       });
 
     transactions.add(res.data.data);
+    feedbackModal.notify("Sua transação foi adicionada com sucesso");
 
     emits("success", true);
   } catch (error) {

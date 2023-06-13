@@ -1,12 +1,13 @@
-
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import NavBar from "./components/Navbar/ChosenNavbar.vue";
+import FeedbackModal from "./components/FeedbackModal.vue";
 </script>
 
 <template>
   <div class="app_container">
     <NavBar />
+    <FeedbackModal />
     <router-view />
   </div>
 </template>

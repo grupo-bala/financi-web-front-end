@@ -112,7 +112,7 @@ getTransactions();
 
 <template>
   <div>
-    <div v-if="transactions.data.length > 0">
+    <div v-if="isLoading || !isLoading && transactions.data.length > 0">
       <SuspenseBox
         :is-loading="isLoading"
         loading-width="100%"

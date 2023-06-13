@@ -9,6 +9,7 @@ import { getNameFromCategoryId } from "../../types/Category";
 import { useTransactionsStore } from "../../stores/transactionsStore";
 import { useGoalsStore } from "../../stores/goalsStore";
 import { Goal } from "../../types/Goal";
+import { useFeedbackStore } from "../../stores/feedbackStore";
 
 const sliceStart = 0;
 const sliceEnd = 10;
@@ -17,6 +18,7 @@ const feedback = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
 const transactions = useTransactionsStore();
 const goalStore = useGoalsStore();
+const feedbackModal = useFeedbackStore();
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
   data: Category[],
@@ -111,6 +113,9 @@ async function editTransaction() {
       title: title.value,
       isEntry: props.operation!.isEntry,
     });
+
+    feedbackModal.notify("Sua transação foi editada com sucesso");
+
     emits("success", true);
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -140,6 +145,9 @@ async function editGoal() {
       currentValue: props.goal!.currentValue,
       idealPerMonth: props.goal!.idealPerMonth,
     });
+
+    feedbackModal.notify("Sua meta foi editada com sucesso");
+
     emits("success", true);
   } catch (error) {
     const axiosError = error as AxiosError;
