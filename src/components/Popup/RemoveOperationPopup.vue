@@ -58,7 +58,9 @@ async function removeTransaction() {
       <h3
         class="remove_container__title"
       >
-        Deseja mesmo remover essa operação?
+        Deseja mesmo remover essa {{
+          "deadline" in props.type ? "meta" : "transação"
+        }}?
       </h3>
       <div class="remove_container__buttons">
         <ButtonComponent

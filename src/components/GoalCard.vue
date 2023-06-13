@@ -6,11 +6,20 @@ import { displayDate } from "../utils/Dates";
 import { Goal } from "../types/Goal";
 import EditPopupGoal from "../components/Popup/EditPopupGoalComponent.vue";
 import RemovePopup from "../components/Popup/RemoveOperationPopup.vue";
-
+import GoalDeposit from "./Popup/GoalDepositPopup.vue";
 
 const editIsOpen = ref(false);
 const cardIsOpen = ref(false);
-const popupIsOpen = ref(false);
+const removeIsOpen = ref(false);
+const depositIsOpen = ref(false);
+const progressPercent = computed(() => {
+  const percent = 100;
+
+  return Math.min(
+    Number(props.goal.currentValue) / Number(props.goal.totalValue) * percent,
+    percent,
+  );
+});
 const props = defineProps<{
   goal: Goal,
   minimalist?: boolean,
@@ -20,12 +29,6 @@ const currentArrow = computed(() =>
   cardIsOpen.value ? "bi-chevron-up" : "bi-chevron-down",
 );
 
-function getProgressPercent(totalValue: string, currentValue: string): number {
-  const percent = 100;
-
-  return Number(currentValue) / Number(totalValue) * percent;
-}
-
 function getFormatedDate(date: string) {
   return displayDate(date);
 }
@@ -33,6 +36,12 @@ function getFormatedDate(date: string) {
 function getNumberAsCurrency(value: string) {
   return Number(value)
     .toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+}
+
+function getRemainingValue() {
+  return (
+    Number(props.goal.totalValue) - Number(props.goal.currentValue)
+  );
 }
 </script>
 
@@ -120,10 +129,7 @@ function getNumberAsCurrency(value: string) {
       </div>
       <div class="goal_card__mid__right">
         <Progress
-          :percent="getProgressPercent(
-            goal.totalValue,
-            goal.currentValue,
-          )"
+          :percent="progressPercent"
         />
         <div class="goal_card__mid__right__bottom">
           <p
@@ -132,7 +138,9 @@ function getNumberAsCurrency(value: string) {
             {{ "R$ " + getNumberAsCurrency(goal.currentValue) }}
           </p>
           <p class="goal_card__mid__right__bottom__remaining">
-            {{ "Faltam R$ " + getNumberAsCurrency(goal.totalValue) }}
+            {{ "Faltam R$ " + getNumberAsCurrency(
+              getRemainingValue().toString()
+            ) }}
           </p>
         </div>
       </div>
@@ -158,10 +166,11 @@ function getNumberAsCurrency(value: string) {
         color="blue"
         text="DEPOSITAR"
         :disabled="false"
+        @click="depositIsOpen = true"
       />
       <button
         class="goal_card__bottom__remove"
-        @click="popupIsOpen = true"
+        @click="removeIsOpen = true"
       >
         <v-icon
           class="goal_card__bottom__remove__trash"
@@ -170,10 +179,15 @@ function getNumberAsCurrency(value: string) {
       </button>
     </div>
     <RemovePopup
-      v-if="popupIsOpen"
+      v-if="removeIsOpen"
       :id="props.goal.id"
       :type="props.goal"
-      @close="popupIsOpen = false"
+      @close="removeIsOpen = false"
+    />
+    <GoalDeposit
+      v-if="depositIsOpen"
+      :goal="props.goal"
+      @close="depositIsOpen = false"
     />
   </div>
 </template>
@@ -285,10 +299,10 @@ function getNumberAsCurrency(value: string) {
     width: 100%;
     margin-top: 1.5rem;
     align-items: center;
+    font-size: .7rem;
 
     &__edit {
       width: 100%;
-      font-size: .9rem;
       font-weight: 700;
       background-color: $small-card;
       border: none;
@@ -297,7 +311,7 @@ function getNumberAsCurrency(value: string) {
       border-radius: $border-radius;
       outline: none;
       letter-spacing: 0.08em;
-      padding: 0.55rem 1.5rem;
+      padding: 0.55rem 1rem;
     }
 
     &__remove {
@@ -307,10 +321,11 @@ function getNumberAsCurrency(value: string) {
       height: 100%;
       cursor: pointer;
       border-radius: $border-radius;
-      padding: .5rem .5rem;
+      padding: .4rem .4rem;
 
       &__trash {
         fill: $bg-color;
+        scale: .8;
       }
     }
   }
@@ -360,6 +375,14 @@ function getNumberAsCurrency(value: string) {
           &__remaining {
             font-size: .8rem;
           }
+        }
+      }
+    }
+
+    &__bottom {
+      &__remove {
+        &__trash {
+          scale: 1;
         }
       }
     }

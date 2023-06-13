@@ -45,7 +45,7 @@ const getColor = computed(() => {
     background-color: v-bind(getColor);
     color: $text-button-color;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     text-align: center;
     letter-spacing: 0.08em;
     cursor: pointer;

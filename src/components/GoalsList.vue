@@ -79,7 +79,7 @@ getGoals();
           >
             <GoalCard
               :goal="goal"
-              :minimalist="true"
+              :minimalist="props.minimalist"
             />
           </li>
         </ul>

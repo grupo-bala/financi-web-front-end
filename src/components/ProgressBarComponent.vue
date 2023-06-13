@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 const props = defineProps<{
   percent: number,
 }>();
 
-const percent = ref(props.percent);
 </script>
 
 <template>
@@ -16,10 +13,14 @@ const percent = ref(props.percent);
       </div>
     </div>
     <div class="progress_container__bar">
-      <p>{{ percent }}% atingido</p>
+      <p>
+        {{ props.percent.toLocaleString(
+          "pt-BR",{ maximumFractionDigits: 2 }
+        ) }}% atingido
+      </p>
       <div class="progress_container__bar__percent">
         <progress
-          :value="percent"
+          :value="props.percent"
           max="100"
         />
       </div>
