@@ -12,17 +12,18 @@ const searchValue = ref("");
       <div class="goals__container__header">
         <h1>Metas</h1>
         <InputField
+          v-model="searchValue"
           type="Text"
           label=""
           placeholder="Pesquisar"
           :required="false"
           :numeric="false"
-          :model-value="searchValue"
         />
       </div>
       <GoalsList
         :quantity="5"
         show-load-more
+        :search="searchValue"
       />
     </div>
   </div>

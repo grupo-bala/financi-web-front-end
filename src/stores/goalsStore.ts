@@ -5,7 +5,9 @@ export const useGoalsStore = defineStore("goals", {
   state: () => {
     return {
       data: [] as Goal[],
-      page: 0,
+      page: 1,
+      search: "",
+      total: 0,
     };
   },
   actions: {
@@ -38,8 +40,16 @@ export const useGoalsStore = defineStore("goals", {
       newGoal!.totalValue = goal.totalValue;
       newGoal!.title = goal.title;
     },
+    clear() {
+      this.data = [];
+      this.page = 1;
+      this.total = 0;
+    },
     nextPage() {
       this.page++;
+    },
+    setTotalPages(total: number) {
+      this.total = total;
     },
   },
   getters: {
