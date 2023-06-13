@@ -34,9 +34,7 @@ export const useGoalsStore = defineStore("goals", {
       });
 
       newGoal!.deadline = goal.deadline;
-      newGoal!.currentValue = (
-        Number(goal.currentValue) + Number(newGoal!.currentValue)
-      ).toString();
+      newGoal!.currentValue = goal.currentValue;
       newGoal!.totalValue = goal.totalValue;
       newGoal!.title = goal.title;
     },
