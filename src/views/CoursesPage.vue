@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InputField from "../components/Inputs/InputField.vue";
 import CourseList from "../components/CourseList.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 </script>
 
@@ -25,6 +26,7 @@ import CourseList from "../components/CourseList.vue";
         show-load-more
       />
     </div>
+    <Logo />
   </div>
 </template>
 
@@ -33,11 +35,12 @@ import CourseList from "../components/CourseList.vue";
 
 .courses {
   min-height: 100dvh;
-  width: 100vw;
+  width: 100%;
   color: $text-color-white;
   padding: 5rem 2rem;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   &__container {
     width: 100%;
@@ -50,7 +53,8 @@ import CourseList from "../components/CourseList.vue";
     &__header {
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
 
     }
   }
