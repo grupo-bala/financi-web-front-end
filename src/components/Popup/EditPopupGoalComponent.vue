@@ -106,9 +106,6 @@ onMounted(() => {
     align-items: center;
     background-color: $card-bg-color;
     border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    padding: 2rem 2.5rem;
     gap: 2rem;
 
     &__titles {
@@ -148,7 +145,6 @@ onMounted(() => {
     align-items: center;
 
     &__card {
-      width: 80%;
 
       &__titles {
         display: block;

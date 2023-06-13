@@ -156,12 +156,6 @@ function getRemainingValue() {
       >
         EDITAR
       </button>
-      <EditPopupGoal
-        v-if="editIsOpen"
-        type="Goal"
-        :goal="props.goal"
-        @close="editIsOpen = false"
-      />
       <ButtonComponent
         color="blue"
         text="DEPOSITAR"
@@ -178,6 +172,12 @@ function getRemainingValue() {
         />
       </button>
     </div>
+    <EditPopupGoal
+      v-if="editIsOpen"
+      type="Goal"
+      :goal="props.goal"
+      @close="editIsOpen = false"
+    />
     <RemovePopup
       v-if="removeIsOpen"
       :id="props.goal.id"
