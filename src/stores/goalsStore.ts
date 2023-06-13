@@ -28,6 +28,18 @@ export const useGoalsStore = defineStore("goals", {
         return g.id !== goalId;
       });
     },
+    edit(goal: Goal) {
+      const newGoal = this.data.find((t) => {
+        return t.id === goal.id;
+      });
+
+      newGoal!.deadline = goal.deadline;
+      newGoal!.currentValue = (
+        Number(goal.currentValue) + Number(newGoal!.currentValue)
+      ).toString();
+      newGoal!.totalValue = goal.totalValue;
+      newGoal!.title = goal.title;
+    },
     nextPage() {
       this.page++;
     },
