@@ -8,7 +8,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-  showClose: boolean,
+  showClose?: boolean,
 }>();
 
 function disableScroll() {
