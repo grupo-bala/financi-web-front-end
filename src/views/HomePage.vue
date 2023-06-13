@@ -159,7 +159,6 @@
 @import "../variables.scss";
 
 .home {
-  width: 100vw;
   min-height: 100dvh;
   background-color: $bg-color;
   display: flex;

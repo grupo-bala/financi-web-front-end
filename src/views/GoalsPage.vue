@@ -32,7 +32,6 @@ const searchValue = ref("");
 @import "../variables.scss";
 
 .goals {
-  width: 100vw;
   min-height: 100dvh;
   color: $text-color-white;
   background-color: $bg-color;

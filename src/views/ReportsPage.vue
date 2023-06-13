@@ -368,7 +368,6 @@ watch(view, () => {
 
 .reports {
   min-height: 100dvh;
-  width: 100vw;
   color: $text-color-white;
   padding: 5rem 2rem;
   display: flex;

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import InputField from "../components/Inputs/InputField.vue";
 import CourseList from "../components/CourseList.vue";
-import Logo from "../components/LogoFinanci.vue";
 
 </script>
 
@@ -26,7 +25,6 @@ import Logo from "../components/LogoFinanci.vue";
         show-load-more
       />
     </div>
-    <Logo />
   </div>
 </template>
 
@@ -35,7 +33,6 @@ import Logo from "../components/LogoFinanci.vue";
 
 .courses {
   min-height: 100dvh;
-  width: 100%;
   color: $text-color-white;
   padding: 5rem 2rem;
   display: flex;

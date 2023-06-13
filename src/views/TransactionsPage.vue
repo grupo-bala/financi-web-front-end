@@ -32,7 +32,6 @@ const searchValue = ref("");
 <style scoped lang="scss">
 @import "../variables.scss";
 .transactions {
-  width: 100vw;
   min-height: 100dvh;
   color: $text-color-white;
   background-color: $bg-color;
