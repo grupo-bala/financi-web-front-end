@@ -51,6 +51,12 @@ const getColor = computed(() => {
   return "blue";
 });
 
+value.value = Number(value.value)
+  .toLocaleString("pt-Br", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 const emits = defineEmits<{
   (e: "success", value: boolean): boolean
 }>();
