@@ -10,6 +10,7 @@ import { useTransactionsStore } from "../../stores/transactionsStore";
 import { useGoalsStore } from "../../stores/goalsStore";
 import { Goal } from "../../types/Goal";
 import { useFeedbackStore } from "../../stores/feedbackStore";
+import { useProfileStore } from "../../stores/userStore";
 
 const sliceStart = 0;
 const sliceEnd = 10;
@@ -17,6 +18,7 @@ const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
 const transactions = useTransactionsStore();
+const profile = useProfileStore();
 const goalStore = useGoalsStore();
 const feedbackModal = useFeedbackStore();
 type ErrorResponse = {msg: string};
@@ -102,6 +104,18 @@ async function editTransaction() {
       title: title.value,
       isEntry: props.operation!.isEntry,
       description: "",
+    });
+    profile.addTransaction({
+      value: (Number(
+        value.value.replace(".", "").replace(",", "."),
+      ) - Number(props.operation?.value)).toString(),
+      date: date.value,
+      categoryId: itensCategory.value.find((c) => {
+        return c.name === category.value;
+      })!.id,
+      id: props.operation!.id,
+      title: title.value,
+      isEntry: props.operation!.isEntry,
     });
     transactions.edit({
       value: value.value.replace(".", "").replace(",", "."),

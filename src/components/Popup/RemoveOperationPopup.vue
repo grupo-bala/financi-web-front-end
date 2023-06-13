@@ -8,6 +8,7 @@ import router from "../../router";
 import { useGoalsStore } from "../../stores/goalsStore";
 import { useTransactionsStore } from "../../stores/transactionsStore";
 import { useFeedbackStore } from "../../stores/feedbackStore";
+import { useProfileStore } from "../../stores/userStore";
 
 const props = defineProps<{
   type: Transaction | Goal,
@@ -17,6 +18,7 @@ const envUrl = import.meta.env.VITE_API_URL;
 const goals = useGoalsStore();
 const transactions = useTransactionsStore();
 const feedbackModal = useFeedbackStore();
+const profile = useProfileStore();
 
 function setRemoveType(): void {
   "deadline" in props.type ? removeGoal() : removeTransaction();
@@ -45,6 +47,9 @@ async function removeTransaction() {
       },
     });
 
+    profile.removeTransaction(transactions.data.find((t) => {
+      return t.id === props.id;
+    })!);
     transactions.remove(props.id);
     feedbackModal.notify("Sua transação foi removida com sucesso");
   } catch (error) {

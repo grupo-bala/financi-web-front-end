@@ -38,8 +38,6 @@ onMounted(() => {
 });
 </script>
 
-<!-- Atualizar para pegar o url da foto usuario nas props -->
-
 <template>
   <div class="greetings_container">
     <div class="greetings_container__user_info">

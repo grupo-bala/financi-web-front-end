@@ -10,12 +10,12 @@ import TransactionList from "../components/TransactionList.vue";
 import NewsPreview from "../components/NewsPreviewComponent.vue";
 import GoalsList from "../components/GoalsList.vue";
 import CourseList from "../components/CourseList.vue";
+import { useProfileStore } from "../stores/userStore";
 
+const profile = useProfileStore();
 const username = ref("");
 const feedback = ref("");
-const amount = ref("");
 const visibility = ref(false);
-/* Criar instancia do axios em outro arquivo */
 const envUrl = import.meta.env.VITE_API_URL;
 const popupIsOpen = ref(false);
 const currentOperation = ref<"Income" | "Out" | "Goal">();
@@ -26,8 +26,10 @@ type SuccessResponse = {
     name: string,
     username: string,
     fixedIncome: number,
-    balance: number,
+    balance: string,
     email: string,
+    entries: string,
+    outs: string,
   },
 }
 
@@ -47,8 +49,10 @@ async function getUserInfos() {
       `${envUrl}/get-me`,
     );
     feedback.value = "";
+    profile.balance = Number(response.data.data.balance);
+    profile.entries = Number(response.data.data.entries);
+    profile.outs = Number(response.data.data.outs);
     username.value = response.data.data.username;
-    amount.value = response.data.data.balance.toString();
   } catch (error) {
     const axiosError = error as AxiosError;
     const response = axiosError.response?.data as ErrorResponse;
@@ -81,7 +85,7 @@ onMounted(() => {
               v-if="visibility"
               class="container__content__balance__top_content__amount__value"
             >
-              {{ "R$ " + formatToMoney(amount) }}
+              {{ "R$ " + formatToMoney(profile.balance.toString()) }}
             </p>
             <p
               v-else
@@ -110,11 +114,11 @@ onMounted(() => {
         <div class="container__content__balance__bottom_content">
           <MovimentsInfo
             type="Income"
-            :value="formatToMoney(amount)"
+            :value="formatToMoney(profile.entries.toString())"
           />
           <MovimentsInfo
             type="Out"
-            :value="formatToMoney(amount)"
+            :value="formatToMoney(profile.outs.toString())"
           />
         </div>
         <div class="container__content__balance__quick_actions_container">

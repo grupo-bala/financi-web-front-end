@@ -7,6 +7,7 @@ import ButtonComponent from "../ButtonComponent.vue";
 import { useTransactionsStore } from "../../stores/transactionsStore";
 import { Transaction } from "../../types/Transaction";
 import { useGoalsStore } from "../../stores/goalsStore";
+import { useProfileStore } from "../../stores/userStore";
 import { useFeedbackStore } from "../../stores/feedbackStore";
 
 const title = ref("");
@@ -14,6 +15,7 @@ const value = ref("");
 const date = ref("");
 const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
+const profile = useProfileStore();
 const transactions = useTransactionsStore();
 const goals = useGoalsStore();
 const feedbackModal = useFeedbackStore();
@@ -115,6 +117,7 @@ async function postTransaction() {
       });
 
     transactions.add(res.data.data);
+    profile.addTransaction(res.data.data);
     feedbackModal.notify("Sua transação foi adicionada com sucesso");
 
     emits("success", true);
