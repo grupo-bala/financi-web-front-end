@@ -7,6 +7,7 @@ import ButtonComponent from "../ButtonComponent.vue";
 import { Transaction } from "../../types/Transaction";
 import { getNameFromCategoryId } from "../../types/Category";
 import { useTransactionsStore } from "../../stores/transactionsStore";
+import { Goal } from "../../types/Goal";
 
 const sliceStart = 0;
 const sliceEnd = 10;
@@ -25,28 +26,35 @@ type Category = {
 }
 
 const props = defineProps<{
-  type: "Income" | "Out"
-  operation: Transaction,
+  type: "Income" | "Out" | "Goal"
+  operation?: Transaction,
+  goal?: Goal
 }>();
 
-const title = ref(props.operation.title);
-const value = ref(props.operation.value);
-const date = ref(props.operation.date.slice(sliceStart, sliceEnd));
-const category = ref(getNameFromCategoryId(props.operation.categoryId));
-
+const title = ref(props.type === "Goal" ?
+  props.goal!.title : props.operation!.title);
+const value = ref(props.type === "Goal" ?
+  props.goal!.totalValue : props.operation!.value);
+const date = ref(props.type === "Goal" ?
+  props.goal!.deadline.slice(sliceStart, sliceEnd) :
+  props.operation!.date.slice(sliceStart, sliceEnd));
+const category = ref(props.type === "Goal" ?
+  "empty" : getNameFromCategoryId(props.operation!.categoryId));
 const getColor = computed(() => {
   if (props.type === "Out") {
     return "red";
+  } else if (props.type === "Income") {
+    return "green";
   }
-  return "green";
+  return "blue";
 });
 
 const emits = defineEmits<{
   (e: "success", value: boolean): boolean
 }>();
 
-const typeLabelMoney = "Valor";
-const typeLabelDate = "Data";
+const typeLabelMoney = props.type === "Goal" ? "Objetivo" : "Valor";
+const typeLabelDate = props.type === "Goal" ? "Data limite" : "Data";
 
 function getItensCategory() {
   return itensCategory.value.map((category) => category.name);
@@ -67,6 +75,8 @@ async function getCategories() {
 async function setAction() {
   if (props.type === "Income" || props.type === "Out") {
     editTransaction();
+  } else if (props.type === "Goal") {
+    editGoal();
   }
 }
 
@@ -78,9 +88,9 @@ async function editTransaction() {
       categoryId: itensCategory.value.find((c) => {
         return c.name === category.value;
       })?.id,
-      id: props.operation.id,
+      id: props.operation!.id,
       title: title.value,
-      isEntry: props.operation.isEntry,
+      isEntry: props.operation!.isEntry,
       description: "",
     });
     transactions.edit({
@@ -89,9 +99,28 @@ async function editTransaction() {
       categoryId: itensCategory.value.find((c) => {
         return c.name === category.value;
       })!.id,
-      id: props.operation.id,
+      id: props.operation!.id,
       title: title.value,
-      isEntry: props.operation.isEntry,
+      isEntry: props.operation!.isEntry,
+    });
+    emits("success", true);
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const response = axiosError.response?.data as ErrorResponse;
+    feedback.value = response.msg;
+    emits("success", false);
+  }
+}
+
+async function editGoal() {
+  try {
+    await axios.put(`${envUrl}/update-goal`, {
+      id: props.goal!.id,
+      title: title.value,
+      currentValue: Number(
+        props.goal!.currentValue.replace(".", "").replace(",", ".")),
+      totalValue: Number(value.value.replace(".", "").replace(",", ".")),
+      deadline: new Date(date.value),
     });
     emits("success", true);
   } catch (error) {
@@ -137,6 +166,7 @@ onMounted(() => {
       />
     </div>
     <SelectComponent
+      v-if="$props.type != 'Goal'"
       :items="getItensCategory()"
       :selected="category"
       @update:selected="(newSelected: string) => { category = newSelected }"
