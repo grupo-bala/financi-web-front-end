@@ -31,7 +31,11 @@ async function depositGoal() {
     goals.edit({
       id: props.goal.id,
       title: props.goal.title,
-      currentValue: depositValue.value.replace(".", "").replace(",", "."),
+      currentValue: (
+        Number(
+          depositValue.value.replace(".", "").replace(",", "."),
+        ) + Number(props.goal.currentValue)
+      ).toString(),
       deadline: props.goal.deadline,
       idealPerMonth: props.goal.idealPerMonth,
       totalValue: props.goal.totalValue,

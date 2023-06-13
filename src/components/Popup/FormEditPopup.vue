@@ -126,7 +126,8 @@ async function editGoal() {
       id: props.goal!.id,
       title: title.value,
       currentValue: Number(
-        props.goal!.currentValue.replace(".", "").replace(",", ".")),
+        props.goal!.currentValue.replace(".", "").replace(",", "."),
+      ),
       totalValue: Number(value.value.replace(".", "").replace(",", ".")),
       deadline: new Date(date.value),
     });
@@ -137,6 +138,7 @@ async function editGoal() {
       title: title.value,
       userId: props.goal!.userId,
       currentValue: props.goal!.currentValue,
+      idealPerMonth: props.goal!.idealPerMonth,
     });
     emits("success", true);
   } catch (error) {
