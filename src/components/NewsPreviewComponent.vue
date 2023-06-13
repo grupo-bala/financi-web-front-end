@@ -83,6 +83,7 @@ getNews();
       width: 100%;
 
       &__title {
+        font-size: 0.8rem;
         font-weight: 600;
         padding: 0rem 1rem;
         width: 100%;
