@@ -8,7 +8,6 @@ import EditPopupGoal from "../components/Popup/EditPopupGoalComponent.vue";
 import RemovePopup from "../components/Popup/RemoveOperationPopup.vue";
 import GoalDeposit from "./Popup/GoalDepositPopup.vue";
 
-
 const editIsOpen = ref(false);
 const cardIsOpen = ref(false);
 const removeIsOpen = ref(false);
