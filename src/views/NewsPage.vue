@@ -5,6 +5,7 @@ import Logo from "../components/LogoFinanci.vue";
 import router from "../router/index";
 import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
 import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
+import InputField from "../components/Inputs/InputField.vue";
 
 interface NewsPreview {
   title: string;
@@ -12,7 +13,7 @@ interface NewsPreview {
   imgURL: string;
   id: number;
 }
-
+const searchValue = ref("");
 const baseURL = import.meta.env.VITE_API_URL;
 const news = ref<NewsPreview[]>([]);
 const allNews = ref<NewsPreview[]>([]);
@@ -32,7 +33,11 @@ async function getNews() {
   isLoadingAll.value = true;
   const response =
     await axios
-      .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}&size=10`);
+      .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}&
+      size=10&
+      search=${searchValue.value ?? ""}
+      `.replaceAll(/^\s+|\n/gm, ""));
+
   const json = response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
@@ -54,44 +59,43 @@ getNews();
 </script>
 
 <template>
-  <div class="container">
-    <main class="container__main">
-      <section class="container__main__news">
-        <header class="container__main__news__title">
+  <div class="content">
+    <main class="content__main">
+      <section class="content__main__news">
+        <div class="content__main__news__header">
           <h2>Notícias</h2>
-        </header>
-        <div class="container__main__news__filter">
-          <v-icon
-            name="io-filter"
-            fill="#4ECB71"
-          />
-          <input
-            type="search"
-            placeholder="Pesquisar"
-            style="color: white"
-          >
+          <form class="content__main__news__header__form">
+            <InputField
+              :model-value="searchValue"
+              type="Text"
+              label=""
+              placeholder="Pesquisar"
+              :required="false"
+              :numeric="false"
+            />
+          </form>
         </div>
         <div>
           <li
             v-for="{id, imgURL, publishDate, title } in allNews"
             :key="title"
-            class="container__main__news__list"
+            class="content__main__news__list"
           >
             <button
-              class="container__main__news__list__button"
+              class="content__main__news__list__button"
               @click="router.push(`/news/${id}`)"
             >
               <SuspenseImage
                 :src="imgURL"
                 width="5rem"
                 height="5rem"
-                img-class="container__main__news__list__button__image"
+                img-class="content__main__news__list__button__image"
               />
-              <div class="container__main__news__list__button__info">
-                <p class="container__main__news__list__button__info__title">
+              <div class="content__main__news__list__button__info">
+                <p class="content__main__news__list__button__info__title">
                   {{ title }}
                 </p>
-                <p class="container__main__news__list__button__info__date">
+                <p class="content__main__news__list__button__info__date">
                   {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
                 </p>
               </div>
@@ -105,28 +109,28 @@ getNews();
           :style="{ margin: '1rem 0' }"
         />
         <button
-          class="container__main__news__more"
+          class="content__main__news__more"
           :disabled="howManyPages === currentPage"
           @click="seeMore"
         >
           <h4>VER MAIS</h4>
         </button>
       </section>
-      <aside class="container__main__aside">
+      <aside class="content__main__aside">
         <h5>Recomendados</h5>
         <SuspenseBox
           :is-loading="isLoadingRecommended"
           loading-height="80px"
           loading-width="100%"
         >
-          <section class="container__main__aside__section">
+          <section class="content__main__aside__section">
             <li
               v-for="{ id, imgURL, title } in recommended"
               :key="title"
-              class="container__main__aside__section__list"
+              class="content__main__aside__section__list"
             >
               <button
-                class="container__main__aside__section__list__button"
+                class="content__main__aside__section__list__button"
                 @click="router.push(`/news/${id}`)"
               >
                 <SuspenseImage
@@ -134,11 +138,11 @@ getNews();
                   width="4rem"
                   height="4rem"
                   img-class="
-                    container__main__aside__section__list__button__image
+                    content__main__aside__section__list__button__image
                   "
                 />
                 <div
-                  class="container__main__aside__section__list__button__info"
+                  class="content__main__aside__section__list__button__info"
                 >
                   <p>
                     {{ title }}
@@ -158,20 +162,20 @@ getNews();
 
 <style scoped lang="scss">
 @import "../variables.scss";
-.container {
+.content {
   background-color: $bg-color;
   height: auto;
-  min-height: 100vh;
+  min-height: 100dvh;
 
     &__main {
-        padding: 2rem 2rem 0 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: start;
-        height: auto;
-        position: relative;
+      padding: 2rem 2rem 0 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      height: auto;
+      position: relative;
 
-        &__news {
+      &__news {
         background-color: $bg-color;
         display: flex;
         justify-content: center;
@@ -182,27 +186,24 @@ getNews();
         font-size: 1.3rem;
         flex-grow: 1;
         list-style: none;
+          &__header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+          }
 
-        &__filter {
-          display: flex;
-          align-items: center;
-          background-color: $filter-bg-color;
-          border-radius: $border-radius;
-          padding-left: 1rem;
-          box-shadow: $filter-box-shadow;
-          margin: 1.5rem 0;
-        }
-        &__more {
-          width: 100%;
-          height: 2rem;
-          border-radius: $border-radius;
-          text-align: center;
-          background-color: $financi-green;
-          color: $text-color-white;
-          margin-top: 1rem;
-        }
-        &__list {
-          padding: 0.5rem 0;
+          &__more {
+            width: 100%;
+            height: 2rem;
+            border-radius: $border-radius;
+            text-align: center;
+            background-color: $financi-green;
+            color: $text-color-white;
+            margin-top: 1rem;
+          }
+          &__list {
+            padding: 0.5rem 0;
 
           &__button {
             display: flex;
@@ -314,6 +315,7 @@ getNews();
               display: flex;
               background-color: transparent;
               color: $text-color-white;
+              font-size: 0.9rem;
               :deep &__image {
                 width: 4rem;
                 height: 4rem;
