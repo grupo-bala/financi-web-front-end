@@ -15,7 +15,7 @@ import Logo from "../components/LogoFinanci.vue";
             model-value=""
             type="Text"
             label=""
-            placeholder="Pesquisar por um curso"
+            placeholder="Pesquisar"
             :required="false"
             :numeric="false"
           />
