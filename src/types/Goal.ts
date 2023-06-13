@@ -5,4 +5,5 @@ export interface Goal {
   currentValue: string,
   totalValue: string,
   deadline: string,
+  idealPerMonth: string,
 }

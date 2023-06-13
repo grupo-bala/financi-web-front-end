@@ -23,9 +23,9 @@ export const useTransactionsStore = defineStore("transactions", {
         return new Date(t2.date).getTime() - new Date(t1.date).getTime();
       });
     },
-    remove(transaction: Transaction) {
+    remove(transactionId: number) {
       this.data = this.data.filter((t) => {
-        return t !== transaction;
+        return t.id !== transactionId;
       });
     },
     edit(transaction: Transaction) {

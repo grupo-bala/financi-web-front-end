@@ -4,12 +4,14 @@ import { Categories } from "../types/Category";
 import { displayDate } from "../utils/Dates";
 import { Transaction } from "../types/Transaction";
 import EditPopup from "./Popup/EditPopupComponent.vue";
+import RemovePopup from "../components/Popup/RemoveOperationPopup.vue";
 
 const props = defineProps<{
   transaction: Transaction,
 }>();
 const cardIsOpen = ref(false);
-const popupIsOpen = ref(false);
+const editIsOpen = ref(false);
+const removeIsOpen = ref(false);
 const categoryToIcon = {
   "Saúde": "fa-briefcase-medical",
   "Alimentação": "md-foodbank-round",
@@ -93,11 +95,14 @@ function getNumberAsCurrency(value: string) {
     >
       <button
         class="transaction_card__bottom__edit"
-        @click="popupIsOpen = true"
+        @click="editIsOpen = true"
       >
         EDITAR
       </button>
-      <button class="transaction_card__bottom__remove">
+      <button
+        class="transaction_card__bottom__remove"
+        @click="removeIsOpen = true"
+      >
         <v-icon
           class="transaction_card__bottom__remove__trash"
           name="fa-trash"
@@ -105,10 +110,16 @@ function getNumberAsCurrency(value: string) {
       </button>
     </div>
     <EditPopup
-      v-if="popupIsOpen"
+      v-if="editIsOpen"
       :operation="props.transaction"
       :type="operationType(props.transaction.isEntry)"
-      @close="popupIsOpen = false"
+      @close="editIsOpen = false"
+    />
+    <RemovePopup
+      v-if="removeIsOpen"
+      :id="props.transaction.id"
+      :type="props.transaction"
+      @close="removeIsOpen = false"
     />
   </div>
 </template>
