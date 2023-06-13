@@ -2,23 +2,22 @@
 import { CSSProperties, computed, onMounted, ref, watch } from "vue";
 import FormEditPopup from "./FormEditPopup.vue";
 import Popup from "../Popup/PopupComponent.vue";
-import { Transaction } from "../../types/Transaction";
+import { Goal } from "../../types/Goal";
 
-type Tab = "Out" | "Income";
+type Tab = "Goal";
 type ElementRef = HTMLDivElement | null;
 
 const props = defineProps<{
   type?: Tab,
-  operation: Transaction,
+  goal: Goal,
 }>();
 
 const noWidth = 0;
 const divSize = ref(noWidth);
 const divSizeInPx = computed(() => `${divSize.value}px`);
-const actualType = ref<Tab>(props.type ?? "Income");
+const actualType = ref<Tab>(props.type ?? "Goal");
 
-const editOutElement = ref<ElementRef>(null);
-const editInElement = ref<ElementRef>(null);
+const editGoalElement = ref<ElementRef>(null);
 
 const divStyle = ref<CSSProperties>({
   left: "50%",
@@ -27,8 +26,7 @@ const divStyle = ref<CSSProperties>({
 });
 
 const tabToElement = {
-  "Out": editOutElement,
-  "Income": editInElement,
+  "Goal": editGoalElement,
 };
 
 function calcDivWidth() {
@@ -54,42 +52,17 @@ onMounted(() => {
   <Popup>
     <div class="box__card">
       <div class="box__card__titles">
-        <h2
-          v-if="props.type === 'Income'"
-        >
-          EDITAR ENTRADA
-        </h2>
-        <h2
-          v-if="props.type === 'Out'"
-        >
-          EDITAR SAÍDA
+        <h2>
+          EDITAR META
         </h2>
       </div>
       <div
-        v-if="props.type == 'Out'"
         class="box__card__buttons_titles"
       >
         <button
-          ref="editOutElement"
+          ref="editGoalElement"
           @click="[
-            actualType = 'Out',
-            divStyle = {
-              left: 0,
-              backgroundColor: '#EF5350',
-            }
-          ]"
-        >
-          EDITAR SAÍDA
-        </button>
-      </div>
-      <div
-        v-else-if="props.type == 'Income'"
-        class="box__card__buttons_titles"
-      >
-        <button
-          ref="editInElement"
-          @click="[
-            actualType = 'Income',
+            actualType = 'Goal',
             divStyle = {
               left: 0,
               backgroundColor: '#EF5350',
@@ -100,7 +73,7 @@ onMounted(() => {
         </button>
       </div>
       <FormEditPopup
-        :operation="props.operation"
+        :goal="props.goal"
         :type="actualType"
         @success="[
           $emit('close'),

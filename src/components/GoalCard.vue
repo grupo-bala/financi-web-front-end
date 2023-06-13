@@ -4,8 +4,11 @@ import ButtonComponent from "./ButtonComponent.vue";
 import Progress from "./ProgressBarComponent.vue";
 import { displayDate } from "../utils/Dates";
 import { Goal } from "../types/Goal";
+import EditPopupGoal from "../components/Popup/EditPopupGoalComponent.vue";
 import RemovePopup from "../components/Popup/RemoveOperationPopup.vue";
 
+
+const editIsOpen = ref(false);
 const cardIsOpen = ref(false);
 const popupIsOpen = ref(false);
 const props = defineProps<{
@@ -140,9 +143,17 @@ function getNumberAsCurrency(value: string) {
     >
       <button
         class="goal_card__bottom__edit"
+        :disabled="false"
+        @click="editIsOpen = true"
       >
         EDITAR
       </button>
+      <EditPopupGoal
+        v-if="editIsOpen"
+        type="Goal"
+        :goal="props.goal"
+        @close="editIsOpen = false"
+      />
       <ButtonComponent
         color="blue"
         text="DEPOSITAR"

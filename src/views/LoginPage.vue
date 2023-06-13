@@ -4,7 +4,6 @@ import { useStorage } from "@vueuse/core";
 import axios, { AxiosError } from "axios";
 import Input from "../components/Inputs/InputField.vue";
 import Button from "../components/ButtonComponent.vue";
-import CheckboxLogin from "../components/Inputs/CheckboxLogin.vue";
 import router from "../router";
 
 const username = ref("");
@@ -68,7 +67,6 @@ async function login() {
         placeholder="Digite sua senha"
         @is-correct="(correct: boolean) => isPasswordCorrect = correct"
       />
-      <CheckboxLogin text="Mantenha-me conectado" />
       <p
         v-if="feedback.length > 0"
         class="main_container__inputs__error"
