@@ -62,7 +62,7 @@ watch(feedback, () => {
   color: black;
   padding: 1rem;
   max-width: 300px;
-  z-index: 10;
+  z-index: 1000;
   cursor: pointer;
   box-shadow: $box-shadow;
 
