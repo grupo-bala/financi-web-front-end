@@ -13,7 +13,6 @@ const value = ref("");
 const date = ref("");
 const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
-const selected = ref("");
 const transactions = useTransactionsStore();
 const goals = useGoalsStore();
 const envUrl = import.meta.env.VITE_API_URL;
@@ -47,6 +46,7 @@ const props = defineProps<{
   type: "Income" | "Out" | "Goal"
 }>();
 
+const selected = ref(props.type === "Goal" ? "emptyCategory" : "");
 const emits = defineEmits<{
   (e: "success", value: boolean): boolean
 }>();
@@ -157,6 +157,7 @@ onMounted(() => {
       />
     </div>
     <SelectComponent
+      v-if="$props.type !== 'Goal'"
       :items="getItensCategory()"
       :selected="selected"
       @update:selected="(newSelected: string) => { selected = newSelected }"
