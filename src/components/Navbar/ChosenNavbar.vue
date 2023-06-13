@@ -15,7 +15,7 @@ const isInSkipRoutes = ref(true);
 const currentRoute = router.currentRoute;
 const shouldAppear = computed(() => {
   const isMobileInHome =
-    !isDesktop.value && currentRoute.value.name!.toString() === "Home";
+    !isDesktop.value && currentRoute.value.name?.toString() === "Home";
   return !isInSkipRoutes.value && !isMobileInHome;
 });
 
