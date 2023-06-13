@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { CSSProperties, computed, onMounted, ref, watch } from "vue";
-//import FormEditGoalPopup from "./FormEditGoalComponent.vue";
 import FormEditPopup from "./FormEditPopup.vue";
 import Popup from "../Popup/PopupComponent.vue";
 import { Goal } from "../../types/Goal";
