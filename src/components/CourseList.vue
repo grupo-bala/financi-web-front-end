@@ -52,9 +52,12 @@ async function getCourses() {
 
 const denominator = 60;
 
-function convertToHour(minutes: number){
-  const hour = Math.floor(minutes/denominator);
-  return hour;
+function convertToHour(seconds: number){
+  return Math.round(convertToMinute(seconds)/denominator);
+}
+
+function convertToMinute(seconds: number){
+  return Math.round(seconds/denominator);
 }
 getCourses();
 </script>
@@ -109,7 +112,8 @@ getCourses();
               <span class="course__list__item__bottom__lesson__info">
                 {{ course.howManyLessons + " Aulas" }}
                 <p>
-                  {{ course.averageTimePerLesson + " minutos" }}
+                  {{ convertToMinute(course.averageTimePerLesson)
+                    + " minutos" }}
                 </p>
               </span>
             </div>
