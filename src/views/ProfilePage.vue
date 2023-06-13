@@ -2,11 +2,11 @@
 import { Profile } from "../types/Profile";
 import InputField from "../components/Inputs/InputField.vue";
 import ProfilePhotoUser from "../components/ProfileComponent.vue";
-import FinanciLogo from "../components/LogoFinanci.vue";
 import Button from "../components/ButtonComponent.vue";
 import { ref } from "vue";
 import axios from "axios";
 import router from "../router";
+import { useFeedbackStore } from "../stores/feedbackStore";
 
 const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
@@ -17,6 +17,7 @@ const info = ref<Profile>({
   fixedIncome: "0",
   email: "",
 });
+const feedbackModal = useFeedbackStore();
 
 async function getMe() {
   try {
@@ -33,19 +34,21 @@ async function getMe() {
   }
 }
 
-getMe();
-
 async function updateProfile() {
   await axios.put(`${envUrl}/update-user`, {
     ...info.value,
     fixedIncome: info.value.fixedIncome.replace(".", "").split(",").join("."),
   });
+
+  feedbackModal.notify("Suas informações foram atualizadas com sucesso");
 }
 
 async function logOut() {
   await axios.post(`${envUrl}/logout`);
   router.push("/login");
 }
+
+getMe();
 
 </script>
 
@@ -98,53 +101,46 @@ async function logOut() {
         FAZER LOGOUT
       </button>
     </div>
-    <FinanciLogo class="main_container__logo-financi" />
   </div>
 </template>
 
 <style scoped lang="scss">
 @import "../variables.scss";
 .main_container {
-    margin: 0px;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  background-color: $bg-color;
+  padding: 5rem 2rem;
+
+  &__content_box {
     display: flex;
-    height: calc(100vh - 4rem);
+    border-radius: $border-radius;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    background-color: $bg-color;
+    gap: 1.5rem;
 
+    &__logout {
+      background-color: transparent;
+      text-decoration: underline;
+      border-color: transparent;
+      color: $financi-red;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .main_container {
     &__content_box {
-        margin-top: 20px;
-        height: 750px;
-        display: flex;
-        border-radius: 15px;
-        align-items: center;
-        flex-direction: column;
-        justify-content: space-evenly;
-
-        &__logout {
-          background-color: transparent;
-          text-decoration: underline;
-          border-color: transparent;
-          color: $financi-red;
-          cursor: pointer;
-        }
-
-        @media (min-width: 400px) {
-          width: 400px;
-          background-color: $bg-color
-        }
-
-        @media (min-width: 1000px) {
-          width: 1000px;
-          background-color: $card-bg-color;
-        }
-
+      background-color: $card-bg-color;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+      padding: 3rem;
+      width: 70vw;
+      max-width: 1200px;
     }
-
-    &__logo-financi {
-      padding: 0px;
-      margin-bottom: 20px;
-    }
+  }
 }
 </style>

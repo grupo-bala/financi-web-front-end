@@ -2,13 +2,16 @@
 import { ref } from "vue";
 import axios from "axios";
 import router from "../router";
+import { useFeedbackStore } from "../stores/feedbackStore";
+
+const props = defineProps<{
+  username: string
+}>();
 
 const photoInput = ref<HTMLInputElement | null>(null);
 const envUrl = import.meta.env.VITE_API_URL;
 const photoSource = ref(`${envUrl}/get-photo?timestap=${Date.now()}`);
-const props = defineProps<{
-  username: string
-}>();
+const feedbackModal = useFeedbackStore();
 
 async function changeProfilePicture() {
   const file = photoInput.value!.files![0];
@@ -23,6 +26,7 @@ async function changeProfilePicture() {
     });
 
     photoSource.value = `${envUrl}/get-photo?timestap=${Date.now()}`;
+    feedbackModal.notify("A sua foto de perfil foi atualizada com sucesso");
   } catch (error) {
     router.push("/ops");
   }
@@ -50,6 +54,13 @@ function handleFileChange(): void {
           accept="image/*"
           @change="handleFileChange"
         >
+        <div class="profile_container__user_info__image-input-label__filter">
+          <v-icon
+            name="bi-camera"
+            scale="3"
+            fill="white"
+          />
+        </div>
       </label>
       <p class="profile_container__user_info__username">
         @{{ props.username }}
@@ -96,11 +107,38 @@ function handleFileChange(): void {
     background-position: center;
     cursor: pointer;
     border-radius: 50%;
+    position: relative;
+
+    &__filter {
+      display: none;
+    }
+
+    &:hover &__filter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      animation: upload .1s ease-in-out forwards;
+    }
   }
 
     &__image-input {
       display: none;
     }
+  }
+}
+
+@keyframes upload {
+  from {
+    background-color: transparent;
+    backdrop-filter: none;
+  }
+
+  to {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: grayscale(100%) blur(5px);
   }
 }
 </style>

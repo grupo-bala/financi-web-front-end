@@ -39,6 +39,7 @@ import {
   MdInsertchartoutlined,
   MdNewspaperOutlined,
   MdPlaycircleoutline,
+  BiCamera,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -83,6 +84,7 @@ addIcons(
   MdInsertchartoutlined,
   MdNewspaperOutlined,
   MdPlaycircleoutline,
+  BiCamera,
 );
 
 axios.defaults.withCredentials = true;
