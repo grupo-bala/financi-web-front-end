@@ -295,6 +295,7 @@ onMounted(() => {
     }
 
     &__button {
+        margin-top: 1rem;
         display: flex;
         justify-content: center;
         padding: 0.5rem;
@@ -440,6 +441,10 @@ onMounted(() => {
         &__title {
           margin-bottom: .5rem;
         }
+      }
+
+      &__button {
+        margin: 0;
       }
     }
   }

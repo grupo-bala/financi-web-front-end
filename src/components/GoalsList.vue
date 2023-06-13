@@ -138,7 +138,6 @@ getGoals();
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 
   &__items {
     display: flex;
