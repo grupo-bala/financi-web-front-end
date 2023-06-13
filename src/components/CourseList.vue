@@ -42,12 +42,22 @@ async function getCourses() {
     const json = res.data;
     totalPages.value = json.pages;
     courses.value = json.data;
-    isLoading.value = false;
     allCourses.value.push(...courses.value);
+    isLoading.value = false;
 
   } catch (e) {
     router.push("/ops");
   }
+}
+
+const denominator = 60;
+
+function convertToHour(seconds: number){
+  return Math.round(convertToMinute(seconds)/denominator);
+}
+
+function convertToMinute(seconds: number){
+  return Math.round(seconds/denominator);
 }
 getCourses();
 </script>
@@ -88,7 +98,7 @@ getCourses();
               </span>
               <span class="course__list__item__bottom__load__info">
                 Carga horária
-                <p>{{ course.totalTime + " horas" }} </p>
+                <p>{{ convertToHour(course.totalTime) + " horas" }} </p>
               </span>
             </div>
             <div class="course__list__item__bottom__lesson">
@@ -101,17 +111,23 @@ getCourses();
               </span>
               <span class="course__list__item__bottom__lesson__info">
                 {{ course.howManyLessons + " Aulas" }}
-                <p>{{ course.averageTimePerLesson + " minutos" }}</p>
+                <p>
+                  {{ convertToMinute(course.averageTimePerLesson)
+                    + " minutos" }}
+                </p>
               </span>
             </div>
           </div>
-          <button class="course__list__item__button">
+          <button
+            class="course__list__item__button"
+            @click="router.push(`/courses/${course.id}`)"
+          >
             <h5> VER CURSO </h5>
           </button>
         </ul>
       </SuspenseBox>
       <SuspenseBox
-        :is-loading="isLoading && page > 1"
+        :is-loading="isLoading"
         loading-width="100%"
         loading-height="70px"
         :quantity="props.quantity"
@@ -139,9 +155,7 @@ getCourses();
 
 .course__list {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: flow-root;
   &__seemore {
     width: 100%;
     height: 2rem;
@@ -161,8 +175,7 @@ getCourses();
 
   &__item {
     height: 200px;
-    width: 100%;
-    background-color: $filter-bg-color;
+    background-color: $section-color;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -239,9 +252,13 @@ p {
   .course__list {
     align-items: center;
     &__item {
-
-      height: 250px;
-      min-width: 600px;
+      background-color: $filter-bg-color;
+      height: 200px;
+      &__bottom {
+        display: flex;
+        justify-content: center;
+        gap: 10rem;
+      }
     }
   }
 }

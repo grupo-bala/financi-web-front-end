@@ -32,8 +32,7 @@ async function getNews() {
   isLoadingAll.value = true;
   const response =
     await axios
-      .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}
-      &size=10`);
+      .get(`${baseURL}/get-all-news-preview?page=${currentPage.value}&size=10`);
   const json = response.data;
   howManyPages.value = json.pages;
   news.value = json.data;
@@ -59,7 +58,7 @@ getNews();
     <main class="container__main">
       <section class="container__main__news">
         <header class="container__main__news__title">
-          Notícias
+          <h2>Notícias</h2>
         </header>
         <div class="container__main__news__filter">
           <v-icon

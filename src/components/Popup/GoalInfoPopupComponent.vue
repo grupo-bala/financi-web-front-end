@@ -21,7 +21,9 @@ const currentValue = computed(() => {
 </script>
 
 <template>
-  <Popup>
+  <Popup
+    show-close
+  >
     <div class="goal_container">
       <div class="goal_container__top">
         <v-icon

@@ -5,9 +5,12 @@ import Progress from "./ProgressBarComponent.vue";
 import { displayDate } from "../utils/Dates";
 import { Goal } from "../types/Goal";
 import EditPopupGoal from "../components/Popup/EditPopupGoalComponent.vue";
+import RemovePopup from "../components/Popup/RemoveOperationPopup.vue";
+
 
 const editIsOpen = ref(false);
 const cardIsOpen = ref(false);
+const popupIsOpen = ref(false);
 const props = defineProps<{
   goal: Goal,
   minimalist?: boolean,
@@ -110,7 +113,7 @@ function getNumberAsCurrency(value: string) {
                 goal_card__mid__left__content__label_value__value
               "
             >
-              R$ 10,00
+              R$ {{ getNumberAsCurrency(props.goal.idealPerMonth) }}
             </div>
           </div>
         </div>
@@ -156,13 +159,22 @@ function getNumberAsCurrency(value: string) {
         text="DEPOSITAR"
         :disabled="false"
       />
-      <button class="goal_card__bottom__remove">
+      <button
+        class="goal_card__bottom__remove"
+        @click="popupIsOpen = true"
+      >
         <v-icon
           class="goal_card__bottom__remove__trash"
           name="fa-trash"
         />
       </button>
     </div>
+    <RemovePopup
+      v-if="popupIsOpen"
+      :id="props.goal.id"
+      :type="props.goal"
+      @close="popupIsOpen = false"
+    />
   </div>
 </template>
 

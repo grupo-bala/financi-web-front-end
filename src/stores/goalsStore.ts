@@ -23,9 +23,9 @@ export const useGoalsStore = defineStore("goals", {
           .getTime() - new Date(g2.deadline).getTime();
       });
     },
-    remove(goal: Goal) {
+    remove(goalId: number) {
       this.data = this.data.filter((g) => {
-        return g !== goal;
+        return g.id !== goalId;
       });
     },
     nextPage() {
