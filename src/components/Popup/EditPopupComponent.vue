@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CSSProperties, computed, onMounted, ref, watch } from "vue";
 import FormEditPopup from "./FormEditPopup.vue";
+import Popup from "../Popup/PopupComponent.vue";
 import { Transaction } from "../../types/Transaction";
 
 type Tab = "Out" | "Income";
@@ -15,14 +16,9 @@ const noWidth = 0;
 const divSize = ref(noWidth);
 const divSizeInPx = computed(() => `${divSize.value}px`);
 const actualType = ref<Tab>(props.type ?? "Income");
-const isOpen = ref(true);
 
 const editOutElement = ref<ElementRef>(null);
 const editInElement = ref<ElementRef>(null);
-
-defineEmits<{
-  (e: "close"): void,
-}>();
 
 const divStyle = ref<CSSProperties>({
   left: "50%",
@@ -48,41 +44,14 @@ watch(actualType, () => {
   calcDivWidth();
 });
 
-watch(isOpen, () => {
-  if (!isOpen.value) {
-    enableScroll();
-  }
-});
-
 onMounted(() => {
   calcDivWidth();
 });
 
-function disableScroll() {
-  const scrollY = window.scrollY;
-  document.body.classList.add("disable_scroll");
-  document.body.style.top = `-${scrollY}px`;
-}
-
-function enableScroll() {
-  const scrollY = document.body.style.top;
-  document.body.classList.remove("disable_scroll");
-  document.body.style.top = "";
-
-  const xPos = 0;
-  const toNegative = -1;
-  window.scrollTo(xPos, Number(scrollY || "0") * toNegative);
-}
-
-disableScroll();
 </script>
 
 <template>
-  <div
-    v-if="isOpen"
-    class="box"
-    @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
-  >
+  <Popup>
     <div class="box__card">
       <div class="box__card__titles">
         <h2
@@ -134,13 +103,11 @@ disableScroll();
         :operation="props.operation"
         :type="actualType"
         @success="[
-          (feedback: boolean) => isOpen = !feedback,
           $emit('close'),
-          enableScroll(),
         ]"
       />
     </div>
-  </div>
+  </Popup>
 </template>
 
 <style scoped lang="scss">
