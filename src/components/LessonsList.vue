@@ -64,7 +64,6 @@ async function getLessons() {
     totalPages.value = json.pages;
     lessons.value = json.data;
     isLoading.value = false;
-
   } catch (e) {
     router.push("/ops");
   }
