@@ -3,8 +3,12 @@ import { ref } from "vue";
 
 const isOpen = ref(true);
 
-defineEmits<{
+const emit = defineEmits<{
   (e: "close"): void,
+}>();
+
+const props = defineProps<{
+  showClose: boolean,
 }>();
 
 function disableScroll() {
@@ -23,6 +27,12 @@ function enableScroll() {
   window.scrollTo(xPos, Number(scrollY || "0") * toNegative);
 }
 
+function onClose() {
+  enableScroll();
+  isOpen.value = !isOpen.value;
+  emit("close");
+}
+
 disableScroll();
 </script>
 
@@ -30,17 +40,20 @@ disableScroll();
   <div
     v-if="isOpen"
     class="popup_box"
-    @click.self="[enableScroll(), isOpen = !isOpen, $emit('close')]"
+    @click.self="onClose()"
   >
     <div class="popup_box__card">
       <v-icon
+        v-if="props.showClose"
         class="popup_box__card__close"
         name="io-close"
         scale="1.2"
         fill="gray"
-        @click="[enableScroll(), isOpen = !isOpen, $emit('close')]"
+        @click="onClose()"
       />
-      <slot />
+      <slot
+        :on-close="onClose"
+      />
     </div>
   </div>
 </template>
@@ -88,8 +101,8 @@ disableScroll();
         scale: 1.2;
         display: flex;
         position: absolute;
-        right: 1.3rem;
-        top: 1.3rem;
+        right: 1.2rem;
+        top: 1.2rem;
         cursor: pointer;
         transition: fill 0.4s;
 
