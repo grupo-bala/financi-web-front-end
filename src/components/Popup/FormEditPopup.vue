@@ -7,6 +7,7 @@ import ButtonComponent from "../ButtonComponent.vue";
 import { Transaction } from "../../types/Transaction";
 import { getNameFromCategoryId } from "../../types/Category";
 import { useTransactionsStore } from "../../stores/transactionsStore";
+import { useGoalsStore } from "../../stores/goalsStore";
 import { Goal } from "../../types/Goal";
 
 const sliceStart = 0;
@@ -15,6 +16,7 @@ const itensCategory = ref<Category[]>([]);
 const feedback = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
 const transactions = useTransactionsStore();
+const goalStore = useGoalsStore();
 type ErrorResponse = {msg: string};
 type SuccessResponse = {
   data: Category[],
@@ -121,6 +123,14 @@ async function editGoal() {
         props.goal!.currentValue.replace(".", "").replace(",", ".")),
       totalValue: Number(value.value.replace(".", "").replace(",", ".")),
       deadline: new Date(date.value),
+    });
+    goalStore.edit({
+      id: props.goal!.id,
+      deadline: date.value,
+      totalValue: value.value.replace(".", "").replace(",", "."),
+      title: title.value,
+      userId: props.goal!.userId,
+      currentValue: props.goal!.currentValue,
     });
     emits("success", true);
   } catch (error) {
