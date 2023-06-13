@@ -49,11 +49,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <Popup>
+  <Popup
+    v-slot="parent"
+    show-close
+  >
     <div class="box__card">
       <div class="box__card__titles">
         <h2>
-          EDITAR META
+          Editar meta
         </h2>
       </div>
       <div
@@ -69,15 +72,13 @@ onMounted(() => {
             }
           ]"
         >
-          EDITAR ENTRADA
+          Editar meta
         </button>
       </div>
       <FormEditPopup
         :goal="props.goal"
         :type="actualType"
-        @success="[
-          $emit('close'),
-        ]"
+        @success="parent.onClose()"
       />
     </div>
   </Popup>
@@ -85,12 +86,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "../../variables.scss";
-
-:global(body.disable_scroll) {
-  height: 100vh;
-  overflow-y: hidden;
-  position: fixed;
-}
 
 .box {
   display: flex;

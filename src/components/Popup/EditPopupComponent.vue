@@ -51,18 +51,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <Popup>
+  <Popup
+    v-slot="parent"
+    show-close
+  >
     <div class="box__card">
       <div class="box__card__titles">
         <h2
           v-if="props.type === 'Income'"
         >
-          EDITAR ENTRADA
+          Editar entrada
         </h2>
         <h2
           v-if="props.type === 'Out'"
         >
-          EDITAR SAÍDA
+          Editar saída
         </h2>
       </div>
       <div
@@ -79,7 +82,7 @@ onMounted(() => {
             }
           ]"
         >
-          EDITAR SAÍDA
+          Editar saída
         </button>
       </div>
       <div
@@ -96,15 +99,13 @@ onMounted(() => {
             }
           ]"
         >
-          EDITAR ENTRADA
+          Editar entrada
         </button>
       </div>
       <FormEditPopup
         :operation="props.operation"
         :type="actualType"
-        @success="[
-          $emit('close'),
-        ]"
+        @success="parent.onClose()"
       />
     </div>
   </Popup>
@@ -112,12 +113,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "../../variables.scss";
-
-:global(body.disable_scroll) {
-  height: 100vh;
-  overflow-y: hidden;
-  position: fixed;
-}
 
 .box {
   display: flex;
@@ -140,7 +135,6 @@ onMounted(() => {
     border-radius: 5px;
     width: 100%;
     max-width: 600px;
-    padding: 2rem 2.5rem;
     gap: 2rem;
 
     &__titles {
