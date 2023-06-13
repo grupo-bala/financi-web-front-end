@@ -43,14 +43,6 @@ export const useGoalsStore = defineStore("goals", {
     nextPage() {
       this.page++;
     },
-    edit(goal: Goal) {
-      const newGoal = this.data.find((g) => {
-        return g.id === goal.id;
-      });
-      newGoal!.deadline = goal.deadline;
-      newGoal!.totalValue = goal.totalValue;
-      newGoal!.title = goal.title;
-    },
   },
   getters: {
     get: (state) => {
