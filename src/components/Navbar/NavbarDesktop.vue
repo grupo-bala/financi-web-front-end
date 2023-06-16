@@ -13,42 +13,49 @@
       <router-link
         class="container__navbuttons_navbutton"
         to="/dashboard"
+        active-class="container__navbuttons--active"
       >
         Início
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/transactions"
+        active-class="container__navbuttons--active"
       >
         Transações
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/goals"
+        active-class="container__navbuttons--active"
       >
         Metas
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/courses"
+        active-class="container__navbuttons--active"
       >
         Cursos
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/reports"
+        active-class="container__navbuttons--active"
       >
         Relatórios
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/news"
+        active-class="container__navbuttons--active"
       >
         Noticias
       </router-link>
       <router-link
         class="container__navbuttons_navbutton"
         to="/profile"
+        active-class="container__navbuttons--active"
       >
         Perfil
       </router-link>
@@ -103,6 +110,9 @@
         &:hover {
           border-bottom-color: $text-color-white;
         }
+      }
+      &--active {
+        border-bottom-color: $text-color-white;
       }
     }
   }
