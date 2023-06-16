@@ -201,7 +201,6 @@ getCourses();
         font-size: 1.3em;
         font-weight: bold;
         text-overflow: ellipsis;
-        white-space: nowrap;
         overflow: hidden;
         padding-bottom: 0.2em;
         text-align: center;
