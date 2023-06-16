@@ -11,6 +11,7 @@ const popupIsOpen = ref(false);
       <router-link
         to="/dashboard"
         class="container_navButtons_home"
+        active-class="container_navButtons--active"
       >
         <v-icon
           name="fa-home"
@@ -21,6 +22,7 @@ const popupIsOpen = ref(false);
       <router-link
         to="/transactions"
         class="container_navButtons_transaction"
+        active-class="container_navButtons--active"
       >
         <v-icon
           name="fa-exchange-alt"
@@ -45,6 +47,7 @@ const popupIsOpen = ref(false);
       <router-link
         to="/courses"
         class="container_navButtons_courses"
+        active-class="container_navButtons--active"
       >
         <v-icon
           name="fa-play-circle"
@@ -55,6 +58,7 @@ const popupIsOpen = ref(false);
       <router-link
         to="/reports"
         class="container_navButtons_chart"
+        active-class="container_navButtons--active"
       >
         <v-icon
           name="fa-chart-bar"
@@ -86,6 +90,7 @@ const popupIsOpen = ref(false);
     width: 100%;
     justify-content: space-between;
     padding: 0.7rem 0;
+
     &_home {
       padding-left: 7%;
       background-color: #1E1E1E;
@@ -124,11 +129,15 @@ const popupIsOpen = ref(false);
       box-shadow: $box-shadow;
       cursor: pointer;
     }
+
+    &--active svg {
+      fill: $financi-green;
+    }
   }
 }
 
 button {
-    border: none;
+  border: none;
 }
 
 </style>
