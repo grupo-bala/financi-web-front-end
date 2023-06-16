@@ -171,7 +171,7 @@ getLessons();
       &__check__bullet::after {
         content: "";
         width: 2px;
-        height: 1.5rem;
+        height: 2.5rem;
         background: $filter-text-color;
         position: absolute;
         top: 100%;
