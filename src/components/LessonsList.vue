@@ -171,7 +171,7 @@ getLessons();
       &__check__bullet::after {
         content: "";
         width: 2px;
-        height: 2.5rem;
+        height: 220%;
         background: $filter-text-color;
         position: absolute;
         top: 100%;
@@ -196,7 +196,7 @@ getLessons();
         inset: calc(50% - 8px);
       }
 
-      &[data-status="checked"]
+      &[data-status="checked"]:not(:last-child)
       &__check__bullet::after {
         background: #49ad5a;
       }
