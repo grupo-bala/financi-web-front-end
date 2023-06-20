@@ -33,23 +33,18 @@ const emit = defineEmits<{
 }>();
 
 function convertTime(seconds: number){
+  const sixty = 60;
+  const threeThousandSixHundred = 3600;
+  const hours = Math.floor(seconds / threeThousandSixHundred);
+  const minutes = Math.floor(seconds % threeThousandSixHundred / sixty);
+  const secondsRestantes = seconds % sixty;
 
-  const denominator = 60;
-  const limit = 9;
-  let minutes = Math.floor(seconds/denominator);
-  seconds = Math.round(seconds % denominator);
+  const two = 2;
+  const hoursString = hours.toString().padStart(two, "0");
+  const minutesString = minutes.toString().padStart(two, "0");
+  const secondsString = secondsRestantes.toString().padStart(two, "0");
 
-  if(minutes < limit){
-    if(seconds < limit){
-      return "0" + minutes + ":" + "0" + seconds;
-    }
-    return "0" + minutes + ":" + seconds;
-  }
-  if(seconds < limit){
-    return minutes + ":" + "0" + seconds;
-  }
-
-  return minutes + ":" + seconds;
+  return `${hoursString}:${minutesString}:${secondsString}`;
 }
 
 async function getLessons() {
