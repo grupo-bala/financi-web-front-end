@@ -11,8 +11,18 @@
             e desenvolva suas habilidades com cursos gratuitos
           </p>
           <div class="home__container__callout__info__buttons">
-            <button>Criar uma conta</button>
-            <button>Entrar</button>
+            <router-link
+              to="/register"
+              class="home__container__callout__info__buttons__button"
+            >
+              Criar uma conta
+            </router-link>
+            <router-link
+              to="/login"
+              class="home__container__callout__info__buttons__button"
+            >
+              Entrar
+            </router-link>
           </div>
         </div>
         <img
@@ -36,13 +46,15 @@
       <div class="home__container__buttons">
         <router-link
           to="/register"
+          class="home__container__buttons__button"
         >
-          <button>Criar uma conta</button>
+          Criar uma conta
         </router-link>
         <router-link
           to="/login"
+          class="home__container__buttons__button"
         >
-          <button>Entrar</button>
+          Entrar
         </router-link>
       </div>
       <section class="home__container__features">
@@ -215,7 +227,10 @@
         width: 100%;
       }
 
-      button {
+      &__button {
+        text-align: center;
+        text-decoration: none;
+        outline: none;
         background-color: $financi-green;
         border: none;
         padding: .8rem;
@@ -309,7 +324,10 @@
             gap: 1rem;
             align-self: flex-start;
 
-            button {
+            &__button {
+              text-align: center;
+              text-decoration: none;
+              outline: none;
               background-color: $financi-green;
               border: none;
               padding: .8rem;
