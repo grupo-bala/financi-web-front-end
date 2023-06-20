@@ -174,7 +174,7 @@ getCourses();
   }
 
   &__item {
-    height: 200px;
+    height: auto;
     background-color: $section-color;
     display: flex;
     flex-direction: column;
@@ -185,10 +185,11 @@ getCourses();
     box-shadow: $box-shadow;
     align-items: center;
     &__button {
-      width: 90px;
+      width: 100%;
       cursor: pointer;
       border-radius: $border-radius;
       padding: 0.5em;
+      margin-top: 1.2rem;
       color: $text-color-green;
       background-color: $financi-green;
       border-style: none;
@@ -220,11 +221,11 @@ getCourses();
       width: 100%;
       padding: 1em 1em 0em 1em;
       justify-content: space-between;
+      font-size: .8em;
       &__load {
         display: flex;
         padding-right: 1rem;
         gap: 0.5em;
-        font-size: .8em;
         &__info {
           font-weight: 700;
         }
@@ -232,7 +233,6 @@ getCourses();
       &__lesson {
         display: flex;
         gap: 0.5em;
-        font-size: .8em;
         &__info {
           font-weight: 700;
         }
@@ -249,16 +249,28 @@ p {
 
 @media (min-width: 800px) {
   .course__list {
-    align-items: center;
+    display: flex;
+    justify-content: center;
     &__item {
       background-color: $filter-bg-color;
       height: 200px;
+      width: auto;
+      padding: 1.5em 2.2em 1.5em 2.2em;
+      &__top{
+        &__description {
+          font-size: 0.9em;
+        }
+      }
       &__bottom {
         display: flex;
         justify-content: center;
         gap: 10rem;
+        font-size: 0.9em;
       }
     }
+  }
+  p {
+    font-size: 0.9em;
   }
 }
 
