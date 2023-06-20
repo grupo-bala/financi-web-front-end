@@ -149,6 +149,7 @@ getLessons();
         align-items: center;
         gap: 1rem;
         width: 100%;
+        position: relative;
 
         &__title {
           flex-grow: 1;
@@ -156,53 +157,72 @@ getLessons();
         }
 
         &__bullet {
-          width: 10px;
-          height: 10px;
-          background: $input-bg-color;
-          border-radius: 50%;
-          box-sizing: content-box;
           position: relative;
-          transform-style: preserve-3d;
-          cursor: pointer;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            width: 10px;
+            height: 10px;
+            background: $input-bg-color;
+            border-radius: 50%;
+            box-sizing: content-box;
+            cursor: pointer;
+            z-index: 1;
+          }
         }
       }
 
       &:not(:last-child)
-      &__check__bullet::after {
+      &__check::after {
         content: "";
         width: 2px;
-        height: 220%;
+        height: calc(50% + 0.5rem);
+        min-height: 30px;
         background: $filter-text-color;
         position: absolute;
-        top: 100%;
-        left: calc(50% - 1px);
+        top: 50%;
+        left: 4px;
       }
 
-      &[data-status="checked"] +
-      &:not([data-status="checked"])
-      &__check__bullet {
+      &:not(:first-child)
+      &__check::before {
+        content: "";
+        width: 2px;
+        height: calc(50% + 0.5rem);
+        min-height: 30px;
+        background: $filter-text-color;
+        position: absolute;
+        bottom: calc(50% + 0.3rem);
+        left: 4px;
+      }
+
+      &[data-status="checked"]
+      &__check::after,
+      &[data-status="checked"]
+      + & &__check::before {
+        background: #49ad5a;
+      }
+
+      &[data-status="checked"]
+      &__check__bullet::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        position: absolute;
+        left: -3px;
+        top: -8px;
+      }
+
+      &[data-status="checked"]
+      &__check__bullet::after {
         background: #49ad5a;
       }
 
       &[data-status="checked"]
       &__check__bullet::before {
-        content: "";
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #49ad5a;
-        position: absolute;
-        transform: translatez(-1px);
-        inset: calc(50% - 8px);
-      }
-
-      &[data-status="checked"]:not(:last-child)
-      &__check__bullet::after {
-        background: #49ad5a;
-      }
-
-      &[data-status="checked"]
-      &__check__bullet {
         background: $bg-color;
       }
 
