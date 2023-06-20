@@ -174,7 +174,8 @@ onMounted(() => {
           Metas
         </h2>
         <GoalsList
-          :quantity="2"
+          style="margin-bottom: 1rem;"
+          :quantity="3"
           :minimalist="true"
         />
         <router-link
