@@ -16,6 +16,8 @@ const info = ref<Profile>({
   username: "",
   fixedIncome: "0",
   email: "",
+  outs: "",
+  entries: "",
 });
 const feedbackModal = useFeedbackStore();
 
