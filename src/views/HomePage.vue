@@ -210,6 +210,12 @@
         }
       }
 
+      &__mobile {
+        width: 275px;
+        height: 538px;
+        margin-bottom: 1.5rem;
+      }
+
       &__desktop {
         display: none;
       }
@@ -235,7 +241,7 @@
         border: none;
         padding: .8rem;
         border-radius: $border-radius;
-        color: $text-color-white;
+        color: $text-color-black;
         font-weight: bold;
         font-size: 1rem;
         cursor: pointer;
@@ -332,7 +338,7 @@
               border: none;
               padding: .8rem;
               border-radius: $border-radius;
-              color: $text-color-white;
+              color: $text-color-black;
               font-weight: bold;
               font-size: 1rem;
               cursor: pointer;
