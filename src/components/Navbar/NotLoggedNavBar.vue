@@ -5,7 +5,10 @@
         class="container__logo__button"
         to="/"
       >
-        <img src="../../assets/FinanciLogo.png">
+        <img
+          src="../../assets/FinanciLogo.png"
+          alt="Logo do sistema que é um dólar com duas setas entrando e saindo"
+        >
         Financi
       </router-link>
     </div>
@@ -48,7 +51,7 @@
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        color: $text-color-white;
+        color: $text-color-black;
         gap: 10%;
         font-weight: 700;
     }
@@ -65,13 +68,13 @@
 
       &_navbutton {
         text-decoration: none;
-        color: $text-color-white;
+        color: $text-color-black;
         background-color: $financi-green;
         cursor: pointer;
         font-size: 1.1em;
         border-bottom: 1px solid transparent;
         &:hover {
-          border-bottom-color: $text-color-white;
+          border-bottom-color: $text-color-black;
         }
       }
     }
