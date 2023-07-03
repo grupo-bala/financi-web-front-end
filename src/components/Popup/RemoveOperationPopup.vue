@@ -73,12 +73,14 @@ async function removeTransaction() {
       </h3>
       <div class="remove_container__buttons">
         <ButtonComponent
+          id="confirmar remoção"
           color="green"
           text="SIM"
           :disabled="false"
           @click="[setRemoveType(), parent.onClose()]"
         />
         <button
+          aria-label="cancelar remoção"
           class="remove_container__buttons__not"
           @click="parent.onClose()"
         >

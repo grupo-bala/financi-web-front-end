@@ -4,7 +4,10 @@
 
 <template>
   <div class="container">
-    <button class="container__button">
+    <button
+      aria-label="filtrar"
+      class="container__button"
+    >
       <img src="../assets/filter.png"> <p>Filtrar</p>
     </button>
   </div>

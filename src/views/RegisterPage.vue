@@ -110,6 +110,7 @@ async function postRegisterUser() {
         </p>
       </form>
       <Button
+        id="avançar para próxima etapa"
         color="green"
         text="AVANÇAR"
         :disabled="name.length === 0 || !isPasswordCorrect || !isEmailCorrect"
@@ -165,6 +166,7 @@ async function postRegisterUser() {
           </p>
         </form>
         <Button
+          id="realizar cadastro"
           color="green"
           text="CADASTRAR"
           :disabled="username.length === 0"

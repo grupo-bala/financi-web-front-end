@@ -119,6 +119,7 @@ disableScroll();
       </div>
       <div class="info_box__card__buttons">
         <ButtonComponent
+          id="editar operação"
           :color="buttonColorValue"
           text="EDITAR"
           :disabled="false"

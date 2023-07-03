@@ -150,6 +150,7 @@ function getRemainingValue() {
       class="goal_card__bottom"
     >
       <button
+        aria-label="editar meta"
         class="goal_card__bottom__edit"
         :disabled="false"
         @click="editIsOpen = true"
@@ -157,12 +158,14 @@ function getRemainingValue() {
         EDITAR
       </button>
       <ButtonComponent
+        id="depositar na meta"
         color="blue"
         text="DEPOSITAR"
         :disabled="false"
         @click="depositIsOpen = true"
       />
       <button
+        aria-label="remover meta"
         class="goal_card__bottom__remove"
         @click="removeIsOpen = true"
       >

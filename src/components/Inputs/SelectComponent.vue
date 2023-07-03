@@ -32,6 +32,7 @@ const currentArrow = computed(() =>
       class="select_container__content"
     >
       <button
+        aria-label="ver outras categorias"
         class="select_container__content__button"
         :data-opened="opened"
         :style="style"

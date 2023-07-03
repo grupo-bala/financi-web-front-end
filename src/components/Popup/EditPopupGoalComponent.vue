@@ -64,6 +64,7 @@ onMounted(() => {
       >
         <button
           ref="editGoalElement"
+          aria-label="editar meta"
           @click="[
             actualType = 'Goal',
             divStyle = {

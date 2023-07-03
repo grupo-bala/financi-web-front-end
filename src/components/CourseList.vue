@@ -119,6 +119,7 @@ getCourses();
             </div>
           </div>
           <button
+            aria-label="ver curso"
             class="course__list__item__button"
             @click="router.push(`/courses/${course.id}`)"
           >
@@ -134,6 +135,7 @@ getCourses();
       />
       <button
         v-if="props.showLoadMore && totalPages !== page"
+        aria-label="carregar mais cursos"
         :disabled="isLoading"
         class="course__list__seemore"
         @click="getCourses()"

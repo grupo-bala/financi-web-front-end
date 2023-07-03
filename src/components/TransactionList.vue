@@ -147,6 +147,7 @@ getTransactions();
       </SuspenseBox>
       <button
         v-if="props.showLoadMore && transactions.total > transactions.page"
+        aria-label="ver mais transações"
         class="transactions_list__see_more"
         :disabled="isLoading"
         @click="getTransactions()"

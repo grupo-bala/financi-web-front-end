@@ -66,6 +66,7 @@ const currentValue = computed(() => {
         </div>
         <div class="goal_container__main__section">
           <button
+            aria-label="editar meta"
             class="goal_container__button"
           >
             EDITAR
@@ -73,6 +74,7 @@ const currentValue = computed(() => {
         </div>
       </div>
       <ButtonComponent
+        id="realizar depósito"
         color="blue"
         text="DEPOSITAR"
         :disabled="false"

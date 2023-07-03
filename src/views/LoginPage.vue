@@ -82,6 +82,7 @@ async function login() {
     </form>
     <div class="main_container__enter">
       <Button
+        id="fazer login"
         color="green"
         text="ENTRAR"
         :disabled="password.length === 0 || username.length === 0"

@@ -94,12 +94,14 @@ function getNumberAsCurrency(value: string) {
       class="transaction_card__bottom"
     >
       <button
+        aria-label="editar transação"
         class="transaction_card__bottom__edit"
         @click="editIsOpen = true"
       >
         EDITAR
       </button>
       <button
+        aria-label="remover transação"
         class="transaction_card__bottom__remove"
         @click="removeIsOpen = true"
       >

@@ -93,6 +93,7 @@ getLessons();
       <button
         v-for="lesson in lessons"
         :key="lesson.title"
+        aria-label="aula"
         class="lessons__list__item__button"
         :data-status="`${lesson.isWatched ? 'checked' : ''}`"
         @click="changeWatched(lesson.id, !lesson.isWatched)"

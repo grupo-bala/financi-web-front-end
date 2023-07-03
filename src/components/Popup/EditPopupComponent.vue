@@ -74,6 +74,7 @@ onMounted(() => {
       >
         <button
           ref="editOutElement"
+          aria-label="editar saída"
           @click="[
             actualType = 'Out',
             divStyle = {
@@ -91,6 +92,7 @@ onMounted(() => {
       >
         <button
           ref="editInElement"
+          aria-label="editar entrada"
           @click="[
             actualType = 'Income',
             divStyle = {

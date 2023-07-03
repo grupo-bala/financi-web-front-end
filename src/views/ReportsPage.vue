@@ -278,6 +278,7 @@ watch(view, () => {
             {{ error }}
           </p>
           <button
+            aria-label="gerar análise"
             class="reports__container__header__form__button"
             @click.prevent="loadData"
           >
@@ -294,18 +295,21 @@ watch(view, () => {
             <h2>Entradas e saídas</h2>
             <div>
               <button
+                aria-label="exibir por dia"
                 class="reports__container__charts__bar__info__button"
                 @click="view = 'Day'"
               >
                 Dia
               </button>
               <button
+                aria-label="exibir por semana"
                 class="reports__container__charts__bar__info__button"
                 @click="view = 'Week'"
               >
                 Semana
               </button>
               <button
+                aria-label="exibir por mês"
                 class="reports__container__charts__bar__info__button"
                 @click="view = 'Month'"
               >
@@ -334,6 +338,7 @@ watch(view, () => {
       <div class="reports__container__exports">
         <button
           v-if="!isFirstLoad"
+          aria-label="gerar relatorio em PDF"
           @click="generatePDF()"
         >
           <v-icon
@@ -347,6 +352,7 @@ watch(view, () => {
         </button>
         <button
           v-if="!isFirstLoad"
+          aria-label="gerar relatorio em XLSX"
           @click="generateXLSX()"
         >
           <v-icon

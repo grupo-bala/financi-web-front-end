@@ -65,6 +65,7 @@ async function depositGoal() {
         numeric
       />
       <ButtonComponent
+        id="depositar na meta"
         color="blue"
         text="ADICIONAR"
         :disabled="depositValue.length === 0"

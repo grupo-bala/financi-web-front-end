@@ -89,6 +89,7 @@ getMe();
       />
       <div class="main_container__content_box__update">
         <Button
+          id="editar perfil"
           class="main_container__content_box__update__button"
           color="green"
           text="EDITAR PERFIL"
@@ -97,6 +98,7 @@ getMe();
         />
       </div>
       <button
+        aria-label="fazer logout"
         class="main_container__content_box__logout"
         @click="logOut"
       >

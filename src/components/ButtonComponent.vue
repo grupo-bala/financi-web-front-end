@@ -5,6 +5,7 @@ const props = defineProps<{
   color: "green" | "red" | "blue",
   text: string,
   disabled: boolean,
+  id: string
 }>();
 
 const getColor = computed(() => {
@@ -21,6 +22,7 @@ const getColor = computed(() => {
 <template>
   <div class="container">
     <button
+      :aria-label="id"
       class="container__button"
       :disabled="disabled"
     >

@@ -82,6 +82,7 @@ getNews();
             class="content__main__news__list"
           >
             <button
+              aria-label="ler noticia"
               class="content__main__news__list__button"
               @click="router.push(`/news/${id}`)"
             >
@@ -109,6 +110,7 @@ getNews();
           :style="{ margin: '1rem 0' }"
         />
         <button
+          aria-label="ver mais notícias"
           class="content__main__news__more"
           :disabled="howManyPages === currentPage"
           @click="seeMore"
@@ -130,6 +132,7 @@ getNews();
               class="content__main__aside__section__list"
             >
               <button
+                aria-label="ler notícia"
                 class="content__main__aside__section__list__button"
                 @click="router.push(`/news/${id}`)"
               >

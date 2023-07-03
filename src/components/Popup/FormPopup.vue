@@ -203,6 +203,7 @@ onMounted(() => {
     </div>
     <div class="form_container__confirm_button">
       <ButtonComponent
+        id="adicionar operação"
         :color="getColor"
         text="ADICIONAR"
         :disabled="title.length == 0

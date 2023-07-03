@@ -32,6 +32,7 @@ const popupIsOpen = ref(false);
       </router-link>
 
       <button
+        aria-label="nova operação"
         @click="popupIsOpen = true"
       >
         <Teleport to="body">

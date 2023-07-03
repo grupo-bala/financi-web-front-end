@@ -40,6 +40,7 @@ getNews();
       class="list"
     >
       <button
+        aria-label="noticia"
         class="list__button"
         @click="router.push(`/news/${id}`)"
       >

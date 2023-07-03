@@ -113,6 +113,7 @@ getGoals();
       />
       <button
         v-if="props.showLoadMore && totalPages !== page"
+        aria-label="ver mais metas"
         class="goals_list__see_more"
         :disabled="isLoading"
         @click="getGoals()"

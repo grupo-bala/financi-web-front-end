@@ -111,6 +111,7 @@ disableScroll();
       <div class="box__card__buttons_titles">
         <button
           ref="outElement"
+          aria-label="nova saída"
           @click="[
             actualType = 'Out',
             divStyle = {
@@ -123,6 +124,7 @@ disableScroll();
         </button>
         <button
           ref="inElement"
+          aria-label="nova entrada"
           @click="[
             actualType = 'Income',
             divStyle = {
@@ -135,6 +137,7 @@ disableScroll();
           ENTRADA
         </button>
         <button
+          id="nova meta"
           ref="goalElement"
           @click="[
             actualType = 'Goal',
