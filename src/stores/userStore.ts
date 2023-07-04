@@ -25,5 +25,12 @@ export const useProfileStore = defineStore("profile", {
       transaction.isEntry ?
         this.entries -= transactionValue : this.outs += -transactionValue;
     },
+    clear() {
+      this.balance = 0;
+      this.entries = 0;
+      this.outs = 0;
+      this.isAdmin = false;
+      this.isLogged = false;
+    },
   },
 });

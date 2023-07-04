@@ -8,6 +8,7 @@ import axios from "axios";
 import router from "../router";
 import { useFeedbackStore } from "../stores/feedbackStore";
 import Logo from "../components/LogoFinanci.vue";
+import { useProfileStore } from "../stores/userStore";
 
 const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
@@ -48,6 +49,9 @@ async function updateProfile() {
 
 async function logOut() {
   await axios.post(`${envUrl}/logout`);
+
+  useProfileStore().clear();
+
   router.push("/login");
 }
 
