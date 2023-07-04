@@ -25,6 +25,7 @@ const searchValue = ref("");
         :quantity="5"
         show-load-more
         :search="searchValue"
+        force-reload
       />
     </div>
     <footer>

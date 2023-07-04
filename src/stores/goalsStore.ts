@@ -21,8 +21,8 @@ export const useGoalsStore = defineStore("goals", {
     concat(goals: Goal[]) {
       this.data = this.data.concat(goals);
       this.data = this.data.sort((g1, g2) => {
-        return new Date(g1.deadline)
-          .getTime() - new Date(g2.deadline).getTime();
+        return new Date(g2.deadline)
+          .getTime() - new Date(g1.deadline).getTime();
       });
     },
     remove(goalId: number) {
