@@ -21,7 +21,7 @@ export const useProfileStore = defineStore("profile", {
         this.entries += transactionValue;
       } else {
         this.balance -= transactionValue;
-        this.outs -= transactionValue;
+        this.outs += transactionValue;
       }
     },
     removeTransaction(transaction: Transaction) {
@@ -32,7 +32,7 @@ export const useProfileStore = defineStore("profile", {
         this.entries -= transactionValue;
       } else {
         this.balance += transactionValue;
-        this.outs += transactionValue;
+        this.outs -= transactionValue;
       }
     },
     clear() {
