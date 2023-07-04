@@ -123,7 +123,7 @@ getCourses();
             class="course__list__item__button"
             @click="router.push(`/courses/${course.id}`)"
           >
-            <h5> VER CURSO </h5>
+            <h3> VER CURSO </h3>
           </button>
         </ul>
       </SuspenseBox>
@@ -158,6 +158,7 @@ getCourses();
 .course__list {
   list-style: none;
   display: flow-root;
+
   &__seemore {
     width: 100%;
     height: 2rem;
@@ -168,6 +169,10 @@ getCourses();
     margin-top: 1rem;
     border: none;
     cursor: pointer;
+
+    h4 {
+      letter-spacing: 0.08rem;
+    }
 
     &:disabled {
       cursor: not-allowed;
@@ -192,9 +197,13 @@ getCourses();
       border-radius: $border-radius;
       padding: 0.5em;
       margin-top: 1.2rem;
-      color: $text-color-green;
+      color: $text-color-black;
       background-color: $financi-green;
       border-style: none;
+      h3{
+        font-size: .80rem;
+        letter-spacing: 0.08rem;
+      }
     }
     &__top {
       display: flex;

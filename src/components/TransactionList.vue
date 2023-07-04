@@ -192,10 +192,14 @@ getTransactions();
     border-radius: $border-radius;
     text-align: center;
     background-color: $financi-green;
-    color: $text-color-white;
+    color: $text-color-black;
     margin-top: 1rem;
     border: none;
     cursor: pointer;
+
+    h4 {
+      letter-spacing: 0.08rem;
+    }
 
     &:disabled {
       cursor: not-allowed;

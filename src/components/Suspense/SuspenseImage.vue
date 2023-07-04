@@ -22,6 +22,7 @@ const isImageLoading = ref(true);
       :class="'skeletor ' + props.imgClass"
     />
     <img
+      alt="thumbnail"
       :src="props.src"
       :style="{
         display: isImageLoading ? 'none' : 'block',

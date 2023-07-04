@@ -119,7 +119,7 @@ getNews();
         </button>
       </section>
       <aside class="content__main__aside">
-        <h5>Recomendados</h5>
+        <h4>Recomendados</h4>
         <SuspenseBox
           :is-loading="isLoadingRecommended"
           loading-height="80px"
@@ -202,8 +202,9 @@ getNews();
             border-radius: $border-radius;
             text-align: center;
             background-color: $financi-green;
-            color: $text-color-white;
+            color: $text-color-black;
             margin-top: 1rem;
+            letter-spacing: 0.08rem;
           }
           &__list {
             padding: 0.5rem 0;
@@ -258,7 +259,7 @@ getNews();
       }
   }
 
-  h5 {
+  h4 {
     text-align: center;
   }
 
@@ -305,7 +306,7 @@ getNews();
         top: 2rem;
         flex-grow: 1;
 
-        h5 {
+        h4 {
           margin-bottom: 1rem;
         }
 

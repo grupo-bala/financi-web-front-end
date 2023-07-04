@@ -5,7 +5,7 @@ const props = defineProps<{
 }>();
 
 const label = props.type === "Income" ? "Entradas" : "Saídas";
-const colorFont = props.type === "Income" ? "#49AD5A" : "#EF5350";
+const colorFont = props.type === "Income" ? "#49AD5A" : "#F06970";
 </script>
 
 <template>

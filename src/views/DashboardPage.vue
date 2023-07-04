@@ -164,7 +164,7 @@ onMounted(() => {
           to="/transactions"
           class="container__content__button"
         >
-          <h5>IR PARA TRANSAÇÕES</h5>
+          <h3>IR PARA TRANSAÇÕES</h3>
         </router-link>
       </div>
       <div class="container__content__goals">
@@ -182,7 +182,7 @@ onMounted(() => {
           to="/goals"
           class="container__content__button"
         >
-          <h5>IR PARA METAS</h5>
+          <h3>IR PARA METAS</h3>
         </router-link>
       </div>
       <div class="container__content__last_news">
@@ -194,7 +194,7 @@ onMounted(() => {
           to="/news"
           class="container__content__button"
         >
-          <h5>IR PARA NOTÍCIAS</h5>
+          <h3>IR PARA NOTÍCIAS</h3>
         </router-link>
       </div>
       <div class="container__content__courses">
@@ -209,7 +209,7 @@ onMounted(() => {
           to="/courses"
           class="container__content__button"
         >
-          <h5>IR PARA CURSOS</h5>
+          <h3>IR PARA CURSOS</h3>
         </router-link>
       </div>
     </div>
@@ -302,9 +302,14 @@ onMounted(() => {
         padding: 0.5rem;
         background-color: $financi-green;
         text-decoration: none;
-        color: $text-color-white;
+        color: $text-color-black;
         cursor: pointer;
         border-radius: $border-radius;
+
+        h3 {
+          font-size: .85rem;
+          letter-spacing: 0.08rem;
+        }
       }
 
     &__last_transactions {

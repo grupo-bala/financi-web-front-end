@@ -282,7 +282,7 @@ watch(view, () => {
             class="reports__container__header__form__button"
             @click.prevent="loadData"
           >
-            <h4>Gerar análise</h4>
+            <h4>GERAR ANÁLISE</h4>
           </button>
         </form>
       </div>
@@ -405,6 +405,7 @@ watch(view, () => {
 
         button {
           grid-column: 1 / 3;
+          letter-spacing: 0.08rem;
         }
       }
     }
@@ -466,11 +467,11 @@ watch(view, () => {
 }
 
 button {
-  height: 2rem;
+  height: 2.5rem;
   border-radius: $border-radius;
   text-align: center;
   background-color: $financi-green;
-  color: $text-color-white;
+  color: $text-color-black;
   margin-top: 1rem;
   border: none;
   cursor: pointer;

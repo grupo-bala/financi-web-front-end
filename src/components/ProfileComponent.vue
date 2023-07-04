@@ -49,6 +49,7 @@ function handleFileChange(): void {
         <input
           id="photoInput"
           ref="photoInput"
+          alt="enviar nova foto"
           type="file"
           class="profile_container__user_info__image-input"
           accept="image/*"

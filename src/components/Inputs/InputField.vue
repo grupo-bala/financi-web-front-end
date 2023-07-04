@@ -58,12 +58,12 @@ function inputMask(value: string): string {
     <label
       :data-required="required"
       class="container__label"
-      :for="type"
+      :for="label"
     >
       {{ label }}
     </label>
     <input
-      :id="type"
+      :id="label"
       class="container__input"
       :value="modelValue"
       :type="type"
