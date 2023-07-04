@@ -79,26 +79,24 @@ async function login() {
       >
         #
       </p>
-    </form>
-    <div class="main_container__enter">
       <Button
         color="green"
         text="ENTRAR"
         :disabled="password.length === 0 || username.length === 0"
-        @click="login"
+        @click.prevent="login"
       />
       <p
-        class="main_container__enter__text"
+        class="main_container__inputs__text"
       >
         Não possui uma conta?
         <router-link
-          class="main_container__enter__link"
+          class="main_container__inputs__link"
           to="/register"
         >
           Cadastre-se aqui.
         </router-link>
       </p>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -144,14 +142,6 @@ async function login() {
                     margin-bottom: 10px;
                 }
             }
-        }
-
-        &__enter {
-            display:flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 25px;
 
             &__text {
                 color: $text-color-white;
