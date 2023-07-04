@@ -74,57 +74,59 @@ getCourses();
         loading-height="200px"
         :quantity="props.quantity"
       >
-        <ul
-          v-for="course in allCourses"
-          :key="course.id"
-          class="course__list__item"
-        >
-          <div class="course__list__item__top">
-            <span class="course__list__item__top__title">
-              {{ course.title }}
-            </span>
-            <span class="course__list__item__top__description">
-              {{ course.description }}
-            </span>
-          </div>
-          <div class="course__list__item__bottom">
-            <div class="course__list__item__bottom__load">
-              <span class="course__list__item__bottom__load__icon">
-                <v-icon
-                  name="md-accesstime-round"
-                  fill="#4ECB71"
-                  scale="0.8"
-                />
-              </span>
-              <span class="course__list__item__bottom__load__info">
-                Carga horária
-                <p>{{ convertToHour(course.totalTime) + " horas" }} </p>
-              </span>
-            </div>
-            <div class="course__list__item__bottom__lesson">
-              <span class="course__list__item__bottom__lesson__icon">
-                <v-icon
-                  name="md-ondemandvideo-round"
-                  fill="#4ECB71"
-                  scale="0.8"
-                />
-              </span>
-              <span class="course__list__item__bottom__lesson__info">
-                {{ course.howManyLessons + " Aulas" }}
-                <p>
-                  {{ convertToMinute(course.averageTimePerLesson)
-                    + " minutos" }}
-                </p>
-              </span>
-            </div>
-          </div>
-          <button
-            aria-label="ver curso"
-            class="course__list__item__button"
-            @click="router.push(`/courses/${course.id}`)"
+        <ul class="course__list__container">
+          <li
+            v-for="course in allCourses"
+            :key="course.id"
+            class="course__list__item"
           >
-            <h3> VER CURSO </h3>
-          </button>
+            <div class="course__list__item__top">
+              <span class="course__list__item__top__title">
+                {{ course.title }}
+              </span>
+              <span class="course__list__item__top__description">
+                {{ course.description }}
+              </span>
+            </div>
+            <div class="course__list__item__bottom">
+              <div class="course__list__item__bottom__load">
+                <span class="course__list__item__bottom__load__icon">
+                  <v-icon
+                    name="md-accesstime-round"
+                    fill="#4ECB71"
+                    scale="0.8"
+                  />
+                </span>
+                <span class="course__list__item__bottom__load__info">
+                  Carga horária
+                  <p>{{ convertToHour(course.totalTime) + " horas" }} </p>
+                </span>
+              </div>
+              <div class="course__list__item__bottom__lesson">
+                <span class="course__list__item__bottom__lesson__icon">
+                  <v-icon
+                    name="md-ondemandvideo-round"
+                    fill="#4ECB71"
+                    scale="0.8"
+                  />
+                </span>
+                <span class="course__list__item__bottom__lesson__info">
+                  {{ course.howManyLessons + " Aulas" }}
+                  <p>
+                    {{ convertToMinute(course.averageTimePerLesson)
+                      + " minutos" }}
+                  </p>
+                </span>
+              </div>
+            </div>
+            <button
+              aria-label="ver curso"
+              class="course__list__item__button"
+              @click="router.push(`/courses/${course.id}`)"
+            >
+              <h3> VER CURSO </h3>
+            </button>
+          </li>
         </ul>
       </SuspenseBox>
       <SuspenseBox
@@ -180,6 +182,11 @@ getCourses();
     }
   }
 
+  &__container {
+    display: grid;
+    gap: 1rem;
+  }
+
   &__item {
     height: auto;
     background-color: $section-color;
@@ -187,10 +194,11 @@ getCourses();
     flex-direction: column;
     justify-content: space-between;
     padding: 1em;
-    margin-bottom: 2rem;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     align-items: center;
+    gap: 1rem;
+
     &__button {
       width: 100%;
       cursor: pointer;
@@ -200,15 +208,18 @@ getCourses();
       color: $text-color-black;
       background-color: $financi-green;
       border-style: none;
-      h3{
+
+      h3 {
         font-size: .80rem;
         letter-spacing: 0.08rem;
       }
     }
+
     &__top {
       display: flex;
       flex-direction: column;
       align-items: center;
+
       &__title {
         font-size: 1.3em;
         font-weight: bold;
@@ -217,33 +228,37 @@ getCourses();
         padding-bottom: 0.2em;
         text-align: center;
       }
+
       &__description {
         display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4;
         text-overflow: ellipsis;
         overflow: hidden;
         font-size: 0.8em;
         text-align: center;
       }
     }
+
     &__bottom {
       display: flex;
       width: 100%;
       padding: 1em 1em 0em 1em;
-      justify-content: space-between;
+      justify-content: space-evenly;
       font-size: .8em;
+
       &__load {
         display: flex;
         padding-right: 1rem;
         gap: 0.5em;
+
         &__info {
           font-weight: 700;
         }
       }
+
       &__lesson {
         display: flex;
         gap: 0.5em;
+
         &__info {
           font-weight: 700;
         }
@@ -260,26 +275,21 @@ p {
 
 @media (min-width: 800px) {
   .course__list {
-    display: flex;
-    justify-content: center;
     &__item {
       background-color: $filter-bg-color;
-      height: 200px;
-      width: auto;
-      padding: 1.5em 2.2em 1.5em 2.2em;
-      &__top{
-        &__description {
-          font-size: 0.9em;
-        }
+
+      &__top__description {
+        font-size: 0.9em;
       }
+
       &__bottom {
         display: flex;
-        justify-content: center;
-        gap: 10rem;
+        justify-content: space-evenly;
         font-size: 0.9em;
       }
     }
   }
+
   p {
     font-size: 0.9em;
   }
