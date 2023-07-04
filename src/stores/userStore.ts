@@ -15,15 +15,25 @@ export const useProfileStore = defineStore("profile", {
   actions: {
     addTransaction(transaction: Transaction) {
       const transactionValue = Number(transaction.value);
-      this.balance += transactionValue;
-      transaction.isEntry ?
-        this.entries += transactionValue : this.outs += -transactionValue;
+
+      if (transaction.isEntry) {
+        this.balance += transactionValue;
+        this.entries += transactionValue;
+      } else {
+        this.balance -= transactionValue;
+        this.outs -= transactionValue;
+      }
     },
     removeTransaction(transaction: Transaction) {
       const transactionValue = Number(transaction.value);
-      this.balance -= transactionValue;
-      transaction.isEntry ?
-        this.entries -= transactionValue : this.outs += -transactionValue;
+
+      if (transaction.isEntry) {
+        this.balance -= transactionValue;
+        this.entries -= transactionValue;
+      } else {
+        this.balance += transactionValue;
+        this.outs += transactionValue;
+      }
     },
     clear() {
       this.balance = 0;
