@@ -20,9 +20,9 @@ const regex = {
   Numeric: /[0-9]/,
 };
 
-function onKeyPress(key: KeyboardEvent) {
-  if (props.numeric && !regex.Numeric.test(key.code)) {
-    key.preventDefault();
+function onKeyPress(e: KeyboardEvent) {
+  if (props.numeric && !regex.Numeric.test(e.key)) {
+    e.preventDefault();
   }
 }
 
