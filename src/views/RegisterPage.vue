@@ -15,7 +15,9 @@ const isPasswordCorrect = ref(false);
 const isEmailCorrect = ref(false);
 const feedback = ref("");
 const envUrl = import.meta.env.VITE_API_URL;
-type Response = {msg: string};
+type Response = {
+  msg: string
+};
 
 async function postRegisterUser() {
   try {
@@ -24,8 +26,11 @@ async function postRegisterUser() {
       email: email.value,
       password: password.value,
       username: username.value,
-      fixedIncome: Number(fixedIncome.value.split(",").join(".")),
+      fixedIncome: Number(
+        fixedIncome.value.split(".").join("").replace(",", "."),
+      ),
     });
+
     router.push({ name:"Login" });
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -141,7 +146,7 @@ async function postRegisterUser() {
           <Input
             v-model="fixedIncome"
             numeric
-            :required="false"
+            required
             label="Renda mensal"
             type="Text"
             placeholder="Digite sua renda mensal"
@@ -151,6 +156,12 @@ async function postRegisterUser() {
             class="main_content__container__inputs__error"
           >
             Nome de usuário não preenchido
+          </p>
+          <p
+            v-else-if="fixedIncome.length === 0"
+            class="main_content__container__inputs__error"
+          >
+            Renda mensal não preenchida
           </p>
           <p
             v-else-if="feedback.length > 0"
@@ -169,7 +180,7 @@ async function postRegisterUser() {
           id="realizar cadastro"
           color="green"
           text="CADASTRAR"
-          :disabled="username.length === 0"
+          :disabled="username.length === 0 || fixedIncome.length === 0"
           @click="postRegisterUser"
         />
       </div>
