@@ -9,7 +9,9 @@ import { useProfileStore } from "../../stores/userStore";
 
 const isDesktop = useMediaQuery("(min-width: 800px)");
 const skipRoutes = ["Login", "Register"];
-const isLogged = useProfileStore().isLogged;
+const isLogged = computed(() => {
+  return useProfileStore().isLogged;
+});
 const isWindowLoaded = ref(false);
 const isInSkipRoutes = ref(true);
 const currentRoute = router.currentRoute;
