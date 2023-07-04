@@ -1,7 +1,7 @@
 <template>
   <div>
     <img
-      src="../assets/FinanciLogo.png"
+      src="../assets/FinanciLogoFooter.png"
       alt="logo"
     >
     Financi

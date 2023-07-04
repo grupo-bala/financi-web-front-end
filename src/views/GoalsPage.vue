@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import GoalsList from "../components/GoalsList.vue";
 import InputField from "../components/Inputs/InputField.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 const searchValue = ref("");
 </script>
@@ -26,6 +27,9 @@ const searchValue = ref("");
         :search="searchValue"
       />
     </div>
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 
@@ -38,7 +42,8 @@ const searchValue = ref("");
   background-color: $bg-color;
   padding: 5rem 2rem;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   &__container {
     width: 100%;

@@ -7,6 +7,7 @@ import { ref } from "vue";
 import axios from "axios";
 import router from "../router";
 import { useFeedbackStore } from "../stores/feedbackStore";
+import Logo from "../components/LogoFinanci.vue";
 
 const envUrl = import.meta.env.VITE_API_URL;
 const isNameCorrect = ref(false);
@@ -105,6 +106,9 @@ getMe();
         FAZER LOGOUT
       </button>
     </div>
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 

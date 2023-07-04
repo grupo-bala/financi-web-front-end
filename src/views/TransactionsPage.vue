@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import InputField from "../components/Inputs/InputField.vue";
 import TransactionsList from "../components/TransactionList.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 const searchValue = ref("");
 </script>
@@ -26,6 +27,9 @@ const searchValue = ref("");
         :search="searchValue"
       />
     </div>
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 
@@ -37,7 +41,8 @@ const searchValue = ref("");
   background-color: $bg-color;
   padding: 5rem 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 
   &__container {
     width: 100%;

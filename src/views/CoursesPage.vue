@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InputField from "../components/Inputs/InputField.vue";
 import CourseList from "../components/CourseList.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 </script>
 
@@ -25,6 +26,9 @@ import CourseList from "../components/CourseList.vue";
         show-load-more
       />
     </div>
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 

@@ -6,6 +6,7 @@ import CategoriesChart from "../components/Charts/CategoriesChart.vue";
 import axios, { AxiosError } from "axios";
 import { displayDate } from "../utils/Dates";
 import { PieChartData } from "../components/Charts/PieChart.vue";
+import Logo from "../components/LogoFinanci.vue";
 
 interface TransactionsByPeriod {
   data: {
@@ -366,6 +367,9 @@ watch(view, () => {
         </button>
       </div>
     </div>
+    <footer>
+      <Logo />
+    </footer>
   </div>
 </template>
 
@@ -377,7 +381,8 @@ watch(view, () => {
   color: $text-color-white;
   padding: 5rem 2rem;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   &__container {
     width: 100%;
