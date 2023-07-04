@@ -82,12 +82,21 @@ async function getTransactions() {
     `.replaceAll(/^\s+|\n/gm, ""),
   );
 
-  transactions.concat(res.data.data);
+  const initIndex = 0;
+  const endIndex = 10;
+
+  transactions.concat(res.data.data.map((t) => {
+    return {
+      ...t,
+      date: t.date.slice(initIndex, endIndex),
+    };
+  }));
   transactions.nextPage();
   transactions.setTotalPages(res.data.pages);
 
   isLoading.value = false;
 }
+
 const delay = 500;
 const debounceFetch = useDebounceFn(
   getTransactions,
