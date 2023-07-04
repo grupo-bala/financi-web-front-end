@@ -3,13 +3,13 @@ import { useMediaQuery } from "@vueuse/core";
 import NavbarDesktop from "./NavbarDesktop.vue";
 import NavbarMobile from "./NavbarMobile.vue";
 import NotLoggedNavBar from "./NotLoggedNavBar.vue";
-import { useStorage } from "@vueuse/core";
 import router from "../../router";
 import { ref, watch, computed } from "vue";
+import { useProfileStore } from "../../stores/userStore";
 
 const isDesktop = useMediaQuery("(min-width: 800px)");
 const skipRoutes = ["Login", "Register"];
-const isLogged = useStorage("isLogged", false);
+const isLogged = useProfileStore().isLogged;
 const isWindowLoaded = ref(false);
 const isInSkipRoutes = ref(true);
 const currentRoute = router.currentRoute;

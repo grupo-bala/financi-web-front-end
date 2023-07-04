@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useStorage } from "@vueuse/core";
+import { useProfileStore } from "../stores/userStore";
 import axios, { AxiosError } from "axios";
 import Input from "../components/Inputs/InputField.vue";
 import Button from "../components/ButtonComponent.vue";
@@ -12,7 +12,6 @@ const feedback = ref("");
 const isPasswordCorrect = ref(false);
 const isUsernameCorrect = ref(false);
 const envUrl = import.meta.env.VITE_API_URL!;
-const isLogged = useStorage("isLogged", false);
 
 type Response = {msg: string};
 
@@ -24,8 +23,8 @@ async function login() {
         password: password.value,
       },
     );
-
-    isLogged.value = true;
+    const user = useProfileStore();
+    user.isLogged = true;
     feedback.value = "";
     router.push({ name:"Dashboard" });
   } catch (error) {

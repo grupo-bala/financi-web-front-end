@@ -6,6 +6,8 @@ import router from "../router/index";
 import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
 import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
 import InputField from "../components/Inputs/InputField.vue";
+import { useFeedbackStore } from "../stores/feedbackStore";
+import { useProfileStore } from "../stores/userStore";
 
 interface NewsPreview {
   title: string;
@@ -23,6 +25,8 @@ const page = 1;
 const currentPage = ref(page);
 const isLoadingAll = ref(true);
 const isLoadingRecommended = ref(true);
+const isAdmin = useProfileStore().isAdmin;
+const feedbackModal = useFeedbackStore();
 
 function seeMore() {
   currentPage.value++;
@@ -53,6 +57,18 @@ async function getRecommend() {
   isLoadingRecommended.value = false;
 }
 
+async function removeNews(id: number) {
+  try {
+    await axios.delete(`${baseURL}/remove-news`, {
+      data: { id },
+    });
+    feedbackModal.notify("A notícia foi deletada");
+    allNews.value = allNews.value.filter((n) => n.id !== id);
+  } catch (error) {
+    router.push("/ops");
+  }
+}
+
 getRecommend();
 getNews();
 
@@ -63,7 +79,16 @@ getNews();
     <main class="content__main">
       <section class="content__main__news">
         <div class="content__main__news__header">
-          <h2>Notícias</h2>
+          <div class="content__main__news__header__plus">
+            <h2>Notícias</h2>
+            <button
+              v-if="isAdmin"
+              class="content__main__news__header__plus__button"
+              @click="router.push(`/add-news`)"
+            >
+              +
+            </button>
+          </div>
           <form class="content__main__news__header__form">
             <InputField
               :model-value="searchValue"
@@ -99,6 +124,19 @@ getNews();
                 <p class="content__main__news__list__button__info__date">
                   {{ new Date(publishDate).toLocaleDateString("pt-BR") }}
                 </p>
+              </div>
+              <div v-if="isAdmin">
+                <button
+                  class="content__main__news__list__button__trash"
+                  @click.prevent.stop="removeNews(id)"
+                >
+                  <v-icon
+                    name="fa-trash"
+                    fill="#EF5350"
+                    scale="1.4"
+                    color="none"
+                  />
+                </button>
               </div>
             </button>
           </li>
@@ -194,6 +232,20 @@ getNews();
             flex-direction: column;
             gap: 1rem;
             margin-bottom: 1rem;
+
+            &__plus {
+              display: flex;
+              justify-content: space-between;
+              padding-right: 1rem;
+
+              &__button {
+                color: $financi-green;
+                align-self: center;
+                border-style: none;
+                background-color: transparent;
+                font-size: 3rem;
+              }
+            }
           }
 
           &__more {
@@ -218,6 +270,7 @@ getNews();
             box-shadow: $filter-box-shadow;
             background-color: $section-color;
             color: $text-color-white;
+            padding-right: 1rem;
 
             :deep &__image {
               width: 5rem;
@@ -225,6 +278,9 @@ getNews();
               padding: 0.7rem;
               border-radius: 20px;
               object-fit: contain;
+            }
+            &__trash{
+              background-color: transparent;
             }
 
             &__info {

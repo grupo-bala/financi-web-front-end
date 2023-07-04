@@ -4,6 +4,8 @@ import App from "./App.vue";
 import router from "./router";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import axios, { AxiosError } from "axios";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { useProfileStore } from "./stores/userStore";
 import {
   FaHome,
   FaChartBar,
@@ -40,6 +42,7 @@ import {
   MdNewspaperOutlined,
   MdPlaycircleoutline,
   BiCamera,
+  BiCloudArrowUpFill,
 } from "oh-vue-icons/icons";
 import { createPinia } from "pinia";
 
@@ -85,6 +88,7 @@ addIcons(
   MdNewspaperOutlined,
   MdPlaycircleoutline,
   BiCamera,
+  BiCloudArrowUpFill,
 );
 
 axios.defaults.withCredentials = true;
@@ -94,7 +98,9 @@ axios.interceptors.response.use((res) => {
   const axiosError = error as AxiosError;
   const unauthorized = 401;
   if (axiosError.response?.status === unauthorized) {
-    localStorage.setItem("isLogged", "false");
+    const user = useProfileStore();
+    user.isLogged = false;
+    user.isAdmin = false;
     router.replace("/login");
   } else {
     throw error;
@@ -102,7 +108,7 @@ axios.interceptors.response.use((res) => {
 });
 
 const pinia = createPinia();
-
+pinia.use(piniaPluginPersistedstate);
 createApp(App)
   .component("v-icon", OhVueIcon)
   .use(router)

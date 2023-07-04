@@ -7,8 +7,11 @@ export const useProfileStore = defineStore("profile", {
       balance: 0,
       entries: 0,
       outs: 0,
+      isAdmin: false,
+      isLogged: false,
     };
   },
+  persist: true,
   actions: {
     addTransaction(transaction: Transaction) {
       const transactionValue = Number(transaction.value);
