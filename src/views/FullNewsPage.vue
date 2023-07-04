@@ -5,6 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import LogoFinanci from "../components/LogoFinanci.vue";
 import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
 import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
+import ReadMask from "../components/ReadMask.vue";
 
 interface News {
   author: string;
@@ -26,6 +27,7 @@ const router = useRouter();
 const newsId = route.params.id;
 
 const isLoading = ref(true);
+const readMask = ref(false);
 let news = reactive<News>({
   author: "",
   title: "",
@@ -55,6 +57,7 @@ onMounted(async () => {
 
 <template>
   <main class="news">
+    <ReadMask :is-active="readMask" />
     <div
       class="news__content"
     >
@@ -87,6 +90,12 @@ onMounted(async () => {
             {{ new Date(news.publishDate).toLocaleDateString("pt-BR") }}
           </p>
         </SuspenseBox>
+        <button
+          class="news__content__header__readmask_btn"
+          @click="readMask = !readMask"
+        >
+          {{ readMask ? "Desativar" : "Ativar" }} máscara de leitura
+        </button>
         <hr class="news__content__header__line_break">
       </div>
       <div class="news__content__inner">
@@ -158,6 +167,18 @@ onMounted(async () => {
       &__author_date {
         font-weight: bold;
         opacity: .6;
+      }
+
+      &__readmask_btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: $text-color-white;
+        font-weight: bold;
+        text-decoration: underline;
+        max-width: fit-content;
+        font-size: 1.2rem;
+        align-self: flex-end;
       }
 
       &__line_break {
