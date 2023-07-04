@@ -12,6 +12,10 @@ export const useTransactionsStore = defineStore("transactions", {
   },
   actions: {
     add(transaction: Transaction) {
+      const initIndex = 0;
+      const endIndex = 10;
+
+      transaction.date = transaction.date.slice(initIndex, endIndex);
       this.data.unshift(transaction);
       this.data = this.data.sort((t1, t2) => {
         return new Date(t2.date).getTime() - new Date(t1.date).getTime();
