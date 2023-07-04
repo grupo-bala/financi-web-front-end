@@ -10,9 +10,9 @@ const props = defineProps<{
 
 const getColor = computed(() => {
   if (props.color === "red") {
-    return "#EF5350";
+    return "#F06970";
   } else if (props.color === "blue") {
-    return "#168CC0";
+    return "#23ABE6";
   }
 
   return "#49AD5A";
