@@ -8,7 +8,7 @@ import FeedbackModal from "./components/FeedbackModal.vue";
   <div class="app_container">
     <NavBar />
     <FeedbackModal />
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
