@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/HomePage.vue";
+import { useProfileStore } from "../stores/userStore";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -27,6 +28,8 @@ const routes = [
     component: () => import("../views/LessonsPage.vue") },
   { path: "/profile", name: "Profile",
     component: () => import("../views/ProfilePage.vue") },
+  { path: "/add-news", name: "Adicionar Notícia",
+    component: () => import("../views/AddNewsPage.vue") },
 ];
 
 const noAuthRoutes = [
@@ -38,18 +41,24 @@ const noAuthRoutes = [
   "Home",
 ];
 
+const authRoutes = ["Adicionar Notícia"];
 const router = createRouter({
   history: createWebHistory(""),
   routes,
 });
 
 router.beforeEach((to) => {
-  const isLogged = localStorage.getItem("isLogged");
+  const { isLogged, isAdmin } = useProfileStore();
   if (
     !noAuthRoutes.includes(to.name?.toString() ?? "") &&
-    isLogged !== "true"
+    isLogged !== true
   ) {
     router.push("/login");
+  }
+  if(authRoutes.includes(to.name?.toString() ?? "") &&
+    isAdmin !== true
+  ) {
+    router.push("/ops");
   }
 });
 
