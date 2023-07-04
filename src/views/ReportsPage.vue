@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { displayDate } from "../utils/Dates";
 import { PieChartData } from "../components/Charts/PieChart.vue";
 import Logo from "../components/LogoFinanci.vue";
+import ButtonComponent from "../components/ButtonComponent.vue";
 
 interface TransactionsByPeriod {
   data: {
@@ -278,13 +279,14 @@ watch(view, () => {
           >
             {{ error }}
           </p>
-          <button
-            aria-label="gerar análise"
+          <ButtonComponent
+            id="Gerar Análise Detalhada"
             class="reports__container__header__form__button"
+            color="green"
+            :disabled="endDate.length === 0 || initDate.length === 0"
+            text="GERAR ANÁLISE"
             @click.prevent="loadData"
-          >
-            <h4>GERAR ANÁLISE</h4>
-          </button>
+          />
         </form>
       </div>
       <div class="reports__container__charts">
@@ -408,9 +410,9 @@ watch(view, () => {
           grid-column: 1 / 3;
         }
 
-        button {
+        &__button {
           grid-column: 1 / 3;
-          letter-spacing: 0.08rem;
+
         }
       }
     }

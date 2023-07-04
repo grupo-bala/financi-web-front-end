@@ -95,9 +95,12 @@ axios.defaults.withCredentials = true;
 axios.interceptors.response.use((res) => {
   return res;
 }, (error) => {
-  const axiosError = error as AxiosError;
+  const axiosError = error as AxiosError<{msg: string}>;
   const unauthorized = 401;
-  if (axiosError.response?.status === unauthorized) {
+
+  if(axiosError.response?.data.msg === "Nome de usuário ou senha inválidos") {
+    throw error;
+  } else if (axiosError.response?.status === unauthorized) {
     const user = useProfileStore();
     user.isLogged = false;
     user.isAdmin = false;
