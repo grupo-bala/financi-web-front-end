@@ -12,5 +12,5 @@ Repositório voltado para a disciplina de Projeto Integrado 2.  Cogitamos por co
 ## Documentação
 O Financi é resultado de três cadeiras conjuntas, _Desenvolvimento para a Web_, _Projeto Integrado 2_ e _Verificação e Validação_. A seguir, estão especificados os documentos que cada das cadeiras necessita.
 
-- [Proposta do trabalho](https://github.com/grupo-bala/financi-web-front-end/tree/dev/documentacao/proposta-web.md) para Desenvolvimento Web
-- [Arquivos](https://github.com/grupo-bala/financi-web-front-end/tree/dev/documentacao/projeto-integrado.md) para Projeto Integrado 2
+- [Proposta do trabalho](https://github.com/grupo-bala/financi-web-front-end/tree/dev/docs/proposta-web.md) para Desenvolvimento Web
+- [Arquivos](https://github.com/grupo-bala/financi-web-front-end/tree/dev/docs/projeto-integrado.md) para Projeto Integrado 2
