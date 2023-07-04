@@ -7,6 +7,8 @@ import InputField from "../Inputs/InputField.vue";
 import ButtonComponent from "../ButtonComponent.vue";
 import router from "../../router";
 import { useGoalsStore } from "../../stores/goalsStore";
+import { useProfileStore } from "../../stores/userStore";
+import { useTransactionsStore } from "../../stores/transactionsStore";
 
 const props = defineProps<{
   goal: Goal,
@@ -14,6 +16,8 @@ const props = defineProps<{
 const envUrl = import.meta.env.VITE_API_URL;
 const depositValue = ref("");
 const goals = useGoalsStore();
+const profile = useProfileStore();
+const transactions = useTransactionsStore();
 
 async function depositGoal() {
   try {
@@ -28,6 +32,29 @@ async function depositGoal() {
       totalValue: Number(props.goal.totalValue),
       deadline: new Date(props.goal.deadline),
     });
+
+    const res = await axios.post(`${envUrl}/add-transaction`, {
+      value: Number(
+        depositValue.value
+          .replace(".", "")
+          .replace(",", "."),
+      ),
+      date: Date.now(),
+      categoryId: 3,
+      title: "Depósito na meta " + props.goal.title,
+      isEntry: false,
+    });
+
+    profile.addTransaction(res.data.data);
+
+    const initIndex = 0;
+    const endIndex = 10;
+
+    transactions.add({
+      ...res.data.data,
+      date: new Date().toISOString().slice(initIndex, endIndex),
+    });
+
     goals.edit({
       id: props.goal.id,
       title: props.goal.title,
@@ -41,6 +68,7 @@ async function depositGoal() {
       totalValue: props.goal.totalValue,
       userId: props.goal.userId,
     });
+
   } catch (error) {
     router.push("/ops");
   }

@@ -12,9 +12,8 @@ const editIsOpen = ref(false);
 const cardIsOpen = ref(false);
 const removeIsOpen = ref(false);
 const depositIsOpen = ref(false);
+const percent = 100;
 const progressPercent = computed(() => {
-  const percent = 100;
-
   return Math.min(
     Number(props.goal.currentValue) / Number(props.goal.totalValue) * percent,
     percent,
@@ -39,8 +38,12 @@ function getNumberAsCurrency(value: string) {
 }
 
 function getRemainingValue() {
+  const zero = 0;
+  const totalValue = Number(props.goal.totalValue);
+  const currentValue = Number(props.goal.currentValue);
+
   return (
-    Number(props.goal.totalValue) - Number(props.goal.currentValue)
+    totalValue > currentValue ? totalValue - currentValue : zero
   );
 }
 </script>
@@ -161,7 +164,7 @@ function getRemainingValue() {
         id="depositar na meta"
         color="blue"
         text="DEPOSITAR"
-        :disabled="false"
+        :disabled="progressPercent === percent"
         @click="depositIsOpen = true"
       />
       <button
