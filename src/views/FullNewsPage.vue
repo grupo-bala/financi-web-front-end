@@ -6,6 +6,7 @@ import LogoFinanci from "../components/LogoFinanci.vue";
 import SuspenseImage from "../components/Suspense/SuspenseImage.vue";
 import SuspenseBox from "../components/Suspense/SuspenseBox.vue";
 import ReadMask from "../components/ReadMask.vue";
+import FontSizeChanger from "../components/FontsizeChanger.vue";
 
 interface News {
   author: string;
@@ -58,6 +59,7 @@ onMounted(async () => {
 <template>
   <main class="news">
     <ReadMask :is-active="readMask" />
+    <FontSizeChanger :is-ready="!isLoading" />
     <div
       class="news__content"
     >
@@ -67,7 +69,10 @@ onMounted(async () => {
           loading-width="100%"
           loading-height="100px"
         >
-          <h1 class="news__content__header__title">
+          <h1
+            class="news__content__header__title"
+            data-font
+          >
             {{ news.title }}
           </h1>
         </SuspenseBox>
@@ -76,7 +81,10 @@ onMounted(async () => {
           loading-width="100%"
           loading-height="50px"
         >
-          <h2 class="news__content__header__summary">
+          <h2
+            class="news__content__header__summary"
+            data-font
+          >
             {{ news.summary }}
           </h2>
         </SuspenseBox>
@@ -85,13 +93,17 @@ onMounted(async () => {
           loading-width="30%"
           loading-height="20px"
         >
-          <p class="news__content__header__author_date">
+          <p
+            class="news__content__header__author_date"
+            data-font
+          >
             Escrito por {{ news.author }} |
             {{ new Date(news.publishDate).toLocaleDateString("pt-BR") }}
           </p>
         </SuspenseBox>
         <button
           class="news__content__header__readmask_btn"
+          data-font
           @click="readMask = !readMask"
         >
           {{ readMask ? "Desativar" : "Ativar" }} máscara de leitura
@@ -115,6 +127,7 @@ onMounted(async () => {
             <p
               v-for="paragraph of news.content.split('\n')"
               :key="paragraph"
+              data-font
             >
               {{ paragraph }}
             </p>
