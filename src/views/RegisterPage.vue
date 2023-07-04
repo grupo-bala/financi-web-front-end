@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import Button from "../components/ButtonComponent.vue";
 import Input from "../components/Inputs/InputField.vue";
 import axios, { AxiosError } from "axios";
@@ -11,6 +11,9 @@ const name = ref("");
 const email = ref("");
 const password = ref("");
 const fixedIncome = ref("");
+const formatedFixedIncome = computed(() => {
+  return Number(fixedIncome.value.split(".").join("").replace(",", "."));
+});
 const isPasswordCorrect = ref(false);
 const isEmailCorrect = ref(false);
 const feedback = ref("");
@@ -26,9 +29,7 @@ async function postRegisterUser() {
       email: email.value,
       password: password.value,
       username: username.value,
-      fixedIncome: Number(
-        fixedIncome.value.split(".").join("").replace(",", "."),
-      ),
+      fixedIncome: formatedFixedIncome,
     });
 
     router.push({ name:"Login" });
@@ -162,6 +163,12 @@ async function postRegisterUser() {
             class="main_content__container__inputs__error"
           >
             Renda mensal não preenchida
+          </p>
+          <p
+            v-else-if="formatedFixedIncome <= 0"
+            class="main_content__container__inputs__error"
+          >
+            Renda deve ser maior que zero
           </p>
           <p
             v-else-if="feedback.length > 0"
