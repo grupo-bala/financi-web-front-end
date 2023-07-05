@@ -8,3 +8,9 @@ Repositório voltado para a disciplina de Projeto Integrado 2.  Cogitamos por co
 
   ## Sobre   
   O Financi é um aplicativo de gestão financeira. Nele você pode salvar e acessar seus ganhos e despesas recentes por categoria, acessar todas as  movimentações, ter acesso a uma análise inteligente de entradas e saídas e assistir aulas sobre investimento e educação financeira.
+
+## Documentação
+O Financi é resultado de três cadeiras conjuntas, _Desenvolvimento para a Web_, _Projeto Integrado 2_ e _Verificação e Validação_. A seguir, estão especificados os documentos que cada das cadeiras necessita.
+
+- [Proposta do trabalho](https://github.com/grupo-bala/financi-web-front-end/tree/dev/docs/proposta-web.md) para Desenvolvimento Web
+- [Arquivos](https://github.com/grupo-bala/financi-web-front-end/tree/dev/docs/projeto-integrado.md) para Projeto Integrado 2
